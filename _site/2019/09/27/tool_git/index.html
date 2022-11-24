@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Git 常规语法</title>
+    <meta name="description" content="Git 语法常规操作，多账户操作技巧，记录以备忘。">
+
+    <link rel="shortcut icon" href="/me.ico?" type="image/x-icon">
+    <link rel="icon" href="/me.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+	<link rel="stylesheet" href="/css/syntax.css">
+    <link rel="canonical" href="https://www.chamwen.github.io/2019/09/27/tool_git/">
+    <link rel="alternate" type="application/rss+xml" title="Cham's Blog" href="https://www.chamwen.github.io/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6c42715c371f7f46f5b2b6f9b17370ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+    <script>
+    // google analytics
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-148378835-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    tex2jax: { inlineMath: [["$","$"],["\\(","\\)"]] },
+    "HTML-CSS": {
+      linebreaks: { automatic: true, width: "container" }
+    }
+});
+</script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/index.html" class="brand">Cham's Blog</a>
+        <small>Algorithm, skill and thinking</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/index.html">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archives/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/categories/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tags/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collections/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+		<style>
+		  table{
+			border-left:1px solid #000000;border-top:1px solid #000000;
+			width: 100%;
+			word-wrap:break-word; word-break:break-all;
+		  }
+		  table th{
+		  text-align:center;
+		  }
+		  table th,td{
+			border-right:1px solid #000000;border-bottom:1px solid #000000;
+		  }
+		</style>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>Git 常规语法</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2019-09-27
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#实用工具" title="Category: 实用工具" rel="category">实用工具</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#git" title="Tag: git" rel="tag">git</a-->
+        <a href="/tag/#git" title="Tag: git" rel="tag">git</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <ul id="markdown-toc">
+  <li><a href="#初始化一个仓库并上传到-github-上" id="markdown-toc-初始化一个仓库并上传到-github-上">初始化一个仓库并上传到 github 上</a></li>
+  <li><a href="#后续修改和更新" id="markdown-toc-后续修改和更新">后续修改和更新</a></li>
+  <li><a href="#清空-git-历史" id="markdown-toc-清空-git-历史">清空 git 历史</a></li>
+  <li><a href="#常见问题" id="markdown-toc-常见问题">常见问题</a>    <ul>
+      <li><a href="#1-ssh-connect-to-host-githubcom-port-22-connection-timed-out" id="markdown-toc-1-ssh-connect-to-host-githubcom-port-22-connection-timed-out">1. ssh: connect to host github.com port 22: Connection timed out</a></li>
+      <li><a href="#2-warning-lf-will-be-replaced-by-crlf" id="markdown-toc-2-warning-lf-will-be-replaced-by-crlf">2. warning: LF will be replaced by CRLF</a></li>
+      <li><a href="#3-一个设备两个github账户共存" id="markdown-toc-3-一个设备两个github账户共存">3. 一个设备两个github账户共存</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>Git 语法常规操作，多账户操作技巧，记录以备忘。 <!--more--></p>
+
+<h2 id="初始化一个仓库并上传到-github-上">初始化一个仓库并上传到 github 上</h2>
+
+<p>1)  <code class="language-plaintext highlighter-rouge">git init</code>
+初始化本地仓库</p>
+
+<p>2) <code class="language-plaintext highlighter-rouge">git add .</code>
+添加全部已经修改的文件，准备commit 提交</p>
+
+<p>3) <code class="language-plaintext highlighter-rouge">git commit -m "first commit"</code>
+将修改后的文件提交到本地仓库</p>
+
+<p>4) <code class="language-plaintext highlighter-rouge">git remote add origin 远程仓库地址</code>
+如：git remote add origin git@github.com:chamwen/JPDA.git 
+注意：不要用 https 格式的链接，否则会出现验证的问题</p>
+
+<p>5)<code class="language-plaintext highlighter-rouge"> git push -u origin master</code>
+并将本地代码通过这个 upStream 推送到别名为 origin 的仓库中的 master 分支上</p>
+
+<p><strong>特殊情况：当 repo 容量大于 50M时</strong></p>
+
+<p>可能会出现 Error：RPC failed; curl 56 OpenSSL SSL_read… 错误，首先将 <code class="language-plaintext highlighter-rouge">.git/config</code> 文件中的 <code class="language-plaintext highlighter-rouge">[remote "origin"]</code> 配置为非https的格式 <code class="language-plaintext highlighter-rouge">url = git@github.com:chamwen/JPDA.git</code>，然后是配置缓冲大小和关闭 SSL 验证。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config http.postBuffer 524288000
+git config http.sslVerify false
+</code></pre></div></div>
+
+<p>若 push 网速很慢（几k每秒），可能会出现 fatal: sha1 file ‘<stdout>' write error: Broken pipe，换个时间再 push。</stdout></p>
+
+<h2 id="后续修改和更新">后续修改和更新</h2>
+
+<p>1)<code class="language-plaintext highlighter-rouge"> git add .</code>
+添加全部修改的代码，准备提交</p>
+
+<p>2)<code class="language-plaintext highlighter-rouge"> git commit -m "commit message"</code>
+将修改后的代码先提交到本地仓库</p>
+
+<p>3) <code class="language-plaintext highlighter-rouge">git pull</code>
+多人协作时，先 pull ，将 github 的代码拉取到本地</p>
+
+<p>4) <code class="language-plaintext highlighter-rouge">git push</code>
+本地仓库 upload 到 github</p>
+
+<h2 id="清空-git-历史">清空 git 历史</h2>
+
+<p>1). Checkout
+   <code class="language-plaintext highlighter-rouge">git checkout --orphan latest_branch</code></p>
+
+<p>2). Add all the files
+   <code class="language-plaintext highlighter-rouge">git add -A</code></p>
+
+<p>3). Commit the changes
+   <code class="language-plaintext highlighter-rouge">git commit -am "first commit"</code></p>
+
+<p>4). Delete the branch
+   <code class="language-plaintext highlighter-rouge">git branch -D master</code></p>
+
+<p>5). Rename the current branch to master
+   <code class="language-plaintext highlighter-rouge">git branch -m master</code></p>
+
+<p>6). Finally, force update your repository
+   <code class="language-plaintext highlighter-rouge">git push -f origin master</code></p>
+
+<h2 id="常见问题">常见问题</h2>
+
+<h3 id="1-ssh-connect-to-host-githubcom-port-22-connection-timed-out">1. ssh: connect to host github.com port 22: Connection timed out</h3>
+
+<p>1）网络不稳定，过一段时间再提交，或者多试几次；2）删除 .deploy_git 文件夹、仓库，再 <code class="language-plaintext highlighter-rouge">hexo d</code></p>
+
+<h3 id="2-warning-lf-will-be-replaced-by-crlf">2. warning: LF will be replaced by CRLF</h3>
+
+<p>git bash 输入 <code class="language-plaintext highlighter-rouge">git config core.autocrlf true</code></p>
+
+<h3 id="3-一个设备两个github账户共存">3. 一个设备两个github账户共存</h3>
+
+<ol>
+  <li>
+    <p>输入命令，为每个用户产生一个key，注意文件名不同
+ ssh-keygen -t rsa -f ~/.ssh/id_rsa_cham -C “xxx1@gmail.com”
+ ssh-keygen -t rsa -f ~/.ssh/id_rsa_wen -C “xxx2@163.com”</p>
+  </li>
+  <li>
+    <p>修改配置文件，格式</p>
+  </li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#不需要针对每个仓库单独配置账户名和邮箱
+# default: chamwen
+Host github.com
+HostName github.com
+User chamwen
+IdentityFile ~/.ssh/id_rsa_cham
+
+# another: wenz95
+Host wen.github.com # 注意这里需要不一样
+HostName github.com
+User wenz95
+IdentityFile ~/.ssh/id_rsa_wen
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p>测试
+ ssh -T git@github.com
+ ssh -T git@wen.github.com</p>
+  </li>
+  <li>
+    <p>push到github</p>
+  </li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 针对默认的账户：chamwen
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin git@github.com:chamwen/test.git
+git push -u origin master
+
+# 针对新的账户：wenz95
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin git@wen.github.com:wenz95/test.git # 区别在这里，其他一样
+git push -u origin master
+</code></pre></div></div>
+
+<ol>
+  <li>注意事项
+新建一个仓库时，注意查看当前仓库所属的用户，不要设置全局的用户名和邮箱，可以先取消全局配置</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config --global --unset user.name
+git config --global --unset user.email
+</code></pre></div></div>
+<p>然后单独设置用户和邮箱信息</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config user.name "xxx"
+git config user.email "xxx"
+</code></pre></div></div>
+
+
+        </article>
+        <hr>
+        <!-- <span class="bds_txt"> 分享到：</span>
+        <div class="bdsharebuttonbox">
+                <a href="#" class="bds_more" data-cmd="more"></a>
+                <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到 QQ 空间"></a>
+                <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到 QQ 好友"></a>
+                <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+                <a href="#" class="bds_twi" data-cmd="twi" title="分享到 Twitter"></a>
+                <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到 Facebook"></a>
+                <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+                <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                <a href="#" class="bds_kaixin001" data-cmd="kaixin001" title="分享到开心网"></a>
+                <a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a>
+            </div> -->
+        <hr>
+
+        
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2019/09/15/math_sample/">Bootstrap和Monte Carlo采样</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2019/12/07/read_wd2/">Walden--P15-19</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+		<!-- Gitalk start -->
+		<div id="gitalk-container"></div> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+		<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+		<script>
+		  var title = location.pathname.substr(0, 50);
+		  var gitalk  = new Gitalk ({
+			clientID: '71066430f842c7a01401',
+			clientSecret: '9565351139680b09ab34112f5443edaf664724b4',
+			repo: 'blog-comments',
+			owner: 'chamwen',
+			admin: ['chamwen'],
+			id: title,
+			distractionFreeMode: true  // Facebook-like distraction free mode
+			})
+			gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk end -->
+		
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+<script>
+    window._bd_share_config = {
+        common: { "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" },
+        share: [{
+            bdCustomStyle: "//www.landiannews.com/static/api/css/share.css"
+        }]
+    }
+    with (document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "//www.landiannews.com/static/api/js/share.js?cdnversion=" + ~(-new Date() / 36e5)];</script>
+</script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             Chasing the unknown 
+        </p>
+        <p class="contact">
+            联系我 
+            <a href="https://github.com/chamwen" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:wenzn9@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+    </div>
+</footer>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

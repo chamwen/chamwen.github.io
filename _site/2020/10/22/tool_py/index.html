@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Python 工程语法与代码简化</title>
+    <meta name="description" content="Python 使用技巧记录，包括工程语法、代码简化等。">
+
+    <link rel="shortcut icon" href="/me.ico?" type="image/x-icon">
+    <link rel="icon" href="/me.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+	<link rel="stylesheet" href="/css/syntax.css">
+    <link rel="canonical" href="https://www.chamwen.github.io/2020/10/22/tool_py/">
+    <link rel="alternate" type="application/rss+xml" title="Cham's Blog" href="https://www.chamwen.github.io/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6c42715c371f7f46f5b2b6f9b17370ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+    <script>
+    // google analytics
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-148378835-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/index.html" class="brand">Cham's Blog</a>
+        <small>Algorithm, skill and thinking</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/index.html">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archives/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/categories/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tags/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collections/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+		<style>
+		  table{
+			border-left:1px solid #000000;border-top:1px solid #000000;
+			width: 100%;
+			word-wrap:break-word; word-break:break-all;
+		  }
+		  table th{
+		  text-align:center;
+		  }
+		  table th,td{
+			border-right:1px solid #000000;border-bottom:1px solid #000000;
+		  }
+		</style>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>Python 工程语法与代码简化</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2020-10-22
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#实用工具" title="Category: 实用工具" rel="category">实用工具</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#python" title="Tag: python" rel="tag">python</a-->
+        <a href="/tag/#python" title="Tag: python" rel="tag">python</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <ul id="markdown-toc">
+  <li><a href="#工程语法" id="markdown-toc-工程语法">工程语法</a>    <ul>
+      <li><a href="#数据文件索引" id="markdown-toc-数据文件索引">数据文件索引</a></li>
+      <li><a href="#定义和使用类" id="markdown-toc-定义和使用类">定义和使用类</a></li>
+      <li><a href="#调用自定义函数" id="markdown-toc-调用自定义函数">调用自定义函数</a></li>
+    </ul>
+  </li>
+  <li><a href="#代码简化" id="markdown-toc-代码简化">代码简化</a>    <ul>
+      <li><a href="#if-else简化" id="markdown-toc-if-else简化">if-else简化</a></li>
+      <li><a href="#赋值简化" id="markdown-toc-赋值简化">赋值简化</a></li>
+      <li><a href="#特殊操作" id="markdown-toc-特殊操作">特殊操作</a></li>
+    </ul>
+  </li>
+  <li><a href="#list-和-ndarray-操作" id="markdown-toc-list-和-ndarray-操作">list 和 ndarray 操作</a></li>
+</ul>
+<p>Python 使用技巧记录，包括工程语法、代码简化等。 <!--more--></p>
+
+<p><strong>Cham’s Blog 首发原创</strong></p>
+
+<h2 id="工程语法">工程语法</h2>
+
+<h4 id="数据文件索引">数据文件索引</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 同一工程目录下
+</span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'./data/train.csv'</span><span class="p">)</span>  <span class="c1"># 或者 pd.read_csv('data/train.csv')
+</span>
+<span class="c1"># 所在工程目录并列位置
+</span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'../data/train.csv'</span><span class="p">)</span>
+
+<span class="c1"># 其他位置，使用绝对索引
+</span></code></pre></div></div>
+
+<h4 id="定义和使用类">定义和使用类</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+
+<span class="c1"># 定义
+</span><span class="k">class</span> <span class="nc">MLP</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_feature</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">,</span> <span class="n">n_output</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MLP</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>  <span class="c1"># 子类继承父类的所有属性和方法
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_feature</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">act</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">out</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_hidden</span><span class="p">,</span> <span class="n">n_output</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">act</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">hidden</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">out</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># 调用 (同一文件中，当此class不需要被其他文件调用时)
+</span><span class="n">model</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span><span class="n">n_feature</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_hidden</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">n_output</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="调用自定义函数">调用自定义函数</h4>
+
+<p>不管是自定义的 function 还是 class ，还是和 class 同一文件中的 function，按两种情况划分</p>
+
+<p><strong>1）</strong>如果自定义的文件和主文件在同一文件夹，在调用的同目录文件夹下新建名为 <code class="language-plaintext highlighter-rouge">__init__.py</code> 的文件</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 1. 导入全部/部分函数，函数前不需要指出是那个文件中的
+</span><span class="kn">from</span> <span class="nn">class_eg</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">class_eg</span> <span class="kn">import</span> <span class="n">MLP</span>
+<span class="n">mdl</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">()</span>
+<span class="n">mdl</span><span class="p">.</span><span class="k">print</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">func_eg</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">func_eg</span> <span class="kn">import</span> <span class="n">print_date</span>
+<span class="n">print_date</span><span class="p">()</span>
+
+<span class="c1"># 2. 导入文件，文件本身相当于一个类
+</span><span class="kn">import</span> <span class="nn">func_eg</span>
+<span class="n">func_eg</span><span class="p">.</span><span class="n">print_date</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><strong>2）</strong>如果自定义的文件和主文件在不同文件夹，使用绝对路径，比如 <code class="language-plaintext highlighter-rouge">D:\Codes\PY\Trick</code>，如果所有的文件夹都是在 PY 下边，只需要</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">PY.Trick.func_eg</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">PY.Trick.func_eg</span> <span class="kn">import</span> <span class="n">print_date</span>
+<span class="n">print_date</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h2 id="代码简化">代码简化</h2>
+
+<h4 id="if-else简化">if-else简化</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="mi">10</span> <span class="k">if</span> <span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="mi">9</span><span class="p">)</span> <span class="k">else</span> <span class="mi">20</span>
+<span class="n">x</span> <span class="o">+=</span> <span class="mi">10</span> <span class="k">if</span> <span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="mi">9</span><span class="p">)</span> <span class="k">else</span> <span class="mi">20</span>
+
+<span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]:</span>
+    <span class="k">pass</span>
+</code></pre></div></div>
+
+<h4 id="赋值简化">赋值简化</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+</code></pre></div></div>
+
+<h4 id="特殊操作">特殊操作</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 1)找到列表中出现最频繁的数
+</span><span class="n">test</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">test</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">test</span><span class="p">.</span><span class="n">count</span><span class="p">))</span>
+<span class="c1"># 4
+</span>
+<span class="c1"># 2)从相关的序列构建字典
+</span><span class="n">keys</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">values</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">values</span><span class="p">)))</span>
+<span class="c1"># -&gt; {1: 10, 2: 20, 3: 30}
+</span>
+<span class="c1"># 3)随机数产生
+</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,))</span>  <span class="c1"># 产生0~10之内的3个随机数
+</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>  <span class="c1"># 产生0~10之内[3,4]矩阵大小的随机数
+</span>
+<span class="c1"># 4)排列组合情况遍历
+</span><span class="kn">import</span> <span class="nn">itertools</span>
+<span class="n">direc_floor</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="p">.</span><span class="n">product</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+<span class="c1"># 10个元素，每个元素取0 or 1的所有可能组合
+</span>
+<span class="c1"># 5)一行代码搜索字符串的多个前后缀
+</span><span class="k">print</span><span class="p">(</span><span class="s">"http://www.google.com"</span><span class="p">.</span><span class="n">startswith</span><span class="p">((</span><span class="s">"http://"</span><span class="p">,</span> <span class="s">"https://"</span><span class="p">)))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"http://www.google.co.uk"</span><span class="p">.</span><span class="n">endswith</span><span class="p">((</span><span class="s">".com"</span><span class="p">,</span> <span class="s">".co.uk"</span><span class="p">)))</span>
+<span class="c1"># 1-&gt; True
+# 2-&gt; True
+</span></code></pre></div></div>
+
+<h2 id="list-和-ndarray-操作">list 和 ndarray 操作</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># list
+</span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span>
+<span class="n">a</span><span class="p">.</span><span class="n">index</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># 查找第一个为10的元素的位置
+</span><span class="n">a</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># 查找为10的元素的个数
+</span><span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">10</span><span class="p">]</span>  <span class="c1"># 查找所有为10元素位置
+</span><span class="k">del</span> <span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>  <span class="c1"># 或 a.pop(i), a.remove(a[i]) 删除元素，注意删除顺序
+</span><span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_a</span><span class="p">]</span>  <span class="c1"># 保留小数点后两位
+</span>
+<span class="c1"># ndarray
+</span><span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">ndarray</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># 查询元素个数
+</span><span class="n">np</span><span class="p">.</span><span class="n">where</span><span class="p">(</span><span class="n">ndarray</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># 查询所有为1的元素位置
+</span>
+<span class="c1"># 切片
+# list索引只能用整数和切片，ndarray可以用list，tuple等索引，但是多维数组不能同时用list索引
+</span>
+<span class="c1"># 删除数组某个元素
+</span><span class="n">idx</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">))</span>
+<span class="k">del</span> <span class="n">idx</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+</code></pre></div></div>
+
+
+        </article>
+        <hr>
+        <!-- <span class="bds_txt"> 分享到：</span>
+        <div class="bdsharebuttonbox">
+                <a href="#" class="bds_more" data-cmd="more"></a>
+                <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到 QQ 空间"></a>
+                <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到 QQ 好友"></a>
+                <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+                <a href="#" class="bds_twi" data-cmd="twi" title="分享到 Twitter"></a>
+                <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到 Facebook"></a>
+                <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+                <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                <a href="#" class="bds_kaixin001" data-cmd="kaixin001" title="分享到开心网"></a>
+                <a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a>
+            </div> -->
+        <hr>
+
+        
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                        
+                        <h2 id="similar_posts">Similar Posts</h2>
+                        <ul>
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/10/25/ML_sklearn/">Sklearn 机器学习全过程
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/09/22/tool_file/">Python 常用文件读取与存储方式
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+        
+            </ul>
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2020/10/03/think_study/">机器学习科研方法论</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2020/10/25/ML_sklearn/">Sklearn 机器学习全过程</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+		<!-- Gitalk start -->
+		<div id="gitalk-container"></div> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+		<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+		<script>
+		  var title = location.pathname.substr(0, 50);
+		  var gitalk  = new Gitalk ({
+			clientID: '71066430f842c7a01401',
+			clientSecret: '9565351139680b09ab34112f5443edaf664724b4',
+			repo: 'blog-comments',
+			owner: 'chamwen',
+			admin: ['chamwen'],
+			id: title,
+			distractionFreeMode: true  // Facebook-like distraction free mode
+			})
+			gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk end -->
+		
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#similar_posts">Similar Posts</a></li>
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+<script>
+    window._bd_share_config = {
+        common: { "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" },
+        share: [{
+            bdCustomStyle: "//www.landiannews.com/static/api/css/share.css"
+        }]
+    }
+    with (document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "//www.landiannews.com/static/api/js/share.js?cdnversion=" + ~(-new Date() / 36e5)];</script>
+</script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             Chasing the unknown 
+        </p>
+        <p class="contact">
+            联系我 
+            <a href="https://github.com/chamwen" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:wenzn9@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+    </div>
+</footer>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

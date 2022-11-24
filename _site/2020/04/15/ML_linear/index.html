@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>常用线性回归和分类模型</title>
+    <meta name="description" content="机器学习中的常用线性回归和分类算法原理，包括线性回归，逻辑回归，线性判别分析，多分类，参数模型优缺点等。">
+
+    <link rel="shortcut icon" href="/me.ico?" type="image/x-icon">
+    <link rel="icon" href="/me.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+	<link rel="stylesheet" href="/css/syntax.css">
+    <link rel="canonical" href="https://www.chamwen.github.io/2020/04/15/ML_linear/">
+    <link rel="alternate" type="application/rss+xml" title="Cham's Blog" href="https://www.chamwen.github.io/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6c42715c371f7f46f5b2b6f9b17370ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+    <script>
+    // google analytics
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-148378835-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    tex2jax: { inlineMath: [["$","$"],["\\(","\\)"]] },
+    "HTML-CSS": {
+      linebreaks: { automatic: true, width: "container" }
+    }
+});
+</script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/index.html" class="brand">Cham's Blog</a>
+        <small>Algorithm, skill and thinking</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/index.html">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archives/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/categories/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tags/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collections/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+		<style>
+		  table{
+			border-left:1px solid #000000;border-top:1px solid #000000;
+			width: 100%;
+			word-wrap:break-word; word-break:break-all;
+		  }
+		  table th{
+		  text-align:center;
+		  }
+		  table th,td{
+			border-right:1px solid #000000;border-bottom:1px solid #000000;
+		  }
+		</style>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>常用线性回归和分类模型</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2020-04-15
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#Machine-Learning" title="Category: Machine-Learning" rel="category">Machine-Learning</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#linear" title="Tag: linear" rel="tag">linear</a-->
+        <a href="/tag/#linear" title="Tag: linear" rel="tag">linear</a>&nbsp;
+    
+        <!--a href="/tag/#LS" title="Tag: LS" rel="tag">LS</a-->
+        <a href="/tag/#LS" title="Tag: LS" rel="tag">LS</a>&nbsp;
+    
+        <!--a href="/tag/#LDA" title="Tag: LDA" rel="tag">LDA</a-->
+        <a href="/tag/#LDA" title="Tag: LDA" rel="tag">LDA</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <ul id="markdown-toc">
+  <li><a href="#线性模型含义" id="markdown-toc-线性模型含义">线性模型含义</a></li>
+  <li><a href="#线性回归" id="markdown-toc-线性回归">线性回归</a>    <ul>
+      <li><a href="#离散属性连续化" id="markdown-toc-离散属性连续化">离散属性连续化</a></li>
+      <li><a href="#最小二乘法" id="markdown-toc-最小二乘法">最小二乘法</a></li>
+      <li><a href="#多元线性回归" id="markdown-toc-多元线性回归">多元线性回归</a></li>
+      <li><a href="#广义线性模型" id="markdown-toc-广义线性模型">广义线性模型</a></li>
+    </ul>
+  </li>
+  <li><a href="#对数几率回归逻辑回归" id="markdown-toc-对数几率回归逻辑回归">对数几率回归（逻辑回归）</a>    <ul>
+      <li><a href="#最大似然估计" id="markdown-toc-最大似然估计">最大似然估计</a></li>
+    </ul>
+  </li>
+  <li><a href="#线性判别分析lda" id="markdown-toc-线性判别分析lda">线性判别分析（LDA）</a>    <ul>
+      <li><a href="#二分类" id="markdown-toc-二分类">二分类</a></li>
+      <li><a href="#多分类" id="markdown-toc-多分类">多分类</a></li>
+    </ul>
+  </li>
+  <li><a href="#多分类学习" id="markdown-toc-多分类学习">多分类学习</a>    <ul>
+      <li><a href="#一对一" id="markdown-toc-一对一">一对一</a></li>
+      <li><a href="#一对其余" id="markdown-toc-一对其余">一对其余</a></li>
+      <li><a href="#多对多" id="markdown-toc-多对多">多对多</a></li>
+    </ul>
+  </li>
+  <li><a href="#参数模型优缺点" id="markdown-toc-参数模型优缺点">参数模型优缺点</a></li>
+  <li><a href="#qa" id="markdown-toc-qa">Q&amp;A</a></li>
+</ul>
+<p>机器学习中的常用线性回归和分类算法原理，包括线性回归，逻辑回归，线性判别分析，多分类，参数模型优缺点等。 <!--more--></p>
+
+<h2 id="线性模型含义">线性模型含义</h2>
+
+<p>给定一个包含 d 个属性的实例 $\mathbf{x} = (x_1;x_2;…;x_d)$，线性模型（linear model）的原理是学得一个可以通过属性的线性组合来进行预测的函数，也即：
+\(f(\mathbf{x}) = w_1x_1 + w_2x_2 + ... + w_dx_x + b\)
+一般写作向量形式：$f(\mathbf{x}) = \mathbf{w}^T\mathbf{x} + b$。其中权重向量 $\mathbf{w}$ 和偏置项 $b$ 就是我们需要学习的参数。
+线性模型有良好的可解释性，每个属性对应的权重可以理解为它对预测的重要性。并且建模较为简单，许多功能更为强大的非线性模型都是在线性模型的基础上引入层级结构或高维映射得到的。</p>
+
+<p>涉及到的概念如下：</p>
+<ul>
+  <li><strong>线性回归</strong>：如何把离散属性连续化？怎样用最小二乘法进行参数估计？多元线性回归如何求解？广义线性模型是怎样的？</li>
+  <li><strong>对数几率回归</strong>：分类任务和线性回归是如何关联起来的？逻辑回归怎么优化？</li>
+  <li><strong>线性判别分析</strong>：二分类任务如何求得 LDA 模型的参数？如何推广到多分类任务？</li>
+  <li><strong>多分类学习</strong>：如何把多分类任务拆分为二分类任务？有哪些拆分策略？是如何进行建模和预测的？</li>
+  <li><strong>参数模型的优缺点</strong>：说明线性回归、逻辑回归等参数模型的优缺点。</li>
+</ul>
+
+<h2 id="线性回归">线性回归</h2>
+
+<h3 id="离散属性连续化">离散属性连续化</h3>
+
+<p>由于不同模型对数据的要求不一样，在建模之前，我们需要对数据做相应的处理。一般的线性回归模型要求属性的数据类型为连续值，故需要对离散属性进行连续化。
+具体分两种情况：</p>
+
+<ol>
+  <li>属性值之间有序：也即属性值有明确的大小关系，比方说把三值属性 “高度” 的取值 {高，中，低} 转换（编码）为 {1.0，0.5，0.0}；</li>
+  <li>属性值之间无序：若该属性有 $k$ 个属性值，则把它转换为 $k$ 维向量（把 1 个属性扩展为 k 个属性），比方说把无序离散属性 “商品” 的取值 {牙膏，牙刷，毛巾} 转换为 (0,0,1)，(0,1,0)，(1,0,0)。 这种做法在自然语言处理和推荐系统实现中很常见，属性 “单词” 和 “商品” 都是无序离散变量，在建模前往往需要把这样的变量转换为哑变量，否则会引入不恰当的序关系，从而影响后续处理（比如距离的计算）。</li>
+</ol>
+
+<p><strong>补充</strong>：对应于离散属性连续化，自然也有连续属性离散化。比方说决策树建模就需要将连续属性离散化。此外，在作图观察数据分布特征时，往往也需要对连续属性进行离散化处理（比方说画直方图）。</p>
+
+<h3 id="最小二乘法">最小二乘法</h3>
+
+<p>回归任务最常用的性能度量是均方误差（mean squared error, MSE）。首先介绍单变量线性回归，试想我们要在二维平面上拟合一条曲线，则每个样例（即每个点）只包含一个实值属性（x值）和一个实值输出标记（y值），此时均方误差可定义为：</p>
+
+\[E(f;D) = \frac{1}{m} \sum_{i=1}^m(y_i-f(x_i))^2\\
+\qquad\qquad = \frac{1}{m} \sum_{i=1}^m(y_i-wx_i-b)^2\]
+
+<p>有时我们会把这样描述模型总误差的式子称为损失函数或者目标函数（当该式是优化目标的时候）。这个函数的自变量是模型的参数 $w$ 和 $b$。由于给定训练集时，样本数 $m$ 是一个确定值，也即常数，所以可以把 $\frac{1}{m}$ 这一项拿走。</p>
+
+<p>最小二乘法（least square method）就是基于均方误差最小化来进行模型求解的一种方法，寻找可使损失函数值最小的参数 $w$ 和 $b$ 的过程称为最小二乘参数估计（parameter estimation）。</p>
+
+<p>通过对损失函数分别求参数 $w$ 和 $b$ 的偏导，并且令导数为 0，可以得到这两个参数的解析解：</p>
+
+\[w = \frac{\sum_{i=1}^m y_i(x_i - \bar{x})}{\sum_{i=1}^m x_i^2 - \frac{1}{m}(\sum_{i=1}^m x_i)^2}\]
+
+\[b = \frac{1}{m} \sum_{i=1}^m (y_i-wx_i)\]
+
+<p>在实际任务中，只要我们把自变量（x, y, m）的值代入就可以求出数值解了。</p>
+
+<h3 id="多元线性回归">多元线性回归</h3>
+
+<p>前面是直线拟合，样例只有一个属性。对于样例包含多个属性的情况，我们就要用到多元线性回归（multivariate linear regression）（又称作多变量线性回归）了。</p>
+
+<p>令 $\mathbf{\hat{w}} = (\mathbf{w};b)$。把数据集表示为 $m \times (d+1)$ 大小的矩阵，每一行对应一个样例，前 $d$ 列是样例的 $d$ 个属性，最后一列恒置为 1，对应偏置项。把样例的实值标记也写作向量形式，记作 $\mathbf{y}$。则此时损失函数为：</p>
+
+\[E_{\mathbf{\hat{w}}} = (\mathbf{y} - X\mathbf{\hat{w}})^{\top} (\mathbf{y} - X\mathbf{\hat{w}})\]
+
+<p>同样使用最小二乘法进行参数估计，首先对 $\mathbf{\hat{w}}$ 求导：</p>
+
+\[\frac{\partial E_{\mathbf{\hat{w}}}}{\partial \mathbf{\hat{w}}} = 2 X^{\top}(X\mathbf{\hat{w}} - \mathbf{y})\]
+
+<p>令该式值为 0 可得到 $\mathbf{\hat{w}}$ 的闭式解：</p>
+
+\[\mathbf{\hat{w}}^{\ast} = (X^TX)^{-1}X^{\top}\mathbf{y}\]
+
+<p>这就要求 $X^{\top}X$ 必须是可逆矩阵，也即必须是满秩矩阵（full-rank matrix），这是线性代数方面的知识，书中并未展开讨论。但是！现实任务中 $X^{\top}X$ 往往不是满秩的，很多时候 $X$ 的列数很多，甚至超出行数（例如推荐系统，商品数是远远超出用户数的），此时 $X^{\top}X$ 显然不满秩，会解出多个 $\mathbf{\hat{w}}$。这些解都能使得均方误差最小化，这时就需要由学习算法的归纳偏好决定了，常见的做法是引入正则化（regularization）项。</p>
+
+<h3 id="广义线性模型">广义线性模型</h3>
+
+<p>除了直接让模型预测值逼近实值标记 $y$，我们还可以让它逼近 $y$ 的衍生物，这就是广义线性模型（generalized linear model）的思想，也即：</p>
+
+\[y = g^{-1}(\mathbf{w}^{\top}\mathbf{x} + b)\]
+
+<p>其中 $g(\cdot)$ 称为联系函数（link function），要求单调可微。使用广义线性模型我们可以实现强大的非线性函数映射功能。比方说对数线性回归（log-linear regression），令 $g(\cdot) = ln(\cdot)$，此时模型预测值对应的是实值标记在指数尺度上的变化：</p>
+
+\[\ln y = \mathbf{w}^{\top}\mathbf{x} + b\]
+
+<h2 id="对数几率回归逻辑回归">对数几率回归（逻辑回归）</h2>
+
+<p>前面说的是线性模型在回归学习方面的应用，这里开始讨论分类问题。线性模型的输出是一个实值，而分类任务的标记是离散值，怎么把这两者联系起来呢？其实广义线性模型已经给了我们答案，我们要做的就是找到一个单调可微的联系函数，把两者联系起来。对于一个二分类任务，比较理想的联系函数是单位阶跃函数（unit-step function）：</p>
+
+\[y =
+\begin{cases}
+0&amp; \text{z&lt;0;}\\
+0.5&amp; \text{z=0;}\\
+1&amp; \text{z&gt;0,}
+\end{cases}\]
+
+<p>但是单位阶跃函数不连续，所以不能直接用作联系函数。这时思路转换为如何近似单位阶跃函数呢？对数几率函数（logistic function）正是我们所需要的（注意这里的 $y$ 依然是实值）：</p>
+
+\[y = \frac{1}{1+e^{-z}}\in[0,1]\]
+
+<p>对数几率函数有时也称为对率函数，是一种 Sigmoid 函数（即形似 S 的函数）。将它作为 $g^{-1}(\cdot)$ 代入广义线性模型可得：</p>
+
+\[y = \frac{1}{1+ e^{-(\mathbf{w}^{\top}\mathbf{x} + b)}}\]
+
+<p>该式可以改写为：</p>
+
+\[\ln{\frac{y}{1-y}} = \mathbf{w}^{\top}\mathbf{x} + b\]
+
+<p>其中，$\frac{y}{1-y}$ 称作几率，我们可以把 $y$ 理解为该样本是正例的概率，把 $1-y$ 理解为该样本是反例的概率，而几率表示的就是该样本作为正例的相对可能性。若几率大于 1，则表明该样本更可能是正例。对几率取对数就得到对数几率（log odds，也称为 logit）。几率大于1时，对数几率是正数。</p>
+
+<p>由此可以看出，对数几率回归的实质使用线性回归模型的预测值逼近分类任务真实标记的对数几率。其优点为：1）直接对分类的概率建模，无需实现假设数据分布，从而避免了假设分布不准确带来的问题；2）不仅可预测出类别，还能得到该预测的概率，这对一些利用概率辅助决策的任务很有用；3）对数几率函数是任意阶可导的凸函数，有许多数值优化算法都可以求出最优解。缺点为：1）准确率不是很高，因为形式简单，未拟合数据的真实分布；2）本身无法筛选特征。</p>
+
+<h3 id="最大似然估计">最大似然估计</h3>
+
+<p>前面说道可以把 $y$ 理解为一个样本是正例的概率，把 $1-y$ 理解为一个样本是反例的概率。而所谓极大似然，就是最大化预测事件发生的概率，也即最大化所有样本的预测概率之积。令 $p(y=1\mid \mathbf{x})$ 和 $p(y=0\mid \mathbf{x})$ 分别代表 $y$ 和 $1-y$。简单变换一下公式，可以得到：</p>
+
+\[p(y=1|\mathbf{x}) = \frac{e^{\mathbf{w}^{\top}\mathbf{x} + b}}{1+e^{\mathbf{w}^{\top}\mathbf{x} + b}}\]
+
+\[p(y=0|\mathbf{x}) = \frac{1}{1+e^{\mathbf{w}^{\top}\mathbf{x} + b}}\]
+
+<p>但是，由于预测概率都是小于 1 的，直接对所有样本的预测概率求积所得的数会非常小，样例数较多时会超出精度限制。所以，一般来说会对概率取对数，得到对数似然，此时求所有样本的预测概率之积就变成了求所有样本的对数似然之和。逻辑回归模型的目标就是最大化对数似然，即其损失函数为：</p>
+
+\[\begin{align}
+L(\theta) &amp;= -\frac 1 m\sum_{i=1}^m \ln p(y_i | \mathbf{x}_i;\theta)\\
+&amp;= -\frac 1 m\sum_{i=1}^m (y_i\ln(p_1(\hat{\mathbf{x}}_i;\theta)) + (1-y_i)\ln(p_0(\hat{\mathbf{x}}_i;\theta))\\
+&amp;= \frac 1 m \sum_{i=1}^m(\ln (1+e^{\theta^{\top}\mathbf{x}_i})-y_i\theta^{\top}\mathbf{x}_i)
+\end{align}\]
+
+<p>其中 $\theta= (\mathbf{w};b)$，可以理解为若标记为正例，则加上预测为正例的概率，否则加上预测为反例的概率。逻辑回归的损失函数也可以从最大似然估计推得，其原理为通过已知结果去反推最大概率导致该结果的参数。</p>
+
+\[\begin{align}
+\nabla_{\theta_j} L(\theta)&amp;=y\mathbf{x}_j-\frac{1}{1+e^{\theta^{\top}\mathbf{x}_j}}e^{\theta^{\top}\mathbf{x}_j}\mathbf{x}_j\\
+&amp;=(y-g(\theta^{\top}\mathbf{x}_j))\mathbf{x}_j
+\end{align}\]
+
+<p>该问题需要通过数值优化算法如梯度下降法、随机梯度下降法等逐步迭代来求最优解，一般的梯度下降公式为</p>
+
+\[\theta_j=\theta_j-\frac {\alpha} m\sum_{i=1}^m(g(\theta^{\top}\mathbf{x}^i)-y^i)\mathbf{x}_j^i\]
+
+<p>详细参考 <a href="https://blog.csdn.net/qq_41618978/article/details/89576013">正则化Logistic回归算法</a>。</p>
+
+<h2 id="线性判别分析lda">线性判别分析（LDA）</h2>
+
+<h3 id="二分类">二分类</h3>
+
+<p>线性判别分析（Linear Discriminant Analysis，简称 LDA），同样是利用线性模型，LDA提供一种不同的思路。在 LDA 中，我们不再是拟合数据分布的曲线，而是将所有的数据点投影到一条直线上，使得同类点的投影尽可能近，不同类点的投影尽可能远。二分类 LDA 最早有 Fisher 提出，因此也称为 Fisher 判别分析。</p>
+
+<p>具体来说，投影值 $y = \mathbf{w}^T\mathbf{x}$，我们不再用 $y$ 逼近样例的真实标记，而是希望同类样例的投影值尽可能相近，异类样例的投影值尽可能远离。如何实现呢？首先，同类样例的投影值尽可能相近意味着同类样例投影值的协方差应尽可能小；然后，异类样例的投影值尽可能远离意味着异类样例投影值的中心应尽可能大。合起来，就等价于最大化：</p>
+
+\[J = \frac{\Vert \mathbf{w}^T\mu_0 - \mathbf{w}^T\mu_1 \Vert^2_2}{\mathbf{w}^T\Sigma_0\mathbf{w}+\mathbf{w}^T\Sigma_1\mathbf{w}}
+= \frac{\mathbf{w}^T(\mu_0 - \mu_1)(\mu_0 - \mu_1)^T\mathbf{w}}{\mathbf{w}^T(\Sigma_0+\Sigma_1)\mathbf{w}}\]
+
+<p>其中，分子的 $\mu_i$ 表示第 $i$ 类样例的均值向量（即表示为向量形式后对各维求均值所得的向量）。分子表示的是两类样例的均值向量投影点（也即类中心）之差的 $\ell_2$ 范数的平方，这个值越大越好。 分母中的 $\Sigma_i$ 表示第 $i$ 类样例的协方差矩阵。分母表示两类样例投影后的协方差之和，这个值越小越好。</p>
+
+<p>定义<strong>类内散度矩阵（within-class scatter matrix）</strong>：</p>
+
+\[S_w = \Sigma_0 + \Sigma_1
+= \sum_{x \in X_0} (\mathbf{x} - \mu_0)(\mathbf{x} - \mu_0)^T + \sum_{x \in X_1} (\mathbf{x} - \mu_1)(\mathbf{x} - \mu_1)^T\]
+
+<p>定义<strong>类间散度矩阵（between-class scatter matrix）</strong>：</p>
+
+\[S_b = (\mu_0 - \mu_1)(\mu_0 - \mu_1)^T\]
+
+<p>这两个矩阵的规模都是 $d\times d$，其中 $d$ 是样例的维度（属性数目）。于是可以重写目标函数为：</p>
+
+\[J = \frac{\mathbf{w}^T S_b \mathbf{w}}{\mathbf{w}^T S_w \mathbf{w}}\]
+
+<p>也即 $S_b$ 和 $S_w$ 的广义瑞利熵（generalized Rayleigh quotient）。$S_b$ 和 $S_w$ 真实计算时需要考虑样本量。可以注意到，分子和分母中 $w$ 都是二次项，因此，最优解与 $w$ 的大小无关，只与方向有关。令分母为 1，用拉格朗日乘子法把约束转换为方程，再稍加变换我们便可以得出：</p>
+
+\[\mathbf{w} = S_w^{-1}(\mu_0 - \mu_1)\]
+
+<p>但一般不直接对矩阵 $S_w$ 求逆，而是采用奇异值分解的方式。</p>
+
+<h3 id="多分类">多分类</h3>
+
+<p>多分类 LDA 与二分类不同在于，学习的是一个规模为 $d \times d’$ 的投影矩阵 $\mathbf{W}$，而不是规模为 $d \times 1$ 的投影向量 $\mathbf{w}$。这个投影矩阵把样本投影到 $d’$ 维空间（或者说 $d’$ 维超平面）上，由于 $d’$ 通常远小于样例原来的属性数目 $d$，且投影过程用到了类别信息（标记值），所以 LDA 也常常被视为一种监督降维技术。（注：$d’$ 最大可取为类别数 -1）</p>
+
+<h2 id="多分类学习">多分类学习</h2>
+
+<p>有些二分类学习方法（如 LDA）可以直接推广到多分类，但现实中我们更多地是基于一些策略，把多分类任务分解为多个二分类任务，利用二分类模型来解决问题。有三种最经典的拆分策略，分别是一对一，一对其余，和多对多。</p>
+
+<h3 id="一对一">一对一</h3>
+
+<p><strong>一对一（One vs. One，简称 OvO）</strong>的意思是把所有类别两两配对。假设样例有 N 个类别，OvO 会产生 $\frac{N(N-1)}{2}$ 个子任务，每个子任务只使用两个类别的样例，并产生一个对应的二分类模型。测试时，新样本输入到这些模型，产生 $\frac{N(N-1)}{2}$ 个分类结果，最终预测的标记由投票产生，也即把被预测得最多的类别作为该样本的类别。</p>
+
+<h3 id="一对其余">一对其余</h3>
+
+<p>一对其余（One vs. Rest，简称 OvR）在有的文献中也称为一对所有（One vs. All，简称 OvA），但这种说法并不严谨。因为 OvR 产生 $N$ 个子任务，每个任务都使用完整数据集，把一个类的样例当作正例，其他类的样例当作反例，所以应该是一对其余而非一对所有。OvR 产生 $N$ 个二分类模型，测试时，新样本输入到这些模型，产生 $N$ 个分类结果，若只有一个模型预测为正例，则对应的类别就是该样本的类别；若有多个模型预测为正例，则选择置信度最大的类别（参考模型评估与选择中的比较检验）。</p>
+
+<p>OvO 和 OvR 各有优劣：OvO 需要训练的分类器较多，因此 OvO的存储开销和测试时间开销通常比 OvR 更大；OvR 训练时要用到所有样例，因此 OvR 的训练时间开销通常比 OvO 更大。测试性能取决于具体的数据分布，大多情况下这两个拆分策略都差不多。</p>
+
+<h3 id="多对多">多对多</h3>
+
+<p><strong>多对多</strong>（Many vs. Many，简称 MvM）是每次将多个类作为正例，其他的多个类作为反例。OvO 和 OvR 都是 MvM 的特例。书中介绍的是一种比较常用的 MvM 技术——纠错输出码（Error Correcting Outputs Codes，ECOC）。</p>
+
+<p>MvM 的正反例划分不是任意的，必须有特殊的构造，否则组合起来时可能就无法定位到预测为哪一类了。ECOC的工作过程分两步：</p>
+
+<ul>
+  <li>
+    <p>编码：对应于训练。假设有 N 个类别，计划做 M 次划分，每次划分把一部分类别划为正类，一部分类别划分为反类，最终训练出 M 个模型。而每个类别在M次划分中，被划为正类则记作 +1，被划为负类则记作 -1，于是可以表示为一个 M 维的编码。</p>
+  </li>
+  <li>
+    <p>解码：对应于预测。把新样本输入 M 个模型，所得的 M 个预测结果组成一个预测编码。把这个预测编码和各个类别的编码进行比较，跟哪个类别的编码距离最近就预测为哪个类别。</p>
+  </li>
+</ul>
+
+<p>类别划分由<strong>编码矩阵（coding matrix）</strong>指定，编码矩阵有多重形式，常见的有二元码（正类为 +1，负类为 -1）和三元码（多出了停用类，用 0 表示，因为有停用类的存在，训练时可以不必使用全部类别的样例）。举个三元码的例子：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center">f1<br />$\downarrow$</th>
+      <th style="text-align: center">f2<br />$\downarrow$</th>
+      <th style="text-align: center">f3<br />$\downarrow$</th>
+      <th style="text-align: center">f4<br />$\downarrow$</th>
+      <th style="text-align: center">f5<br />$\downarrow$</th>
+      <th style="text-align: center">海明距离<br />$\downarrow$</th>
+      <th style="text-align: center">欧氏距离<br />$\downarrow$</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">$C_1\rightarrow$</td>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">+1</td>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">+1</td>
+      <td style="text-align: center">+1</td>
+      <td style="text-align: center">4</td>
+      <td style="text-align: center">4</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">$C_2\rightarrow$</td>
+      <td style="text-align: center">+1</td>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">+1</td>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">2</td>
+      <td style="text-align: center">2</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">$C_3\rightarrow$</td>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">+1</td>
+      <td style="text-align: center">+1</td>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">+1</td>
+      <td style="text-align: center">5</td>
+      <td style="text-align: center">2$\sqrt{5}$</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">$C_4\rightarrow$</td>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">+1</td>
+      <td style="text-align: center">+1</td>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">3</td>
+      <td style="text-align: center">$\sqrt{10}$</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">测试样本$\rightarrow$</td>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">+1</td>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">+1</td>
+      <td style="text-align: center">-</td>
+      <td style="text-align: center">-</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>这里一共有 4 个类别，对应每一行。计划做 5 次划分，得到 f1 至 f5 共五个二分类器，对应每一列。可以看到每一个类别有一个 5 位的编码表示。测试时，把新样本输入到 5 个模型，得到预测编码。然后计算这个预测编码和每个类别编码的距离。这里举了海明距离（不同的位数的数目）和欧氏距离作为例子。可以看到测试样本与类别 2 的距离最近，因此预测该样本为类别 2。</p>
+
+<p>特别地，为什么称这种方法为纠错输出码呢？因为 <strong>ECOC 编码对分类器的错误有一定的容忍和修正能力</strong>。即使预测时某个分类器预测成了错误的编码，在解码时仍然有机会产生正确的最终结果。具体来说，对同一个学习任务，<strong>编码越长，纠错能力越强</strong>。但是相应地也需要训练更多分类器，增大了计算和存储的开销。</p>
+
+<p>对同等长度的编码来说，理论上任意两个类别之间的编码距离越远，纠错能力越强。但实际任务中我们一般不需要获取最优编码，一方面非最优编码已经能产生不错的效果；另一方面，即使获得理论上最优的编码，实际性能也不一定最好。因为机器学习还涉及其他一些方面，在划分多个类时产生的新问题难度往往也不同，有可能理论最优的编码产生的类别子集难以区分，问题难度更大，从而使得性能下降。</p>
+
+<h2 id="参数模型优缺点">参数模型优缺点</h2>
+
+<p>参数模型通常假设总体随机变量服从某一个分布，该分布由一些参数确定 (比如正态分布的均值和方差)，在此基础上构建的模型称为参数模型；非参数模型对于总体的分布不做任何假设，只是知道总体是一个随机变量，其分布是存在的 (分布中也可能存在参数)，但是无法知道其分布的形式, 更不知道分布的相关参数，只有在给定一些样本的条件下，能够依据非参数统计的方法进行推断。LR 是参数模型，和非参数 SVM 模型区别 其主要区别在于总体的分布形式是否已知。为何强调 “参数” 与 “非参数”，主要原因在于参数模型的分布可以由参数直接确定。</p>
+
+<p><strong>1. 参数算法</strong></p>
+
+<p>参数算法包括两部分： 1）选择目标函数的形式；2）从训练数据中学习目标函数的系数。LR 会预先假设目标函数(直线或其他)，因此它是参数模型。其他参数模型还有：线性成分分析，感知机。
+参数模型的优点：</p>
+<ul>
+  <li>简单：理论容易理解, 结果容易解释</li>
+  <li>快速：参数模型的学习和训练速度较快</li>
+  <li>数据更少：通常不需要大量的数据也可以较好的拟合？</li>
+</ul>
+
+<p>参数模型的缺点：</p>
+<ul>
+  <li>约束：以选定函数形式的方式来学习本身就限制了模型的解空间</li>
+  <li>有限的复杂度：通常只能应对简单的问题</li>
+  <li>拟合度小：实际中通常无法和潜在的目标函数温和</li>
+</ul>
+
+<p><strong>2. 非参数算法</strong></p>
+
+<p>对于目标函数的形式不作过多的假设。当有用许多数据而先验知识很少时，非参数学习通常很有用，因为此时不需要关注参数的选取。常用的非参数算法包括：K 最近邻，决策树，SVM，朴素贝叶斯，神经网络。
+非参数算法的优点：</p>
+<ul>
+  <li>可变性：可以拟合许多不同的函数形式</li>
+  <li>模型强大：对于目标函数不作假设或者作微小的假设</li>
+  <li>表现良好：对于预测结果表现通常较好</li>
+</ul>
+
+<p>非参数算法的局限性：</p>
+<ul>
+  <li>需要更多数据：对于拟合目标函数需要更多的训练数据</li>
+  <li>速度慢：参数更多，所以训练通常较慢</li>
+</ul>
+
+<p><strong>3. 逻辑回归和 SVM 使用场景</strong></p>
+
+<p>令 $n=$ 特征数量，$m=$ 训练样本数量，则：</p>
+<ul>
+  <li>如果 $n&gt;m$，则使用 LR 或者不带核函数的 SVM，数据一般在维度空间里面会比较稀疏，很有可能线性可分，不需要过于复杂的模型；</li>
+  <li>如果 $n&lt;m$，则使用 SVM (高斯核函数)，因为在训练样本数量足够大而特征数量较小的情况下，可以通过复杂核函数的 SVM 来获得更好的预测性能，而且因为训练样本数量并没有达到百万级，使用复杂核函数的 SVM 也不会导致运算过慢；</li>
+  <li>如果 $n\ll m$，此时因为训练样本数量特别大，使用复杂核函数的 SVM 会导致训练过慢，因此应该考虑通过引入更多特征，然后使用 LR 或者不带核函数的 SVM 来训练更好的模型</li>
+</ul>
+
+<p>在实际使用中，通常当数据非常非常大 (几个 G，几万维度特征)，跑不动 SVM 时，用 LR。如今数据量大幅增加，相比来说 LR 反而用的更多了。</p>
+
+<h2 id="qa">Q&amp;A</h2>
+
+<p><strong>1）</strong></p>
+
+<blockquote>
+  <p>问：试析在什么情形下，预测函数 $f(\mathbf{x}) = \mathbf{w}^T\mathbf{x} + b$ 中不必考虑偏置项 $b$。</p>
+</blockquote>
+
+<p>如果输出值的期望（均值）为 0 就不需要考虑偏置项了，或者说偏置项此时就等于 0。</p>
+
+<p><strong>2）</strong></p>
+
+<blockquote>
+  <p>问：试证明，对于参数 w，对率回归（logistics 回归）的目标函数（式1）是非凸的，但其对数似然函数（式2）是凸的。
+式1：$y = \frac{1}{1+ e^{-(\mathbf{w^Tx} + b)}}$
+式2：$E(\beta) = \sum_{i=1}^m (-y_i\beta^T\hat{x}_i + \ln (1+e^{\beta^T\mathbf{\hat{x}_i}}))$</p>
+</blockquote>
+
+<p>检验一个函数是否凸函数，可以看其二阶导数是否在区间上恒大于 0。目标函数（也即 sigmoid 函数）：</p>
+
+<p style="text-align: center"><img src="\images\Machine_learning\lm_log.png" alt="default" height="70%" width="70%" /></p>
+
+<p>显然，sigmoid 的二阶导数在自变量大于 0 处取值小于 0，所以它不是凸函数。</p>
+
+<p>对数似然函数：</p>
+
+<p style="text-align: center"><img src="\images\Machine_learning\lm_sigmoid.png" alt="default" height="70%" width="70%" /></p>
+
+<p>可以看到这个函数在区间上恒大于 0（两边无限延伸），符合凸函数的要求，但我不太明白的是为什么作者把这个函数仍然称为对数似然函数，对数几率回归目标是最大化对数似然，最小化损失，私以为把这个函数称为损失函数更合适。</p>
+
+<p><strong>3）</strong></p>
+
+<blockquote>
+  <p>问：LDA仅在线性可分数据上能获得理想结果，试设计一个改进方法，使其能较好地用于非线性可分数据</p>
+</blockquote>
+
+<p>可以利用核方法，把非线性可分数据的分布转换为线性可分，书上137页有介绍：KLDA（核线性判别分析方法）。</p>
+
+<p><strong>4）</strong></p>
+
+<blockquote>
+  <p>问：令码长为 9，类别数为 4，试给出海明距离意义下理论最优的 EOOC 二元码并证明之。</p>
+</blockquote>
+
+<p>码长为 9，即要产生 9 个分类器，因此需要 9 种划分方面。类别数为 4，因此 1V3 有 4 种分法，2V2 有 6 种分法，3V1 同样有 4 种分法。书上说理论上任意两个类别之间的距离越远，纠错能力就越强。这句话可以理解为各个类别之间的距离之和越大约好。对于 1 个 2V2 分类器，4 个类别的海明距离累积为 4；对于 3V1 与 1V3 分类器，海明距离均为 3，所以可以认为 2V2 的效果更好。故最优 EOOC 二元码由 6 个 2V2 分类器和 3 个 3v1 或 1v3 分类器构成。</p>
+
+<p><strong>5）</strong></p>
+
+<blockquote>
+  <p>问：EOOC 编码能起到理想纠错作用的重要条件是：在每一位编码上出错的概率相当且独立。试析多分类任务经ECOC 编码后产生的二类分类器满足该条件的可能性及由此产生的影响。</p>
+</blockquote>
+
+<p>在每一位编码上出错的概率即指在第i个分类器上的错误率，假设每个分类器选择相同的模型与最优的参数。那么满足概率相当并且独立应该需要每个分类器的正负例比例相当，并且每个分类器划分的正负例在空间中的相对分布情况应当相近。一般情况下一般很难满足这样的条件，肯定会有错误率较高的分类器。错误率较高的分类器在较少时影响不大，但当高错误率分类器占到多数时，就会拖低整体的错误率。所以在某些极端情况下，增加码长可能会降低正确率。</p>
+
+<p><strong>6）</strong></p>
+
+<blockquote>
+  <p>问：使用 OvR和 MvM 将多分类任务分解为二分类任务求解时，试述为何无需专门针对类别不平衡性进行处理。</p>
+</blockquote>
+
+<p>因为 OvR 或者 MvM 在输出结果阶段，是对各个二分类器的结果进行汇总，汇总的这个过程就会消除不平衡带来的影响（因为总和总是 1）。</p>
+
+<p><strong>参考：</strong></p>
+<ol>
+  <li><a href="https://github.com/familyld/Machine_Learning/blob/master/03linear_model.md">线性模型</a></li>
+  <li><a href="https://hellozhaozheng.github.io/z_post/机器学习-逻辑回归/">逻辑回归与线性回归</a></li>
+</ol>
+
+        </article>
+        <hr>
+        <!-- <span class="bds_txt"> 分享到：</span>
+        <div class="bdsharebuttonbox">
+                <a href="#" class="bds_more" data-cmd="more"></a>
+                <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到 QQ 空间"></a>
+                <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到 QQ 好友"></a>
+                <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+                <a href="#" class="bds_twi" data-cmd="twi" title="分享到 Twitter"></a>
+                <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到 Facebook"></a>
+                <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+                <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                <a href="#" class="bds_kaixin001" data-cmd="kaixin001" title="分享到开心网"></a>
+                <a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a>
+            </div> -->
+        <hr>
+
+        
+        
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2020/04/13/ML_svm/">支持向量机（SVM）笔记</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2020/04/22/OP_lagrange/">优化问题中的拉格朗日乘子法</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+		<!-- Gitalk start -->
+		<div id="gitalk-container"></div> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+		<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+		<script>
+		  var title = location.pathname.substr(0, 50);
+		  var gitalk  = new Gitalk ({
+			clientID: '71066430f842c7a01401',
+			clientSecret: '9565351139680b09ab34112f5443edaf664724b4',
+			repo: 'blog-comments',
+			owner: 'chamwen',
+			admin: ['chamwen'],
+			id: title,
+			distractionFreeMode: true  // Facebook-like distraction free mode
+			})
+			gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk end -->
+		
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+<script>
+    window._bd_share_config = {
+        common: { "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" },
+        share: [{
+            bdCustomStyle: "//www.landiannews.com/static/api/css/share.css"
+        }]
+    }
+    with (document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "//www.landiannews.com/static/api/js/share.js?cdnversion=" + ~(-new Date() / 36e5)];</script>
+</script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             Chasing the unknown 
+        </p>
+        <p class="contact">
+            联系我 
+            <a href="https://github.com/chamwen" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:wenzn9@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+    </div>
+</footer>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

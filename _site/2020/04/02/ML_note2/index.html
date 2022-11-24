@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>机器学习中的分布差异度量方法</title>
+    <meta name="description" content="分布差异主要描述两个分布（一般是二维矩阵）之间的差异，机器学习中常用的分布差异度量方法包括：基于熵的信息熵、互信息、条件熵、交叉熵、KL 散度、JS 散度以及 Wasserstein 距离等，其含义、理论总结。">
+
+    <link rel="shortcut icon" href="/me.ico?" type="image/x-icon">
+    <link rel="icon" href="/me.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+	<link rel="stylesheet" href="/css/syntax.css">
+    <link rel="canonical" href="https://www.chamwen.github.io/2020/04/02/ML_note2/">
+    <link rel="alternate" type="application/rss+xml" title="Cham's Blog" href="https://www.chamwen.github.io/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6c42715c371f7f46f5b2b6f9b17370ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+    <script>
+    // google analytics
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-148378835-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    tex2jax: { inlineMath: [["$","$"],["\\(","\\)"]] },
+    "HTML-CSS": {
+      linebreaks: { automatic: true, width: "container" }
+    }
+});
+</script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/index.html" class="brand">Cham's Blog</a>
+        <small>Algorithm, skill and thinking</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/index.html">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archives/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/categories/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tags/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collections/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+		<style>
+		  table{
+			border-left:1px solid #000000;border-top:1px solid #000000;
+			width: 100%;
+			word-wrap:break-word; word-break:break-all;
+		  }
+		  table th{
+		  text-align:center;
+		  }
+		  table th,td{
+			border-right:1px solid #000000;border-bottom:1px solid #000000;
+		  }
+		</style>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>机器学习中的分布差异度量方法</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2020-04-02
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#Machine-Learning" title="Category: Machine-Learning" rel="category">Machine-Learning</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#meausre" title="Tag: meausre" rel="tag">meausre</a-->
+        <a href="/tag/#meausre" title="Tag: meausre" rel="tag">meausre</a>&nbsp;
+    
+        <!--a href="/tag/#entropy" title="Tag: entropy" rel="tag">entropy</a-->
+        <a href="/tag/#entropy" title="Tag: entropy" rel="tag">entropy</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <ul id="markdown-toc">
+  <li><a href="#1-信息熵-entropy" id="markdown-toc-1-信息熵-entropy">1. 信息熵 (Entropy)</a></li>
+  <li><a href="#2-互信息-mutual-information" id="markdown-toc-2-互信息-mutual-information">2. 互信息 (Mutual Information)</a></li>
+  <li><a href="#3-kl散度-kullback-leibler-divergence" id="markdown-toc-3-kl散度-kullback-leibler-divergence">3. KL散度 (KullbacK-Leibler Divergence)</a></li>
+  <li><a href="#4-条件熵-conditional-entropy" id="markdown-toc-4-条件熵-conditional-entropy">4. 条件熵 (Conditional Entropy)</a></li>
+  <li><a href="#5-交叉熵-cross-entropy" id="markdown-toc-5-交叉熵-cross-entropy">5. 交叉熵 (Cross entropy)</a></li>
+  <li><a href="#6-js-散度jensen-shannon" id="markdown-toc-6-js-散度jensen-shannon">6. JS 散度(Jensen-Shannon)</a></li>
+  <li><a href="#7-wasserstein-距离" id="markdown-toc-7-wasserstein-距离">7. Wasserstein 距离</a></li>
+</ul>
+<p>分布差异主要描述两个分布（一般是二维矩阵）之间的差异，机器学习中常用的分布差异度量方法包括：基于熵的信息熵、互信息、条件熵、交叉熵、KL 散度、JS 散度以及 Wasserstein 距离等，其含义、理论总结。 <!--more--></p>
+
+<p><strong>Cham’s Blog 首发原创</strong></p>
+
+<h3 id="1-信息熵-entropy">1. 信息熵 (Entropy)</h3>
+
+<p>熵 Entropy 是一种量化数据中的信息的单位，一般用 $H$ 表示。分布的熵的公式如下：</p>
+
+\[H(p)=-\sum_{i=1}^Np(x_i)·\text{log}\ p(x_i)\]
+
+<p>当对数底为 2 时，表示的是编码概率分布 $p$ 所需要的最少二进制位个数。</p>
+
+<h3 id="2-互信息-mutual-information">2. 互信息 (Mutual Information)</h3>
+
+<p>无监督学习中常用的损失函数，作用于标签时，最大化预测标签和真实标签的信息熵，可以促使预测标签 certain 且 diverse，</p>
+
+\[\begin{align}
+I(X;Y)&amp;=\sum_{x,y}p(x,y)·\text{log}\ \frac {p(x, y)} {p(x),p(y)}\\
+&amp;=-\sum_y p(y)\log p(y) - \sum_xp(x)H(Y|X=x)\\
+&amp;=H(Y)-H(Y|X)
+\end{align}\]
+
+<p>直观地说，如果把熵 $H(Y)$ 看作一个随机变量于不确定度的量度，那么 <strong>$H(Y|X)$ 就是 在已知 $X$ 事件后 $Y$ 事件会发生</strong> 的不确定度。互信息为 $Y$ 的熵减去条件熵（见4）。</p>
+
+<h3 id="3-kl散度-kullback-leibler-divergence">3. KL散度 (KullbacK-Leibler Divergence)</h3>
+
+<p>也称相对熵。熵的大小可以度量编码 $p$ 最少需要多少空间，而 KL 散度则是<strong>衡量使用一个概率分布代表另一个概率分布所损失的信息量</strong>。</p>
+
+\[\begin{align}
+D_{KL}(p||q)&amp;=\sum_{i=1}^Np(x_i)·\left(\text{log}\ (p(x_i)-\text{log}\ (q(x_i)\right)\\
+&amp;=\sum_{i=1}^Np(x_i)·\text{log}\frac {p(x_i)} {q(x_i)}\\
+&amp;=\sum_{i=1}^Np(x_i)·\text{log}\ p(x_i)-\sum_{i=1}^Np(x_i)·\text{log}\ q(x_i)\\
+&amp;=H(p||q)-H(p)
+\end{align}\]
+
+<p>$p$ 为真实分布，使用 $q$ 来近似 $p$。
+由公式可以看出，$D_{KL}(p||q)$ 就是 $q$ 和 $p$ 对数差值关于 $p$ 的期望，所以 KL 散度表示如下:
+\(D_{KL}(p||q)=E[\text{log}\ p(x)-\text{log}\ q(x)]\)</p>
+
+<p><strong>注意：</strong>
+1）如果继续用 2 为底的对数计算，则 KL 散度值表示信息损失的二进制位数。
+2）如果 $p$ 和 $q$ 是同分布的，则 KL 散度为 0。
+3）KL 散度不是距离，因为不符合对称性，所以用 KL 散度度量分布差异时需设计成对称的，$D_{KL}(p||q)+D_{KL}(q||p)$</p>
+
+<p>Specializing to Gaussian measures $P\sim\mathcal{N}(\mu_1, \Sigma_1)$ and $Q\sim\mathcal{N}(\mu_2, \Sigma_2)$, then the KL divergence is given by</p>
+
+\[\text{KL}(P||Q)=\frac 1 2 [(\mu_2-\mu_1)^{\top}\Sigma_2^{-1}(\mu_2-\mu_1)+\text{trace}(\Sigma_2^{-1}\Sigma_1)-\text{ln}(\frac {det(\Sigma_1)} {det(\Sigma_2)})-K]\]
+
+<h3 id="4-条件熵-conditional-entropy">4. 条件熵 (Conditional Entropy)</h3>
+
+<p>条件熵是在已知随机变量 X 的条件下，Y 的条件概率分布的熵对随机变量 X 的数学期望</p>
+
+\[\begin{align}
+H(Y|X) &amp;=\sum_{x\in\mathcal{X}} p(x) H(Y|X=x) \\ 
+&amp;=-\sum_{x\in\mathcal{X}} p(x) \sum_{y\in\mathcal{Y}} p(y|x) \log p(y|x)\\
+&amp;=-\sum_{x\in\mathcal{X}}\sum_{y\in\mathcal{Y}} p(x,y)\log p(y|x)\\
+&amp;=-\sum_{x\in\mathcal{X},y\in\mathcal{Y}}p(x,y)\log p(y|x)\\
+\end{align}\]
+
+<p>最小化条件熵让模型远离决策边界，可以应用在无监督数据上，以利用其数据分布信息。</p>
+
+<h3 id="5-交叉熵-cross-entropy">5. 交叉熵 (Cross entropy)</h3>
+
+<p>1) <strong>Cross entropy</strong></p>
+
+\[\begin{align}
+H(p||q)&amp;=-\sum_{i=1}^Np(x_i)·\text{log}\  {q(x_i)}\\
+&amp;=D_{KL}(p||q)+H(p)
+\end{align}\]
+
+<p>为什么深度学习中用交叉熵而不用 KL 散度？
+$H(p||q)$ 中 $p$ 代表数据的真实分布，数据已经给定；$q$ 代表模型学到的分布，真实数据的熵 $H(p)$ 是固定的，对于最小化问题等价。</p>
+
+<p>2) <strong>和 softmax 结合应用在深度学习中</strong>
+softmax 原理
+\(\sigma ( \mathbf { z } ) _ { j } = \frac { e ^ { z _ { j } } } { \sum _ { k = 1 } ^ { K } e ^ { z _ { k } } } \quad \text { for } j = 1 , \ldots , K\)</p>
+
+<p>其中 $z_j$ 为神经元输出。然后基于交叉熵和 softmax 归一化的 loss</p>
+
+\[L=-\frac 1 N\sum_{i=1}^Ny_i\ \text{log}\ \frac {e^{f(x_i)}} {\sum e^{f(x_i)}}\]
+
+<h3 id="6-js-散度jensen-shannon">6. JS 散度(Jensen-Shannon)</h3>
+
+<p>JS 散度度量了两个概率分布的相似度，基于 KL 散度的变体，解决了 KL 散度非对称的问题。一般地，JS 散度是对称的，其取值是 0 到 1 之间。定义如下：</p>
+
+\[JS(p||q)=\frac 1 2 KL(p||\frac {p+q} 2)+\frac 1 2 KL(q||\frac {p+q} 2)\]
+
+<p>KL 散度和 JS 散度度量的时候有一个问题：
+如果两个分布 p, q 离得很远，完全没有重叠的时候，那么 KL 散度值是没有意义的，而 JS 散度值是一个常数。这在学习算法中是比较致命的，这就意味这这一点的梯度为 0，梯度消失了。</p>
+
+<h3 id="7-wasserstein-距离">7. Wasserstein 距离</h3>
+
+<p>Wasserstein 距离度量两个概率分布之间的距离，定义如下：</p>
+
+\[W(P_1,P_2)=\inf_{\gamma \sim \prod (P_1,P_2)} E_{(x,y)\sim\gamma}[||x-y||]\]
+
+<p>$\prod (P_1,P_2)$ 是 $P1$ 和 $P2$ 分布组合起来的所有可能的联合分布的集合。对于每一个可能的联合分布 $\gamma$，可以从中采样 $(x,y)\sim\gamma$ 得到一个样本 $x$ 和 $y$，并计算出这对样本的距离 $|x−y|$，所以可以计算该联合分布 $\gamma$ 下，样本对距离的期望值 $E_{(x,y)∼\gamma} [|x−y|]$。在所有可能的联合分布中能够对这个期望值取到的下界就是 Wasserstein 距离。</p>
+
+<p>直观上可以把 $E_{(x,y)∼\gamma} [|x−y|]$ 理解为在 $\gamma$ 这个路径规划下把土堆 P1 挪到土堆 P2 所需要的消耗。而 Wasserstein 距离就是在最优路径规划下的最小消耗。所以 Wasserstein 距离又叫 Earth-Mover 距离。</p>
+
+<p>Wasserstein 距离相比 KL 散度和 JS 散度的<strong>优势</strong>在于：即使两个分布的支撑集没有重叠或者重叠非常少，仍然能反映两个分布的远近。而 JS 散度在此情况下是常量，KL 散度可能无意义。</p>
+
+<p>Specializing to Gaussian measures $P\sim\mathcal{N}(\mu_1, \Sigma_1)$ and $Q\sim\mathcal{N}(\mu_2, \Sigma_2)$, then the $2$-Wasserstein metric is given by</p>
+
+\[W_2^2(P,Q)=\|\mu_1-\mu_2\|_2^2+\text{tr}(\Sigma_1+\Sigma_2-2(\Sigma_1^{\frac 1 2}\Sigma_2\Sigma_1^{\frac 1 2})^{\frac 1 2})\]
+
+        </article>
+        <hr>
+        <!-- <span class="bds_txt"> 分享到：</span>
+        <div class="bdsharebuttonbox">
+                <a href="#" class="bds_more" data-cmd="more"></a>
+                <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到 QQ 空间"></a>
+                <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到 QQ 好友"></a>
+                <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+                <a href="#" class="bds_twi" data-cmd="twi" title="分享到 Twitter"></a>
+                <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到 Facebook"></a>
+                <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+                <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                <a href="#" class="bds_kaixin001" data-cmd="kaixin001" title="分享到开心网"></a>
+                <a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a>
+            </div> -->
+        <hr>
+
+        
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2020/03/18/read_enjoy/">Seven Ways to Peace and Happiness</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2020/04/11/TL_JPDA/">迁移学习中的联合概率判别MMD度量</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+		<!-- Gitalk start -->
+		<div id="gitalk-container"></div> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+		<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+		<script>
+		  var title = location.pathname.substr(0, 50);
+		  var gitalk  = new Gitalk ({
+			clientID: '71066430f842c7a01401',
+			clientSecret: '9565351139680b09ab34112f5443edaf664724b4',
+			repo: 'blog-comments',
+			owner: 'chamwen',
+			admin: ['chamwen'],
+			id: title,
+			distractionFreeMode: true  // Facebook-like distraction free mode
+			})
+			gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk end -->
+		
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+<script>
+    window._bd_share_config = {
+        common: { "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" },
+        share: [{
+            bdCustomStyle: "//www.landiannews.com/static/api/css/share.css"
+        }]
+    }
+    with (document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "//www.landiannews.com/static/api/js/share.js?cdnversion=" + ~(-new Date() / 36e5)];</script>
+</script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             Chasing the unknown 
+        </p>
+        <p class="contact">
+            联系我 
+            <a href="https://github.com/chamwen" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:wenzn9@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+    </div>
+</footer>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

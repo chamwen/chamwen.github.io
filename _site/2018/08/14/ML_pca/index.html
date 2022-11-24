@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>关于PCA的五问</title>
+    <meta name="description" content="PCA 本质是特征选择，而且是无监督的特征选择，依据方差最大的方向（或者说子空间）是原始数据中的主要信号方向，但是因为是无监督的，和标签相关度不一定很高。先记一下 PCA 的几个疑问。">
+
+    <link rel="shortcut icon" href="/me.ico?" type="image/x-icon">
+    <link rel="icon" href="/me.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+	<link rel="stylesheet" href="/css/syntax.css">
+    <link rel="canonical" href="https://www.chamwen.github.io/2018/08/14/ML_pca/">
+    <link rel="alternate" type="application/rss+xml" title="Cham's Blog" href="https://www.chamwen.github.io/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6c42715c371f7f46f5b2b6f9b17370ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+    <script>
+    // google analytics
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-148378835-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    tex2jax: { inlineMath: [["$","$"],["\\(","\\)"]] },
+    "HTML-CSS": {
+      linebreaks: { automatic: true, width: "container" }
+    }
+});
+</script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/index.html" class="brand">Cham's Blog</a>
+        <small>Algorithm, skill and thinking</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/index.html">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archives/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/categories/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tags/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collections/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+		<style>
+		  table{
+			border-left:1px solid #000000;border-top:1px solid #000000;
+			width: 100%;
+			word-wrap:break-word; word-break:break-all;
+		  }
+		  table th{
+		  text-align:center;
+		  }
+		  table th,td{
+			border-right:1px solid #000000;border-bottom:1px solid #000000;
+		  }
+		</style>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>关于PCA的五问</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2018-08-14
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#Machine-Learning" title="Category: Machine-Learning" rel="category">Machine-Learning</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#PCA" title="Tag: PCA" rel="tag">PCA</a-->
+        <a href="/tag/#PCA" title="Tag: PCA" rel="tag">PCA</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <ul id="markdown-toc">
+  <li><a href="#问题1数据在pca之前和之后需不需要进行标准化操作" id="markdown-toc-问题1数据在pca之前和之后需不需要进行标准化操作">问题1：数据在PCA之前和之后需不需要进行标准化操作？</a></li>
+  <li><a href="#问题2在线系统怎么实现pca更高效" id="markdown-toc-问题2在线系统怎么实现pca更高效">问题2：在线系统怎么实现PCA更高效？</a></li>
+  <li><a href="#问题3如果只有一个样本样本的维度是300怎么降维" id="markdown-toc-问题3如果只有一个样本样本的维度是300怎么降维">问题3：如果只有一个样本，样本的维度是300，怎么降维？</a></li>
+  <li><a href="#问题4对于文字数据怎么使用pca" id="markdown-toc-问题4对于文字数据怎么使用pca">问题4：对于文字数据，怎么使用PCA</a></li>
+  <li><a href="#问题5sklearn和matlab中pca的参数" id="markdown-toc-问题5sklearn和matlab中pca的参数">问题5：Sklearn和MATLAB中PCA的参数</a></li>
+</ul>
+<p>PCA 本质是特征选择，而且是无监督的特征选择，依据方差最大的方向（或者说子空间）是原始数据中的主要信号方向，但是因为是无监督的，和标签相关度不一定很高。先记一下 PCA 的几个疑问。 <!--more--></p>
+
+<p><strong>Cham’s Blog 首发原创</strong></p>
+
+<h3 id="问题1数据在pca之前和之后需不需要进行标准化操作">问题1：数据在PCA之前和之后需不需要进行标准化操作？</h3>
+
+<p>答案是必须的，使用之前进行 zscore 正态化处理，使用之后要进行中心化操作</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="n">fdata</span><span class="o">=</span><span class="n">PCANorm</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">numPCs</span><span class="p">)</span>
+<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">scores</span><span class="p">]</span><span class="o">=</span><span class="n">pca</span><span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">data</span><span class="p">));</span>
+<span class="n">fdata</span><span class="o">=</span><span class="n">scores</span><span class="p">(:,</span><span class="mi">1</span><span class="p">:</span><span class="n">numPCs</span><span class="p">);</span>
+<span class="n">fdata</span><span class="o">=</span><span class="p">(</span><span class="n">fdata</span><span class="o">-</span><span class="nb">repmat</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">fdata</span><span class="p">,[],</span><span class="mi">1</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">fdata</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="mi">1</span><span class="p">))</span><span class="k">...</span>
+    <span class="o">*</span><span class="nb">spdiags</span><span class="p">(</span><span class="mf">1.</span><span class="p">/(</span><span class="nb">max</span><span class="p">(</span><span class="n">fdata</span><span class="p">,[],</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="nb">min</span><span class="p">(</span><span class="n">fdata</span><span class="p">,[],</span><span class="mi">1</span><span class="p">))</span><span class="o">'</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">fdata</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">fdata</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="问题2在线系统怎么实现pca更高效">问题2：在线系统怎么实现PCA更高效？</h3>
+
+<p>保留测试集的系数矩阵，直接把新的测试集样本和老的测试集样本组合在一起，用矩阵的乘法对测试集数据进行降维。离线的就是直接把训练集和测试集所有的数据都拿出来，直接降维，每来一个新的数据，这一过程都要重复一次。</p>
+
+<h3 id="问题3如果只有一个样本样本的维度是300怎么降维">问题3：如果只有一个样本，样本的维度是300，怎么降维？</h3>
+
+<p>这时用 PCA 去降维的话，维度只是 1，离线学习中使用留一法则不能使用 PCA。行向量的特征值只有一个，因为其 rank 为 1，所以在分解时，其特征值只有一个，其他的特征值接近于 0 或等于 0，没有意义。同样如果数据 $A\sim(m\times n)$，其中 $m&lt;n$ 那么数据的特征值最多只有 $m$ 个可用。所以 rank(A) 是$A$ 降维后的最高维度。</p>
+
+<h3 id="问题4对于文字数据怎么使用pca">问题4：对于文字数据，怎么使用PCA</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 在转化成稀疏矩阵之后，用 SVD
+</span><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">TruncatedSVD</span>
+</code></pre></div></div>
+
+<h3 id="问题5sklearn和matlab中pca的参数">问题5：Sklearn和MATLAB中PCA的参数</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">X1</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">20</span><span class="p">).</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="c1"># 选择指定数量的主成分
+</span><span class="n">X2</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mf">0.95</span><span class="p">).</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="c1"># 选择指定比例的主成分
+</span><span class="n">X3</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="s">'mle'</span><span class="p">).</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="c1"># 适用于样本数多于特征数，且svd_solver为‘full'时
+</span></code></pre></div></div>
+<p>matlab中PCA函数说明:</p>
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="n">COEFF</span><span class="p">,</span> <span class="n">SCORE</span><span class="p">,</span> <span class="n">LATENT</span><span class="p">]</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="p">[</span><span class="o">~</span><span class="p">,</span> <span class="n">SCORE</span><span class="p">]</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="c1">% 获得降维之后的数据</span>
+<span class="n">COEFF</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="c1">% 获得特征向量</span>
+</code></pre></div></div>
+<p>COEFF 是 X 对应的协方差阵 V 的特征向量矩阵，即变换矩阵或投影矩阵，其每列对应一个特征值的特征向量，列的排列顺序是按特征值的大小递减排序；SCORE是由原数据 X 转变到主成分空间所得到的数据；LATENT 是特征值，选择指定数量或者比例的主成分是按照 LATENT 来计算的。它们之间的变换关系是：
+\(SCORE=X\times COEFF=LATENT\times COEFF\)
+如果 $X\sim m\times n$，若 $n\ge m$，则 $COEFF$ 的维度是 $m-1$，若 $m&gt;n$，则 $COEFF$ 的维度是 $n$，$COEFF$ 是原始数据的变换矩阵。</p>
+
+        </article>
+        <hr>
+        <!-- <span class="bds_txt"> 分享到：</span>
+        <div class="bdsharebuttonbox">
+                <a href="#" class="bds_more" data-cmd="more"></a>
+                <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到 QQ 空间"></a>
+                <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到 QQ 好友"></a>
+                <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+                <a href="#" class="bds_twi" data-cmd="twi" title="分享到 Twitter"></a>
+                <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到 Facebook"></a>
+                <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+                <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                <a href="#" class="bds_kaixin001" data-cmd="kaixin001" title="分享到开心网"></a>
+                <a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a>
+            </div> -->
+        <hr>
+
+        
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2018/08/12/ML_covmatrix/">协方差矩阵的计算以及实际意义</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2018/10/04/read_wd1/">Walden--Economy I</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+		<!-- Gitalk start -->
+		<div id="gitalk-container"></div> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+		<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+		<script>
+		  var title = location.pathname.substr(0, 50);
+		  var gitalk  = new Gitalk ({
+			clientID: '71066430f842c7a01401',
+			clientSecret: '9565351139680b09ab34112f5443edaf664724b4',
+			repo: 'blog-comments',
+			owner: 'chamwen',
+			admin: ['chamwen'],
+			id: title,
+			distractionFreeMode: true  // Facebook-like distraction free mode
+			})
+			gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk end -->
+		
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+<script>
+    window._bd_share_config = {
+        common: { "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" },
+        share: [{
+            bdCustomStyle: "//www.landiannews.com/static/api/css/share.css"
+        }]
+    }
+    with (document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "//www.landiannews.com/static/api/js/share.js?cdnversion=" + ~(-new Date() / 36e5)];</script>
+</script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             Chasing the unknown 
+        </p>
+        <p class="contact">
+            联系我 
+            <a href="https://github.com/chamwen" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:wenzn9@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+    </div>
+</footer>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

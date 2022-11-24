@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>协方差矩阵的计算以及实际意义</title>
+    <meta name="description" content="协方差矩阵的理解，定义、计算、和散度矩阵、相关系数矩阵的关系，协方差矩阵的特征值分解、奇异值分解，以及分析了协方差矩阵和数据结构的联系。">
+
+    <link rel="shortcut icon" href="/me.ico?" type="image/x-icon">
+    <link rel="icon" href="/me.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+	<link rel="stylesheet" href="/css/syntax.css">
+    <link rel="canonical" href="https://www.chamwen.github.io/2018/08/12/ML_covmatrix/">
+    <link rel="alternate" type="application/rss+xml" title="Cham's Blog" href="https://www.chamwen.github.io/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6c42715c371f7f46f5b2b6f9b17370ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+    <script>
+    // google analytics
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-148378835-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    tex2jax: { inlineMath: [["$","$"],["\\(","\\)"]] },
+    "HTML-CSS": {
+      linebreaks: { automatic: true, width: "container" }
+    }
+});
+</script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/index.html" class="brand">Cham's Blog</a>
+        <small>Algorithm, skill and thinking</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/index.html">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archives/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/categories/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tags/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collections/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+		<style>
+		  table{
+			border-left:1px solid #000000;border-top:1px solid #000000;
+			width: 100%;
+			word-wrap:break-word; word-break:break-all;
+		  }
+		  table th{
+		  text-align:center;
+		  }
+		  table th,td{
+			border-right:1px solid #000000;border-bottom:1px solid #000000;
+		  }
+		</style>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>协方差矩阵的计算以及实际意义</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2018-08-12
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#Machine-Learning" title="Category: Machine-Learning" rel="category">Machine-Learning</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#Covariance" title="Tag: Covariance" rel="tag">Covariance</a-->
+        <a href="/tag/#Covariance" title="Tag: Covariance" rel="tag">Covariance</a>&nbsp;
+    
+        <!--a href="/tag/#PCA" title="Tag: PCA" rel="tag">PCA</a-->
+        <a href="/tag/#PCA" title="Tag: PCA" rel="tag">PCA</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <ul id="markdown-toc">
+  <li><a href="#协方差矩阵的理解" id="markdown-toc-协方差矩阵的理解">协方差矩阵的理解</a>    <ul>
+      <li><a href="#协方差以及协方差矩阵的定义和计算" id="markdown-toc-协方差以及协方差矩阵的定义和计算">协方差以及协方差矩阵的定义和计算</a></li>
+      <li><a href="#协方差矩阵和散度矩阵" id="markdown-toc-协方差矩阵和散度矩阵">协方差矩阵和散度矩阵</a></li>
+      <li><a href="#协方差矩阵和相关系数矩阵" id="markdown-toc-协方差矩阵和相关系数矩阵">协方差矩阵和相关系数矩阵</a></li>
+    </ul>
+  </li>
+  <li><a href="#协方差矩阵和特征分解" id="markdown-toc-协方差矩阵和特征分解">协方差矩阵和特征分解</a>    <ul>
+      <li><a href="#方阵的特征值分解-eigenvalue-decomposition-evd-" id="markdown-toc-方阵的特征值分解-eigenvalue-decomposition-evd-">方阵的特征值分解 (eigenvalue decomposition, EVD )</a></li>
+      <li><a href="#协方差矩阵的特征值分解" id="markdown-toc-协方差矩阵的特征值分解">协方差矩阵的特征值分解</a></li>
+      <li><a href="#奇异值分解singular-value-decomposition-svd" id="markdown-toc-奇异值分解singular-value-decomposition-svd">奇异值分解（singular value decomposition, SVD）</a></li>
+      <li><a href="#协方差矩阵和pca" id="markdown-toc-协方差矩阵和pca">协方差矩阵和PCA</a></li>
+    </ul>
+  </li>
+  <li><a href="#协方差矩阵和数据结构" id="markdown-toc-协方差矩阵和数据结构">协方差矩阵和数据结构</a></li>
+</ul>
+<p>协方差矩阵的理解，定义、计算、和散度矩阵、相关系数矩阵的关系，协方差矩阵的特征值分解、奇异值分解，以及分析了协方差矩阵和数据结构的联系。<!--more--></p>
+
+<p><strong>Cham’s Blog 首发原创</strong></p>
+
+<h2 id="协方差矩阵的理解">协方差矩阵的理解</h2>
+
+<h3 id="协方差以及协方差矩阵的定义和计算">协方差以及协方差矩阵的定义和计算</h3>
+
+\[cov(X,Y)=\frac{∑_{i=1}^n(X_i−\bar{X})(Y_i−\bar{Y})}{n−1}\]
+
+<p>协方差是用来度量变量之间的相关性，协方差矩阵是多个变量组的协方差的组合，在机器学习中，$X$和$Y$是样本的不同的特征维度。</p>
+
+<p>对于数据集 $D\in \mathbb{R^{m\times n}}$，设其共有$m$个样本，每个样本包含${X,Y,Z}$共3个特征，则其协方差矩阵为</p>
+
+\[\begin{bmatrix}
+cov(x,x)&amp;cov(x,y)&amp;cov(x,z)\\
+cov(y,x)&amp;cov(y,y)&amp;cov(y,z)\\
+cov(z,x)&amp;cov(z,y)&amp;cov(z,z)
+\end{bmatrix}\]
+
+<p>协方差矩阵，可视作<strong>方差</strong>和<strong>协方差</strong>两部分组成，即方差（各个通道的方差）构成了对角线上的元素，协方差（不同通道信号的协方差）构成了非对角线上的元素，matlab计算源码：</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Sample</span> <span class="o">=</span> <span class="nb">fix</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="mi">50</span><span class="p">);</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">Sample</span><span class="o">-</span><span class="nb">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="nb">mean</span><span class="p">(</span><span class="n">Sample</span><span class="p">);</span> <span class="c1">% 中心化样本矩阵zero-centered，使各维度均值为0</span>
+<span class="c1">% X = bsxfun(@minus, X, mean(Sample)); % 另外一种方法，原理是for循环，速度更快</span>
+<span class="n">C</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="o">'*</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="p">/(</span><span class="nb">size</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="协方差矩阵和散度矩阵">协方差矩阵和散度矩阵</h3>
+
+<p>协方差是样本还是特征之间的关系？散度矩阵是样本还是特征之间的关系？用到 LDA 时经常忘了其中的散度矩阵和协方差阵有什么区别。其实两者都体现的是特征之间的关系，比如 $X\in \mathbb{R}^{n\times d}$（注意样本和特征维度顺序），则协方差阵为 $X^{\top}X\in \mathbb{R}^{d\times d}$，散度矩阵为协方差矩阵乘上 $(n-1)$，也即 $(n-1)X^{\top}X\in \mathbb{R}^{d\times d}$。</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">C1</span><span class="o">=</span><span class="nb">cov</span><span class="p">(</span><span class="n">X</span><span class="p">);</span> <span class="c1">% 原始：X, n(samples) x d(features)</span>
+<span class="n">C2</span><span class="o">=</span><span class="nb">cov</span><span class="p">([</span><span class="n">X</span><span class="p">(</span><span class="n">y</span><span class="o">==</span><span class="mi">1</span><span class="p">,:);</span><span class="n">X</span><span class="p">(</span><span class="n">y</span><span class="o">==</span><span class="mi">2</span><span class="p">,:)]);</span> <span class="c1">% 改变顺序</span>
+<span class="p">[</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">]</span><span class="o">=</span><span class="nb">size</span><span class="p">(</span><span class="n">X</span><span class="p">);</span> 
+<span class="n">mu</span><span class="o">=</span><span class="nb">mean</span><span class="p">(</span><span class="n">X</span><span class="p">);</span> <span class="n">St</span><span class="o">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">d</span><span class="p">);</span>
+<span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">;</span> <span class="n">St</span><span class="o">=</span><span class="n">St</span><span class="o">+</span><span class="p">(</span><span class="n">X</span><span class="p">(</span><span class="n">i</span><span class="p">,:)</span><span class="o">-</span><span class="n">mu</span><span class="p">)</span><span class="o">'*</span><span class="p">(</span><span class="n">X</span><span class="p">(</span><span class="n">i</span><span class="p">,:)</span><span class="o">-</span><span class="n">mu</span><span class="p">);</span> <span class="k">end</span>
+<span class="n">C3</span> <span class="o">=</span> <span class="n">St</span><span class="p">/(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span> <span class="c1">% 散度矩阵除以 n-1</span>
+</code></pre></div></div>
+
+<p>上面是三种计算协方差矩阵的方法：C1, C2, C3 的结果一样。也就是说对于矩阵 X，改变其样本的顺序不会改变其计算结果，因为其计算原理是总体散度矩阵除以 n-1。</p>
+
+<h3 id="协方差矩阵和相关系数矩阵">协方差矩阵和相关系数矩阵</h3>
+
+<p>相关系数矩阵指的是由皮尔逊相关系数( Pearson correlation coefficient）构成的矩阵，Pearson 系数用于计算两个向量之间的相关程度，matlab 计算方式 <code class="language-plaintext highlighter-rouge">corrcoef </code>。如果计算协方差矩阵之前将数据正态化，即将原始数据按列处理成均值为 0，方差为 1 的标准数据，那么协方差矩阵等同于相关矩阵。</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Sample</span> <span class="o">=</span> <span class="nb">fix</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="mi">50</span><span class="p">);</span>
+<span class="n">r1</span> <span class="o">=</span> <span class="nb">corrcoef</span><span class="p">(</span><span class="n">Sample</span><span class="p">);</span>
+<span class="n">r2</span> <span class="o">=</span> <span class="nb">cov</span><span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">Sample</span><span class="p">));</span>
+</code></pre></div></div>
+
+<h2 id="协方差矩阵和特征分解">协方差矩阵和特征分解</h2>
+
+<p>特征值分解的一般目的是为了降维，以解决在高维情况下出现的数据样本稀疏、距离计算困难等问题，也即解决维度灾难（curse of dimensionality）</p>
+
+<h3 id="方阵的特征值分解-eigenvalue-decomposition-evd-">方阵的特征值分解 (eigenvalue decomposition, EVD )</h3>
+
+<p>对于方阵$A$，首先根据公式求其特征值和特征向量</p>
+
+\[A\nu=\lambda\nu\]
+
+<p>这时候 $λ$ 就被称为特征向量 $\nu$ 对应的特征值，一个矩阵的一组特征向量是一组正交向量。特征值分解是将一个方阵分解成下面的形式：</p>
+
+\[A=Q\Sigma Q^{-1}\]
+
+<p>其中 $Q$ 是 $A$ 的特征向量组成的矩阵，$\Sigma$ 是一个对角阵，对角线上的元素就是特征值，从大到小，描述这个矩阵的主要到次要变化方向 。特征值分解可以得到特征值与特征向量，特征向量表示旋转矩阵，特征值对应于每个维度上缩放因子的平方。 那么选取前 $n$ 个特征值对应的特征向量就是方阵A的前 $n$ 个主要线性子空间。注意如果 $A$ 不是对称的话，那么这 n 个方向不是正交的。</p>
+
+<h3 id="协方差矩阵的特征值分解">协方差矩阵的特征值分解</h3>
+
+<p>注意这边是针对 $\Sigma$ 进行分解，但是并不代表原始数据 $A$ 等价于 $\Sigma$ ，当 $A$ 是一个方阵时，不需要计算 $\Sigma$ ，当 $A$ 不是方阵时，下面的分解可以作为 SVD 的一个步骤，但是如果直接用来特征值分解，效果没有 SVD 好。对于任意<strong>正定对称</strong>矩阵 $\Sigma$，存在一个特征值分解 (EVD)：</p>
+
+\[\Sigma=U\Lambda U^{\top}\]
+
+<p>其中，$U$ 的每一列都是相互正交的特征向量，且是单位向量，满足 $U^{\top}U=I$, $\Lambda=\mathrm{diag}(\lambda_1, \lambda_2, …, \lambda_d )$，对角线上的元素是从大到小排列的特征值，非对角线上的元素均为 0。</p>
+
+\[\Sigma=\left(U\Lambda^{1/2}\right)\left(U\Lambda^{1/2}\right)^{\top}=AA^{\top}\]
+
+<p>协方差矩阵的最大特征向量总是指向数据最大方差的方向，并且该向量的幅度等于相应的特征值。第二大特征向量总是正交于最大特征向量，并指向第二大数据的传播方向。</p>
+
+<h3 id="奇异值分解singular-value-decomposition-svd">奇异值分解（singular value decomposition, SVD）</h3>
+
+<p>奇异值分解是一个能适用于任意的矩阵的一种分解的方法，奇异值有类似于特征值的性质，当矩阵为共轭对称矩阵时，特征值=奇异值。</p>
+
+\[A=U\Sigma V^{\top}\]
+
+<p>假设 $A$ 是一个 $m\times n$ 的矩阵，那么得到的 $U$ 是一个 $m\times m$ 的方阵（里面的向量是正交的，$U$ 里面的向量称为左奇异向量），$\Sigma$ 是一个 $m\times n$  的矩阵（除了对角线的元素都是 0，对角线上的元素称为奇异值），$V^{\top}$ 是一个 $n\times n$ 的矩阵，里面的向量也是正交的，$V$ 里面的向量称为右奇异向量）</p>
+
+<p>计算 $U$ 和 $V$ 也是利用了协方差矩阵特征值分解原理，由于 $A^{\top}A$ 是一个对称方阵，</p>
+
+\[(A^{\top}A)\nu_i=\lambda_i\nu_i\]
+
+<p>这里得到的 $\nu$，就是上面的右奇异向量。此外还可以得到：</p>
+
+\[\sigma_i=\sqrt{\lambda_i}\]
+
+\[u_i=\frac{1}{\sigma_i}A\nu_i\]
+
+<p>这里的 $\sigma$ 就是上面说的奇异值，$u$ 就是上面说的左奇异向量。奇异值 $\sigma$ 跟特征值类似，在矩阵 $\Sigma$ 中也是从大到小排列，而且 $\sigma$ 的减少特别的快，因此取 $\Sigma$ 的前 $r$ 个特征值就可以估计出 $A$。这里提一下，虽然奇异向量有左右，但是可以用的只有左奇异向量，由公式（10）可以知 $\nu_i$ 的计算方式和协方差矩阵特征分解相似，但维度不对。</p>
+
+\[A_{m\times n}\approx U_{m\times r}\Sigma_{r\times r}V_{r\times n}^{\top}\]
+
+<h3 id="协方差矩阵和pca">协方差矩阵和PCA</h3>
+
+<p>参考了很多blog，最后还是觉得西瓜书上讲的清楚一些。首先区分一下矩阵内积和协方差矩阵。矩阵内积形式为 $XX^{\top}$，是样本之间的相关性，而协方差矩阵是 $X$ 经过中心化处理之后，$kX_c^{\top}X_c$ ，其中 $k$ 是缩放系数，$k^{-1}=size(X,1)-1$，所以可以用 $X^{\top}X$ 指代协方差矩阵。对于样本特征和样本数不一致的非方阵数据可以采用协方差矩阵特征值分解以及奇异值分解。无论哪种PCA，原则是</p>
+
+\[\frac{\Sigma^{d^\prime}_{i=1}\lambda_i}{\Sigma^{d}_{i=1}\lambda_i}\ge t\]
+
+<p>其中的 $t$ 是降维之后保留的特征值数值占的比例。使用奇异值分解SVD进行PCA流程如下：</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">%% 完整版本实现svd</span>
+<span class="k">function</span> <span class="p">[</span><span class="n">S</span><span class="p">]</span><span class="o">=</span><span class="n">svd_wen</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">rate</span><span class="p">)</span>
+<span class="n">t</span><span class="o">=</span><span class="nb">size</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">-</span><span class="nb">repmat</span><span class="p">(</span><span class="nb">mean</span><span class="p">(</span><span class="n">X</span><span class="p">),</span><span class="n">t</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">C</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="o">'*</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="p">/(</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="p">[</span><span class="n">V</span><span class="p">,</span><span class="n">Lambda</span><span class="p">]</span> <span class="o">=</span> <span class="nb">eig</span><span class="p">(</span><span class="n">C</span><span class="p">);</span>
+<span class="n">ldig</span><span class="o">=</span><span class="nb">diag</span><span class="p">(</span><span class="n">Lambda</span><span class="p">);</span>
+<span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">ldig</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ldig</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">))</span><span class="o">&gt;</span><span class="n">rate</span><span class="o">*</span><span class="nb">sum</span><span class="p">(</span><span class="n">ldig</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span> <span class="k">end</span>
+<span class="k">end</span>
+<span class="n">V</span><span class="o">=</span><span class="n">V</span><span class="p">(:,(</span><span class="k">end</span><span class="o">-</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">));</span>
+<span class="n">Lambda</span><span class="o">=</span><span class="n">ldig</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">);</span>
+
+<span class="n">nPc</span><span class="o">=</span><span class="nb">length</span><span class="p">(</span><span class="n">Lambda</span><span class="p">);</span>
+<span class="n">S</span><span class="o">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">nPc</span><span class="p">);</span>
+<span class="k">for</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">nPc</span>
+    <span class="n">S</span><span class="p">(:,</span><span class="n">k</span><span class="p">)</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">Lambda</span><span class="p">(</span><span class="n">k</span><span class="p">)))</span><span class="o">*</span><span class="n">X</span><span class="o">*</span><span class="n">V</span><span class="p">(:,</span><span class="n">k</span><span class="p">);</span> <span class="c1">% 按照公式(12)来计算的</span>
+<span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1">%% 简化版本</span>
+<span class="n">MySample</span> <span class="o">=</span> <span class="nb">fix</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">15</span><span class="p">)</span><span class="o">*</span><span class="mi">50</span><span class="p">);</span>
+<span class="n">X</span><span class="o">=</span><span class="n">MySample</span><span class="p">;</span> <span class="n">t</span><span class="o">=</span><span class="nb">size</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">-</span><span class="nb">repmat</span><span class="p">(</span><span class="nb">mean</span><span class="p">(</span><span class="n">X</span><span class="p">),</span><span class="n">t</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">[</span><span class="n">U</span><span class="p">,</span><span class="n">S</span><span class="p">,</span><span class="n">V</span><span class="p">]</span><span class="o">=</span><span class="nb">svd</span><span class="p">(</span><span class="n">X</span><span class="p">);</span>
+<span class="n">ldig</span><span class="o">=</span><span class="nb">diag</span><span class="p">(</span><span class="n">S</span><span class="p">);</span> <span class="n">rate</span><span class="o">=</span><span class="mf">0.95</span><span class="p">;</span>
+<span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">ldig</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ldig</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="p">))</span><span class="o">&gt;</span><span class="n">rate</span><span class="o">*</span><span class="nb">sum</span><span class="p">(</span><span class="n">ldig</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span> <span class="k">end</span>
+<span class="k">end</span>
+<span class="n">sample</span><span class="o">=</span><span class="n">U</span><span class="p">(:,</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>比较来看 SVD 版本的 PCA 是对 SVD 的一个简单包装，而 SVD 又是基于数据的协方差矩阵，并计算了特征值和特征向量，但是这里的计算出的特征向量只是原始数据协方差矩阵的，真正的特征向量是左奇异向量的列向量。</p>
+
+<h2 id="协方差矩阵和数据结构">协方差矩阵和数据结构</h2>
+
+<p>尽管协方差矩阵很简单，可它却是很多领域里的非常有力的工具。它能导出一个变换矩阵，参考白化 PCA 以及 ZCA，这个矩阵能使数据完全去相关 (decorrelation)。从不同的角度看，也就是说能够找出一组最佳的基以紧凑的方式来表达数据。在脑机接口领域，协方差矩阵可以体现数据的很多信息，不展开。</p>
+
+<p>转载请注明出处，谢谢！</p>
+
+        </article>
+        <hr>
+        <!-- <span class="bds_txt"> 分享到：</span>
+        <div class="bdsharebuttonbox">
+                <a href="#" class="bds_more" data-cmd="more"></a>
+                <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到 QQ 空间"></a>
+                <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到 QQ 好友"></a>
+                <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+                <a href="#" class="bds_twi" data-cmd="twi" title="分享到 Twitter"></a>
+                <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到 Facebook"></a>
+                <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+                <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                <a href="#" class="bds_kaixin001" data-cmd="kaixin001" title="分享到开心网"></a>
+                <a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a>
+            </div> -->
+        <hr>
+
+        
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2018/08/11/math_matrix/">矩阵基础和求导</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2018/08/14/ML_pca/">关于PCA的五问</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+		<!-- Gitalk start -->
+		<div id="gitalk-container"></div> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+		<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+		<script>
+		  var title = location.pathname.substr(0, 50);
+		  var gitalk  = new Gitalk ({
+			clientID: '71066430f842c7a01401',
+			clientSecret: '9565351139680b09ab34112f5443edaf664724b4',
+			repo: 'blog-comments',
+			owner: 'chamwen',
+			admin: ['chamwen'],
+			id: title,
+			distractionFreeMode: true  // Facebook-like distraction free mode
+			})
+			gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk end -->
+		
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+<script>
+    window._bd_share_config = {
+        common: { "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" },
+        share: [{
+            bdCustomStyle: "//www.landiannews.com/static/api/css/share.css"
+        }]
+    }
+    with (document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "//www.landiannews.com/static/api/js/share.js?cdnversion=" + ~(-new Date() / 36e5)];</script>
+</script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             Chasing the unknown 
+        </p>
+        <p class="contact">
+            联系我 
+            <a href="https://github.com/chamwen" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:wenzn9@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+    </div>
+</footer>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

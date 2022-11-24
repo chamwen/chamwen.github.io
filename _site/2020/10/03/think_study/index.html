@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>机器学习科研方法论</title>
+    <meta name="description" content="机器学习炼丹方法论。">
+
+    <link rel="shortcut icon" href="/me.ico?" type="image/x-icon">
+    <link rel="icon" href="/me.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+	<link rel="stylesheet" href="/css/syntax.css">
+    <link rel="canonical" href="https://www.chamwen.github.io/2020/10/03/think_study/">
+    <link rel="alternate" type="application/rss+xml" title="Cham's Blog" href="https://www.chamwen.github.io/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6c42715c371f7f46f5b2b6f9b17370ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+    <script>
+    // google analytics
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-148378835-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    tex2jax: { inlineMath: [["$","$"],["\\(","\\)"]] },
+    "HTML-CSS": {
+      linebreaks: { automatic: true, width: "container" }
+    }
+});
+</script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/index.html" class="brand">Cham's Blog</a>
+        <small>Algorithm, skill and thinking</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/index.html">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archives/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/categories/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tags/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collections/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+		<style>
+		  table{
+			border-left:1px solid #000000;border-top:1px solid #000000;
+			width: 100%;
+			word-wrap:break-word; word-break:break-all;
+		  }
+		  table th{
+		  text-align:center;
+		  }
+		  table th,td{
+			border-right:1px solid #000000;border-bottom:1px solid #000000;
+		  }
+		</style>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>机器学习科研方法论</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2020-10-03
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#思考阅读" title="Category: 思考阅读" rel="category">思考阅读</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#ML" title="Tag: ML" rel="tag">ML</a-->
+        <a href="/tag/#ML" title="Tag: ML" rel="tag">ML</a>&nbsp;
+    
+        <!--a href="/tag/#learning" title="Tag: learning" rel="tag">learning</a-->
+        <a href="/tag/#learning" title="Tag: learning" rel="tag">learning</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <ul id="markdown-toc">
+  <li><a href="#天奇大佬的经验" id="markdown-toc-天奇大佬的经验">天奇大佬的经验</a></li>
+  <li><a href="#知乎回答" id="markdown-toc-知乎回答">知乎回答</a></li>
+  <li><a href="#idealized-algorithm-for-writing-a-paper" id="markdown-toc-idealized-algorithm-for-writing-a-paper">Idealized Algorithm for Writing a Paper</a></li>
+  <li><a href="#what-makes-a-good-research-problem" id="markdown-toc-what-makes-a-good-research-problem">What Makes a Good Research Problem?</a></li>
+  <li><a href="#finding-research-problems" id="markdown-toc-finding-research-problems">Finding Research Problems</a></li>
+  <li><a href="#paper-management" id="markdown-toc-paper-management">Paper Management</a></li>
+  <li><a href="#other-tips" id="markdown-toc-other-tips">Other Tips</a></li>
+</ul>
+<p>机器学习炼丹方法论。 <!--more--></p>
+
+<p><strong>Cham’s Blog 首发原创</strong></p>
+
+<p>许久未逛知乎，前几天看到天奇大佬的知乎文章 <a href="https://zhuanlan.zhihu.com/p/74249758">机器学习科研的十年</a>，瞬间感觉我等渣渣的工作于理论于工程都不美，于是顺便找了些相关素材给自己提提醒。</p>
+
+<ol>
+  <li>
+    <p><a href="https://www.zhihu.com/question/63883507">未来 3~5 年内，哪个方向的机器学习人才最紧缺？</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.zhihu.com/question/63883507">如果我没有那么优秀，我研究生阶段选择机器学习方向还有出路吗？</a></p>
+  </li>
+  <li>
+    <p><a href="http://www.cs.ucr.edu/~eamonn/Keogh_SIGKDD09_tutorial.pdf">How to do good research, get it published in SIGKDD and get it cited!</a></p>
+  </li>
+</ol>
+
+<p>摘录一些很有意思的观点，以明研究方向。</p>
+
+<hr />
+
+<h3 id="天奇大佬的经验">天奇大佬的经验</h3>
+
+<p>从一开始hack显卡代码的兴奋，到一年之后的焦虑，再到时不时在树下踱步想如何加旋转不变的模型的尝试，在这个方向上，我花费了本科四年级到硕士一年半的所有时间，直到最后还是一无所获。现在看来，当时的我犯了一个非常明显的错误 – 常见的科学研究要么是问题驱动，比如“如何解决ImageNet分类问题”；要么是方法驱动，如 “RBM可以用来干什么”。<strong>当时的我同时锁死了要解决的问题和用来解决问题的方案，成功的可能性自然不高</strong>。</p>
+
+<p>实验室的不少学长们曾经去香港和杨强老师工作，他们回来之后都仿佛开了光似地在科研上面突飞猛进。去香港之后，我开始明白其中的原因 – 研究视野。经过几年的磨练，那时候的我或许已经知道如何去解决一个已有的问题，但是却缺乏其他一些必要的技能 – <strong>如何选择一个新颖的研究问题，如何在结果不尽人意的时候转变方向寻找新的突破点，如何知道整个领域的问题之间的关系等等</strong></p>
+
+<p>在 CMU visit 的时候我见到了传说中的大神学长李沐，他和我感叹，现在正是大数据大火的时候，但是<strong>等到我们毕业的时候，不知道时代会是如何，不过又反过来说总可以去做更重要的东西</strong>。现在想起这段对话依然依然唏嘘不已。</p>
+
+<p>这个方向有一个经典的方案GK-sketch的论文，但是只能够解决数据点没有权重的情况。<strong>经过一两天的推导，我在一次去爬山的路上终于把结论推广到了有权重的情况</strong>。(PS: ….)</p>
+
+<p>到最后我选择了自己提出的一个课题，在这个曲线里面风险最高，回报也最高。我一直有一个理想，希望可以构建一个终身学习的机器学习系统，并且解决其中可能出现的问题。<strong>这个理想过于模糊，但是我们想办法拿出其中的一个可能小的目标 – 知识迁移</strong>。</p>
+
+<p>选择做什么眼光和做出好结果的能力一样重要，<strong>眼界决定了工作影响力的上界，能力决定了到底是否到达那个上界</strong>。交大时敖平老师曾经和我说过，一个人做一件简单的事情和困难的事情其实是要花费一样多的时间。因为即使再简单的问题也有很多琐碎的地方。要想拿到一些东西，就必然意味着要放弃一些其他东西，既然如此，为什么不一直选择跳出舒适区，选一个最让自己兴奋的问题呢。</p>
+
+<p>但是总是觉得还缺少着什么 – 系统的瓶颈依然在更接近底层的算子实现上。<strong>暑假之后在去加州的飞机上</strong>，我尝试在纸上画出为了优化矩阵乘法可能的循环变换，回来之后，我们决定推动一个更加大胆的项目 – 尝试用自动编译生成的方式优化机器学习的底层代码。</p>
+
+<p>两年间的不少关键技术问题的突破都是在有趣的时候发生的。<strong>我在排队参观西雅图艺术博物馆的infinity mirror展览的途中</strong>把加速器内存拷贝支持的第一个方案写在了一张星巴克的餐巾纸上。到后来是程序语言方向的同学们也继续参与进来。</p>
+
+<p>我常想，如果我在焦虑死磕深度学习的时候我多开窍一些会发生什么，如果我并没有在实习结束的时候完成当时的实验，又会是什么。但现在看来，<strong>很多困难和无助都是随机的涨落的一部分</strong>，付出足够多的时间和耐心，随机过程总会收敛到和付出相对的稳态。</p>
+
+<h3 id="知乎回答">知乎回答</h3>
+
+<p>作为一个普通的科研工作者，我们可以从两个维度提高：思考的频率、广度和深度，执行力。1）把自己遇到的各种科研问题，不论多么不成熟都记下来在本子上，每过一阵子去翻看一遍学到的新知是否能够解决新问题。一边跑就一边天马行空想和这个主题相关的内容。你往往想着A主题，就会联想到B，时间长了就会有一些靠谱的点子出来。2）有了尚可的点子就先做实验，有了尚可的实验结果就写论文，今天发不了CVPR就先发ICIP，迭代式上升才是符合普通人的路线。如果想要奔着搞大新闻的目标做科研，往往会卡很久很久很久。但也不能总恰烂文章，必须逐步提高对自己的要求。（知乎：<a href="https://www.zhihu.com/people/breaknever">微调</a>）</p>
+
+<h3 id="idealized-algorithm-for-writing-a-paper">Idealized Algorithm for Writing a Paper</h3>
+
+<p><strong>Find problem/data</strong></p>
+
+<ul>
+  <li>Start writing  Start writing  (yes, start writing before and during research)</li>
+  <li>Do research/solve problem</li>
+  <li>Finish 95% draft</li>
+  <li>Send preview to mock reviewers</li>
+  <li>Send preview to the rival authors (virtually or literally)</li>
+  <li>—— <em>one month before deadline</em> ——</li>
+  <li>Revise using checklist.</li>
+  <li>Submit</li>
+</ul>
+
+<h3 id="what-makes-a-good-research-problem">What Makes a Good Research Problem?</h3>
+
+<ul>
+  <li><strong>It is important:</strong> If you can solve it, you can make money, or save lives, or help children learn a new language, or…</li>
+  <li><strong>You can get real data:</strong> Doing DNA analysis of the Loch Ness Monster would be interesting, but…</li>
+  <li><strong>You can make incremental progress:</strong> Some problems are all all-or or-nothing. Such problems may be too risky for young nothing</li>
+  <li><strong>There is a clear metric for success:</strong> Some problems fulfill the criteria above, but it is hard to know when you are making progress on them</li>
+</ul>
+
+<h3 id="finding-research-problems">Finding Research Problems</h3>
+
+<p><strong>Suppose you think idea</strong> $X$ <strong>is very good, then can you extend</strong> $X$ <strong>by…</strong></p>
+<ul>
+  <li>Making it more accurate (statistically significantly more accurate)</li>
+  <li>Making it faster (usually an order of magnitude, or no one cares)</li>
+  <li>Making it simpler</li>
+  <li>Explaining why it works so well</li>
+  <li>Making it an anytime algorithm</li>
+  <li>Applying it in a novel setting (industrial/government track)</li>
+  <li>Removing a parameter/assumption</li>
+  <li>Making it an online (streaming) algorithm</li>
+  <li>Making it work for a different data type (including uncertain data)</li>
+  <li>Making it work for distributed systems</li>
+  <li>Making it disk-aware (if it is currently a main memory algorithm)</li>
+  <li>Making it work on low powered devices</li>
+</ul>
+
+<hr />
+
+<p>另外加一些我自己的想法</p>
+
+<h3 id="paper-management">Paper Management</h3>
+
+<ul>
+  <li>读好文章，benchmark 刷分的 $\rightarrow$ 提出好点子的 $\rightarrow$ 挖新坑的 $\rightarrow$ 推动领域关键问题的</li>
+  <li>阅读前首先检查实验设置是否合理，baseline 是否可信，可重复性是否强，否则理论不可信</li>
+  <li>根据 introduction 了解作者对问题的定义和描述，以及对所在领域的积累</li>
+  <li>算法层面不看方法特复杂且无公开源码的，一般是作者对问题的定义有冗余或保密缘由</li>
+  <li>阅读文章要尽量 abstract 以及实验部分当天看完，后续选择是否细读或者复现。</li>
+</ul>
+
+<h3 id="other-tips">Other Tips</h3>
+
+<ul>
+  <li>别恰剩饭或者很明显的灌水，有些知乎网红都快把这个领域的年轻人带没了</li>
+  <li>不要把毕业论文对方向的统一性当作束缚，达到毕业要求后多做些自己感兴趣的</li>
+  <li>勿好高骛远，脚踏实地做好实验、阅读</li>
+</ul>
+
+        </article>
+        <hr>
+        <!-- <span class="bds_txt"> 分享到：</span>
+        <div class="bdsharebuttonbox">
+                <a href="#" class="bds_more" data-cmd="more"></a>
+                <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到 QQ 空间"></a>
+                <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到 QQ 好友"></a>
+                <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+                <a href="#" class="bds_twi" data-cmd="twi" title="分享到 Twitter"></a>
+                <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到 Facebook"></a>
+                <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+                <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                <a href="#" class="bds_kaixin001" data-cmd="kaixin001" title="分享到开心网"></a>
+                <a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a>
+            </div> -->
+        <hr>
+
+        
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2020/09/22/tool_file/">Python 常用文件读取与存储方式</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2020/10/22/tool_py/">Python 工程语法与代码简化</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+		<!-- Gitalk start -->
+		<div id="gitalk-container"></div> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+		<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+		<script>
+		  var title = location.pathname.substr(0, 50);
+		  var gitalk  = new Gitalk ({
+			clientID: '71066430f842c7a01401',
+			clientSecret: '9565351139680b09ab34112f5443edaf664724b4',
+			repo: 'blog-comments',
+			owner: 'chamwen',
+			admin: ['chamwen'],
+			id: title,
+			distractionFreeMode: true  // Facebook-like distraction free mode
+			})
+			gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk end -->
+		
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+<script>
+    window._bd_share_config = {
+        common: { "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" },
+        share: [{
+            bdCustomStyle: "//www.landiannews.com/static/api/css/share.css"
+        }]
+    }
+    with (document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "//www.landiannews.com/static/api/js/share.js?cdnversion=" + ~(-new Date() / 36e5)];</script>
+</script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             Chasing the unknown 
+        </p>
+        <p class="contact">
+            联系我 
+            <a href="https://github.com/chamwen" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:wenzn9@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+    </div>
+</footer>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

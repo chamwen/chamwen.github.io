@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Sklearn 机器学习全过程</title>
+    <meta name="description" content="Matlab 做 ML 用的不少，特整理下基于 sklearn 的机器学习全过程，从问题分析，数据分析，数据预处理，到特征工程到模型训练与验证。">
+
+    <link rel="shortcut icon" href="/me.ico?" type="image/x-icon">
+    <link rel="icon" href="/me.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+	<link rel="stylesheet" href="/css/syntax.css">
+    <link rel="canonical" href="https://www.chamwen.github.io/2020/10/25/ML_sklearn/">
+    <link rel="alternate" type="application/rss+xml" title="Cham's Blog" href="https://www.chamwen.github.io/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6c42715c371f7f46f5b2b6f9b17370ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+    <script>
+    // google analytics
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-148378835-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    tex2jax: { inlineMath: [["$","$"],["\\(","\\)"]] },
+    "HTML-CSS": {
+      linebreaks: { automatic: true, width: "container" }
+    }
+});
+</script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/index.html" class="brand">Cham's Blog</a>
+        <small>Algorithm, skill and thinking</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/index.html">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archives/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/categories/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tags/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collections/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+		<style>
+		  table{
+			border-left:1px solid #000000;border-top:1px solid #000000;
+			width: 100%;
+			word-wrap:break-word; word-break:break-all;
+		  }
+		  table th{
+		  text-align:center;
+		  }
+		  table th,td{
+			border-right:1px solid #000000;border-bottom:1px solid #000000;
+		  }
+		</style>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>Sklearn 机器学习全过程</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2020-10-25
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#Machine-Learning" title="Category: Machine-Learning" rel="category">Machine-Learning</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#ml" title="Tag: ml" rel="tag">ml</a-->
+        <a href="/tag/#ml" title="Tag: ml" rel="tag">ml</a>&nbsp;
+    
+        <!--a href="/tag/#python" title="Tag: python" rel="tag">python</a-->
+        <a href="/tag/#python" title="Tag: python" rel="tag">python</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <ul id="markdown-toc">
+  <li><a href="#ml-解决问题全过程" id="markdown-toc-ml-解决问题全过程">ML 解决问题全过程</a></li>
+  <li><a href="#sklearn中常用模型" id="markdown-toc-sklearn中常用模型">Sklearn中常用模型</a>    <ul>
+      <li><a href="#分类模型" id="markdown-toc-分类模型">分类模型</a></li>
+      <li><a href="#回归模型" id="markdown-toc-回归模型">回归模型</a></li>
+      <li><a href="#聚类模型" id="markdown-toc-聚类模型">聚类模型</a></li>
+    </ul>
+  </li>
+  <li><a href="#模型训练与测试" id="markdown-toc-模型训练与测试">模型训练与测试</a>    <ul>
+      <li><a href="#独立划分训练集和测试集" id="markdown-toc-独立划分训练集和测试集">独立划分训练集和测试集</a></li>
+      <li><a href="#常见的交叉验证训练方式" id="markdown-toc-常见的交叉验证训练方式">常见的交叉验证训练方式</a></li>
+    </ul>
+  </li>
+  <li><a href="#评价指标-分类回归聚类" id="markdown-toc-评价指标-分类回归聚类">评价指标 (分类、回归、聚类)</a>    <ul>
+      <li><a href="#分类指标" id="markdown-toc-分类指标">分类指标</a></li>
+      <li><a href="#其他指标" id="markdown-toc-其他指标">其他指标</a></li>
+    </ul>
+  </li>
+</ul>
+<p>Matlab 做 ML 用的不少，特整理下基于 sklearn 的机器学习全过程，从问题分析，数据分析，数据预处理，到特征工程到模型训练与验证。 <!--more--></p>
+
+<p><strong>Cham’s Blog 首发原创</strong></p>
+
+<h2 id="ml-解决问题全过程">ML 解决问题全过程</h2>
+
+<p>在选择具体的算法之前，最好对数据中每一个特征的模式和产生原理有一定的了解：</p>
+
+<ul>
+  <li>特征是连续的（real-valued）还是离散的（discrete）？</li>
+  <li>如果特征是连续的，它的直方图（histogram）长什么样？它的 mean 和 variance 是如何分布的？</li>
+  <li>如果特征是离散的，不同的特征值之间是否存在某种顺序关系？例如，1 到 5 的打分，虽然是离散数据，但有一个从低到高的顺序。如果某个特征是“地址”，则不太可能存在一个明确的顺序。</li>
+  <li>特征数据是如何被采集的？</li>
+</ul>
+
+<p><strong>具体参考以下资料：</strong></p>
+
+<ul>
+  <li><a href="https://mp.weixin.qq.com/s/uQD7j0KCjzxWOshIdccAPg">机器学习模型训练全流程！</a></li>
+  <li><a href="https://scikit-learn.org/stable/user_guide.html">Sklearn User Guide</a></li>
+  <li><a href="https://osswangxining.github.io/sklearn-classifier/">在使用sklearn时如何选择合适的分类器</a></li>
+  <li><a href="https://archive.ics.uci.edu/ml/datasets.php">UCI Datasets</a></li>
+</ul>
+
+<h2 id="sklearn中常用模型">Sklearn中常用模型</h2>
+
+<h3 id="分类模型">分类模型</h3>
+
+<blockquote>
+  <p><strong>1）最开始</strong></p>
+
+  <p>建立模型时，选择 high bias, low variance 的线性模型作为 baseline。线性模型的优点包括计算量小、速度快、不太占内存、不容易过拟合。</p>
+
+  <p>常用线性回归器的有 Ridge（含有 L2 正则化的线性回归）和 Lasso（含有 L1 正则化的线性回归，自带特征选择，可以获得 sparse coefficients）。同时，如果对于超参数没有什么特别细致的要求，那么可以使用 sklearn 提供的 RidgeCV 和 LassoCV，自动通过高效的交叉验证来确定超参数的值。</p>
+
+  <p>假如针对同一个数据集 $X$（m samples $\times$ *n features），需要预测的 $y$ 值不止一个（m samples $\times$ n targets），则可以使用 multi-task 的模型。</p>
+
+</blockquote>
+
+<blockquote>
+  <p><strong>2）试试集成</strong></p>
+
+  <p>Ensemble 能够极大提升各种算法，尤其是决策树的表现。在实际应用中，单独决策树几乎不会被使用。Bagging（如 RandomForest）通过在数据的不同部分训练一群 high variance 算法来降低算法们整体的 variance；boosting 通过依次建立 high bias 算法来提升整体的 variance。</p>
+
+  <p>BaggingClassifier 和 VotingClassifier 可以作为第二层的 meta classifier/regressor，将第一层的算法（如 XGBoost）作为 base estimator，进一步做成 bagging 或者 stacking。</p>
+
+</blockquote>
+
+<blockquote>
+  <p><strong>3）最后是</strong></p>
+
+  <p>支持向量机（SVM）和神经网络（Neural Network）</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 基本回归：线性、决策树、KNN
+# 集成方法：随机森林、Adaboost、Random Forest、Bagging、Extra Trees等
+# 其他方法：SVM、NN
+</span><span class="n">classifiers</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s">'Logistic Regression'</span><span class="p">,</span> <span class="n">LogisticRegression</span><span class="p">()),</span>  <span class="c1"># 逻辑回归
+</span>    <span class="p">(</span><span class="s">'Nearest Neighbors'</span><span class="p">,</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="mi">3</span><span class="p">)),</span>  <span class="c1"># K最近邻
+</span>    <span class="p">(</span><span class="s">'Linear SVM'</span><span class="p">,</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s">'linear'</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">0.025</span><span class="p">)),</span>  <span class="c1"># 线性的支持向量机
+</span>    <span class="p">(</span><span class="s">'RBF SVM'</span><span class="p">,</span> <span class="n">SVC</span><span class="p">(</span><span class="n">gamma</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)),</span>  <span class="c1"># 径向基函数的支持向量机
+</span>    <span class="p">(</span><span class="s">'Gaussian Process'</span><span class="p">,</span> <span class="n">GaussianProcessClassifier</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">RBF</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))),</span>  <span class="c1"># 基于拉普拉斯近似的高斯过程
+</span>    <span class="p">(</span><span class="s">'Decision Tree'</span><span class="p">,</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">5</span><span class="p">)),</span>  <span class="c1"># 决策树
+</span>    <span class="p">(</span><span class="s">'Random Forest'</span><span class="p">,</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="mi">1</span><span class="p">)),</span>  <span class="c1"># 随机森林
+</span>    <span class="p">(</span><span class="s">'AdaBoost'</span><span class="p">,</span> <span class="n">AdaBoostClassifier</span><span class="p">()),</span>  <span class="c1"># 通过迭代弱分类器而产生最终的强分类器的算法
+</span>    <span class="p">(</span><span class="s">'Extra Trees'</span><span class="p">,</span> <span class="n">ExtraTreesClassifier</span><span class="p">()),</span>
+    <span class="p">(</span><span class="s">'GradientBoosting'</span><span class="p">,</span> <span class="n">GradientBoostingClassifier</span><span class="p">()),</span>  <span class="c1"># 梯度提升树
+</span>    <span class="p">(</span><span class="s">'Bagging'</span><span class="p">,</span> <span class="n">BaggingClassifier</span><span class="p">()),</span>
+    <span class="p">(</span><span class="s">'Naive Bayes'</span><span class="p">,</span> <span class="n">GaussianNB</span><span class="p">()),</span>  <span class="c1"># 朴素贝叶斯
+</span>    <span class="p">(</span><span class="s">'QDA'</span><span class="p">,</span> <span class="n">QuadraticDiscriminantAnalysis</span><span class="p">()),</span>  <span class="c1"># 二次判别分析
+</span>    <span class="p">(</span><span class="s">'LDA'</span><span class="p">,</span> <span class="n">LinearDiscriminantAnalysis</span><span class="p">()),</span>  <span class="c1"># 线性判别分析
+</span>    <span class="p">(</span><span class="s">'MLP'</span><span class="p">,</span> <span class="n">MLPClassifier</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)),</span>  <span class="c1"># 多层感知机
+</span>    <span class="p">(</span><span class="s">'XGB'</span><span class="p">,</span> <span class="n">XGBClassifier</span><span class="p">()),</span>  <span class="c1"># 极端梯度提升
+</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">clf</span> <span class="ow">in</span> <span class="n">classifiers</span><span class="p">:</span>
+    <span class="n">clf</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>  <span class="c1"># 训练
+</span>    <span class="n">score</span> <span class="o">=</span> <span class="n">clf</span><span class="p">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>  <span class="c1"># 模型评分
+</span></code></pre></div></div>
+
+<h3 id="回归模型">回归模型</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 基本回归：线性、决策树、SVM、KNN
+# 集成方法：随机森林、Adaboost、Gradient Boosting、Bagging、Extra Trees
+</span><span class="n">regressors</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s">'Decision Tree'</span><span class="p">,</span> <span class="n">DecisionTreeRegressor</span><span class="p">()),</span>  <span class="c1"># 逻辑回归
+</span>    <span class="p">(</span><span class="s">'Linear Regression'</span><span class="p">,</span> <span class="n">LinearRegression</span><span class="p">()),</span>  <span class="c1"># K最近邻
+</span>    <span class="p">(</span><span class="s">'SVR'</span><span class="p">,</span> <span class="n">SVR</span><span class="p">()),</span>  <span class="c1"># 线性的支持向量机
+</span>    <span class="p">(</span><span class="s">'KNN'</span><span class="p">,</span><span class="n">KNeighborsRegressor</span><span class="p">()),</span>  <span class="c1"># 径向基函数的支持向量机
+</span>    <span class="p">(</span><span class="s">'Random Forest'</span><span class="p">,</span> <span class="n">RndomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">20</span><span class="p">))</span>  <span class="c1"># 使用20个决策树
+</span>    <span class="p">(</span><span class="s">'AdaBoost'</span><span class="p">,</span><span class="n">AdaBoostRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">50</span><span class="p">))</span>  <span class="c1"># 使用50个决策树
+</span>    <span class="p">(</span><span class="s">'Gradient Boosting'</span><span class="p">,</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">))</span>  <span class="c1"># 使用100个决策树
+</span>    <span class="p">(</span><span class="s">'Bagging'</span><span class="p">,</span><span class="n">BaggingRegressor</span><span class="p">())</span>
+    <span class="p">(</span><span class="s">'Extra Trees'</span><span class="p">,</span> <span class="n">ExtraTreeRegressor</span><span class="p">())</span>
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">reg</span> <span class="ow">in</span> <span class="n">regressors</span><span class="p">:</span>
+    <span class="n">reg</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>  <span class="c1"># 训练
+</span>    <span class="n">score</span> <span class="o">=</span> <span class="n">reg</span><span class="p">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>  <span class="c1"># 模型评分
+</span></code></pre></div></div>
+
+<h3 id="聚类模型">聚类模型</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method name</th>
+      <th>Parameters</th>
+      <th>Scalability</th>
+      <th>Usecase</th>
+      <th>Geometry (metric used)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://scikit-learn.org/stable/modules/clustering.html#k-means">K-Means</a></td>
+      <td>number of clusters</td>
+      <td>Very large <code class="language-plaintext highlighter-rouge">n_samples</code>, medium <code class="language-plaintext highlighter-rouge">n_clusters</code> with <a href="https://scikit-learn.org/stable/modules/clustering.html#mini-batch-kmeans">MiniBatch code</a></td>
+      <td>General-purpose, even cluster size, flat geometry, not too many clusters</td>
+      <td>Distances between points</td>
+    </tr>
+    <tr>
+      <td><a href="https://scikit-learn.org/stable/modules/clustering.html#affinity-propagation">Affinity propagation</a></td>
+      <td>damping, sample preference</td>
+      <td>Not scalable with n_samples</td>
+      <td>Many clusters, uneven cluster size, non-flat geometry</td>
+      <td>Graph distance (e.g. nearest-neighbor graph)</td>
+    </tr>
+    <tr>
+      <td><a href="https://scikit-learn.org/stable/modules/clustering.html#mean-shift">Mean-shift</a></td>
+      <td>bandwidth</td>
+      <td>Not scalable with <code class="language-plaintext highlighter-rouge">n_samples</code></td>
+      <td>Many clusters, uneven cluster size, non-flat geometry</td>
+      <td>Distances between points</td>
+    </tr>
+    <tr>
+      <td><a href="https://scikit-learn.org/stable/modules/clustering.html#spectral-clustering">Spectral clustering</a></td>
+      <td>number of clusters</td>
+      <td>Medium <code class="language-plaintext highlighter-rouge">n_samples</code>, small <code class="language-plaintext highlighter-rouge">n_clusters</code></td>
+      <td>Few clusters, even cluster size, non-flat geometry</td>
+      <td>Graph distance (e.g. nearest-neighbor graph)</td>
+    </tr>
+    <tr>
+      <td><a href="https://scikit-learn.org/stable/modules/clustering.html#hierarchical-clustering">Ward hierarchical clustering</a></td>
+      <td>number of clusters or distance threshold</td>
+      <td>Large <code class="language-plaintext highlighter-rouge">n_samples</code> and <code class="language-plaintext highlighter-rouge">n_clusters</code></td>
+      <td>Many clusters, possibly connectivity constraints</td>
+      <td>Distances between points</td>
+    </tr>
+    <tr>
+      <td><a href="https://scikit-learn.org/stable/modules/clustering.html#hierarchical-clustering">Agglomerative clustering</a></td>
+      <td>number of clusters or distance threshold, linkage type, distance</td>
+      <td>Large <code class="language-plaintext highlighter-rouge">n_samples</code> and <code class="language-plaintext highlighter-rouge">n_clusters</code></td>
+      <td>Many clusters, possibly connectivity constraints, non Euclidean distances</td>
+      <td>Any pairwise distance</td>
+    </tr>
+    <tr>
+      <td><a href="https://scikit-learn.org/stable/modules/clustering.html#dbscan">DBSCAN</a></td>
+      <td>neighborhood size</td>
+      <td>Very large <code class="language-plaintext highlighter-rouge">n_samples</code>, medium <code class="language-plaintext highlighter-rouge">n_clusters</code></td>
+      <td>Non-flat geometry, uneven cluster sizes</td>
+      <td>Distances between nearest points</td>
+    </tr>
+    <tr>
+      <td><a href="https://scikit-learn.org/stable/modules/clustering.html#optics">OPTICS</a></td>
+      <td>minimum cluster membership</td>
+      <td>Very large <code class="language-plaintext highlighter-rouge">n_samples</code>, large <code class="language-plaintext highlighter-rouge">n_clusters</code></td>
+      <td>Non-flat geometry, uneven cluster sizes, variable cluster density</td>
+      <td>Distances between points</td>
+    </tr>
+    <tr>
+      <td><a href="https://scikit-learn.org/stable/modules/mixture.html#mixture">Gaussian mixtures</a></td>
+      <td>many</td>
+      <td>Not scalable</td>
+      <td>Flat geometry, good for density estimation</td>
+      <td>Mahalanobis distances to  centers</td>
+    </tr>
+    <tr>
+      <td><a href="https://scikit-learn.org/stable/modules/clustering.html#birch">Birch</a></td>
+      <td>branching factor, threshold, optional global clusterer.</td>
+      <td>Large <code class="language-plaintext highlighter-rouge">n_clusters</code> and <code class="language-plaintext highlighter-rouge">n_samples</code></td>
+      <td>Large dataset, outlier removal, data reduction.</td>
+      <td>Euclidean distance between points</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="模型训练与测试">模型训练与测试</h2>
+
+<h3 id="独立划分训练集和测试集">独立划分训练集和测试集</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 独立固定划分训练集和测试集
+</span><span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">label_X</span><span class="p">,</span> <span class="n">label_Y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+    <span class="c1"># SVR regression
+</span>    <span class="n">svr_reg</span> <span class="o">=</span> <span class="n">SVR</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s">'linear'</span><span class="p">)</span>
+    <span class="n">svr_reg</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">svr_reg</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+    <span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="n">std</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h3 id="常见的交叉验证训练方式">常见的交叉验证训练方式</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 分层采样，确保训练集，测试集中各类别样本的比例与原始数据集中相同
+</span><span class="n">kf</span> <span class="o">=</span> <span class="n">model_selection</span><span class="p">.</span><span class="n">RepeatedStratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># 普通10-fold
+</span><span class="n">kf1</span> <span class="o">=</span> <span class="n">model_selection</span><span class="p">.</span><span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">kf</span><span class="o">*</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">kf</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="n">label_X</span><span class="p">,</span> <span class="n">label_Y</span><span class="p">):</span>
+    <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">label_Y</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">label_Y</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+
+    <span class="c1"># select features
+</span>    <span class="n">model</span> <span class="o">=</span> <span class="n">ExtraTreesClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">label_X</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">,</span> <span class="p">:],</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">fim</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">feature_importances_</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">fim</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">b</span><span class="p">[:</span><span class="mi">80</span><span class="p">,</span> <span class="mi">0</span><span class="p">].</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span> <span class="o">=</span> <span class="n">label_X</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">,</span> <span class="n">idx</span><span class="p">],</span> <span class="n">label_X</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span>
+
+    <span class="c1"># KNN classification
+</span>    <span class="n">neigh</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">3</span><span class="p">).</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">neigh</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+    <span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">diag</span><span class="p">(</span><span class="n">cm</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s">'weighted'</span><span class="p">)</span>
+
+    <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="n">std</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h2 id="评价指标-分类回归聚类">评价指标 (分类、回归、聚类)</h2>
+
+<h3 id="分类指标">分类指标</h3>
+
+<p>对于二类分类问题，通常以关注的类为正类（positive），其他类为负类（negative），分类器在测试数据集上的预测或正确（true）或不正确（false），4 种情况出现的总数分别记作：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center">正类（预测）</th>
+      <th style="text-align: center">负类（预测）</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><strong>正类（真实）</strong></td>
+      <td style="text-align: center">TP——将正类预测为正类数</td>
+      <td style="text-align: center">FP——将负类预测为正类数</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><strong>负类（真实）</strong></td>
+      <td style="text-align: center">FN——将正类预测为负类数</td>
+      <td style="text-align: center">TN——将负类预测为负类数</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>由此定义：</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">真阳率：      TPR = TP / (TP + FN)</th>
+      <th style="text-align: center">特异性：  TNR = TN / (FP + TN)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">召回率 recall： R = TP / (TP + FN)</td>
+      <td style="text-align: center">精准率 precision：P = TP / (TP + FP)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">F1 值：			  F1 = 2 PR / (P + R)</td>
+      <td style="text-align: center">准确率 accuracy： ACC = (TP+TN) / (P+N)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>注意：</strong></p>
+
+<ul>
+  <li><strong>真阳率又称召回率、Sensitivity（敏感性）、查全率；Specificity（特异性）</strong>，表示的是预测正确的负样本个数占所有预测为负样本的比例</li>
+  <li>精准率和召回率和 F1 取值都在 0 和 1 之间，精准率和召回率高，F1 值也会高</li>
+  <li>关于ROC曲线和AUC。假设采用逻辑回归分类器，其给出针对每个实例为正类的概率，那么通过设定一个阈值如 0.6，概率大于等于 0.6 的为正类，小于 0.6 的为负类。对应的就可以算出一组 (FPR,TPR)，在平面中得到对应坐标点。随着阈值的逐渐减小，越来越多的实例被划分为正类，但是这些正类中同样也掺杂着真正的负实例，即 TPR 和 FPR 会同时增大。阈值最大时，对应坐标点为 (0,0)，阈值最小时，对应坐标点(1,1)。曲线下面积为 AUC。python 计算 AUC 过程，参考 <a href="https://scikit-learn.org/stable/auto_examples/model_selection/plot_roc.html#sphx-glr-auto-examples-model-selection-plot-roc-py">Receiver Operating Characteristic (ROC)</a></li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 计算AUC，需要提供类别的预测概率
+</span><span class="n">y_score</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+
+<span class="c1"># 1、调用函数计算micro类型的AUC
+</span><span class="k">print</span><span class="p">(</span><span class="s">'调用函数auc：'</span><span class="p">,</span> <span class="n">metrics</span><span class="p">.</span><span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_one_hot</span><span class="p">,</span> <span class="n">y_score</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s">'micro'</span><span class="p">))</span>
+
+<span class="c1"># 2、手动计算micro类型的AUC
+#首先将矩阵y_one_hot和y_score展开，然后计算假正例率FPR和真正例率TPR
+</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">metrics</span><span class="p">.</span><span class="n">roc_curve</span><span class="p">(</span><span class="n">y_one_hot</span><span class="p">.</span><span class="n">ravel</span><span class="p">(),</span><span class="n">y_score</span><span class="p">.</span><span class="n">ravel</span><span class="p">())</span>
+<span class="n">auc</span> <span class="o">=</span> <span class="n">metrics</span><span class="p">.</span><span class="n">auc</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'手动计算auc：'</span><span class="p">,</span> <span class="n">auc</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="其他指标">其他指标</h3>
+
+<p>参考 <a href="https://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics">sklearn metrics</a></p>
+
+        </article>
+        <hr>
+        <!-- <span class="bds_txt"> 分享到：</span>
+        <div class="bdsharebuttonbox">
+                <a href="#" class="bds_more" data-cmd="more"></a>
+                <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到 QQ 空间"></a>
+                <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到 QQ 好友"></a>
+                <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+                <a href="#" class="bds_twi" data-cmd="twi" title="分享到 Twitter"></a>
+                <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到 Facebook"></a>
+                <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+                <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                <a href="#" class="bds_kaixin001" data-cmd="kaixin001" title="分享到开心网"></a>
+                <a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a>
+            </div> -->
+        <hr>
+
+        
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                        
+                        <h2 id="similar_posts">Similar Posts</h2>
+                        <ul>
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/10/22/tool_py/">Python 工程语法与代码简化
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2020/09/22/tool_file/">Python 常用文件读取与存储方式
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+        
+            </ul>
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2020/10/22/tool_py/">Python 工程语法与代码简化</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2021/01/02/think_2020/">Year 2020</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+		<!-- Gitalk start -->
+		<div id="gitalk-container"></div> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+		<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+		<script>
+		  var title = location.pathname.substr(0, 50);
+		  var gitalk  = new Gitalk ({
+			clientID: '71066430f842c7a01401',
+			clientSecret: '9565351139680b09ab34112f5443edaf664724b4',
+			repo: 'blog-comments',
+			owner: 'chamwen',
+			admin: ['chamwen'],
+			id: title,
+			distractionFreeMode: true  // Facebook-like distraction free mode
+			})
+			gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk end -->
+		
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#similar_posts">Similar Posts</a></li>
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+<script>
+    window._bd_share_config = {
+        common: { "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" },
+        share: [{
+            bdCustomStyle: "//www.landiannews.com/static/api/css/share.css"
+        }]
+    }
+    with (document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "//www.landiannews.com/static/api/js/share.js?cdnversion=" + ~(-new Date() / 36e5)];</script>
+</script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             Chasing the unknown 
+        </p>
+        <p class="contact">
+            联系我 
+            <a href="https://github.com/chamwen" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:wenzn9@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+    </div>
+</footer>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

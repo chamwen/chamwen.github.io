@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>集成学习算法总结</title>
+    <meta name="description" content="模式识别课上和平时组会上了解了不少集成学习，做个小总结。">
+
+    <link rel="shortcut icon" href="/me.ico?" type="image/x-icon">
+    <link rel="icon" href="/me.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+	<link rel="stylesheet" href="/css/syntax.css">
+    <link rel="canonical" href="https://www.chamwen.github.io/2018/12/09/ML_ensemble/">
+    <link rel="alternate" type="application/rss+xml" title="Cham's Blog" href="https://www.chamwen.github.io/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6c42715c371f7f46f5b2b6f9b17370ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+    <script>
+    // google analytics
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-148378835-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    tex2jax: { inlineMath: [["$","$"],["\\(","\\)"]] },
+    "HTML-CSS": {
+      linebreaks: { automatic: true, width: "container" }
+    }
+});
+</script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/index.html" class="brand">Cham's Blog</a>
+        <small>Algorithm, skill and thinking</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/index.html">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archives/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/categories/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tags/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collections/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+		<style>
+		  table{
+			border-left:1px solid #000000;border-top:1px solid #000000;
+			width: 100%;
+			word-wrap:break-word; word-break:break-all;
+		  }
+		  table th{
+		  text-align:center;
+		  }
+		  table th,td{
+			border-right:1px solid #000000;border-bottom:1px solid #000000;
+		  }
+		</style>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>集成学习算法总结</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2018-12-09
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#Machine-Learning" title="Category: Machine-Learning" rel="category">Machine-Learning</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#ensemble" title="Tag: ensemble" rel="tag">ensemble</a-->
+        <a href="/tag/#ensemble" title="Tag: ensemble" rel="tag">ensemble</a>&nbsp;
+    
+        <!--a href="/tag/#boosting" title="Tag: boosting" rel="tag">boosting</a-->
+        <a href="/tag/#boosting" title="Tag: boosting" rel="tag">boosting</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <ul id="markdown-toc">
+  <li><a href="#1bagging-boosting-stacking对比" id="markdown-toc-1bagging-boosting-stacking对比">1.Bagging, Boosting, Stacking对比</a></li>
+  <li><a href="#2决策树与随机森林" id="markdown-toc-2决策树与随机森林">2.决策树与随机森林</a></li>
+  <li><a href="#3adaboost" id="markdown-toc-3adaboost">3.Adaboost</a></li>
+  <li><a href="#4随机森林与adaboost" id="markdown-toc-4随机森林与adaboost">4.随机森林与Adaboost</a></li>
+  <li><a href="#5gbdt" id="markdown-toc-5gbdt">5.GBDT</a></li>
+  <li><a href="#6xgboost" id="markdown-toc-6xgboost">6.Xgboost</a></li>
+  <li><a href="#7stacking算法" id="markdown-toc-7stacking算法">7.Stacking算法</a></li>
+</ul>
+<p>模式识别课上和平时组会上了解了不少集成学习，做个小总结。 <!--more--></p>
+
+<h3 id="1bagging-boosting-stacking对比">1.Bagging, Boosting, Stacking对比</h3>
+
+<p>集成学习可以是不同算法的集成，也可以是同一算法在不同设置下的集成，还可以是数据集不同部分分配给不同分类器之后的集成。集成学习可分为两大类，以Adaboost, GBDT为代表的 Boosting（提高） 和以 RandomForest 为代表的 Bagging（装袋），它们在集成学习中属于同源集成（homogenous ensembles）；另一种是 Stacking（堆叠），属于异源集成（heterogenous ensembles）。</p>
+
+<p>Bagging 各个弱学习器之间<strong>没有依赖关系，可以并行拟合</strong>；对于boosting，各个弱学习器之间<strong>有依赖关系</strong>。Stacking 是通过一个元学习器来整合多个基础学习模型，基础模型通常包含不同的学习算法。</p>
+
+<p>Bagging 的方法采用多个分类器集体表决，集体表决意味着模型泛化能力比较强，其分类能力相对于其中的每一个单一分类器是稳定的，相当于降低了方差。Boosting 的方法通过构造一系列的弱分类器对相同的训练数据集的重要性区别对待达到对训练数据的精确拟合，因此降低了偏差。</p>
+
+<p>Bagging典型的是随机森林，而boosting 包括 Adaboost、Gradient Boosting（包括Boosting Tree、Gradient Boosting Decision Tree、xgboost），Stacking 常用方法是堆栈泛化（Stacked Generalization）</p>
+
+<h3 id="2决策树与随机森林">2.决策树与随机森林</h3>
+
+<p>决策树用于分类和回归，包含特征选择(Gini)、决策树的生成和决策树的剪枝三个步骤。可处理缺失数据，运算速度快，但是容易过拟合，随机森林采用多个决策树的投票机制来改善决策树。
+假设随机森林使用了 m 棵决策树，那么就需要产生 m 个一定数量的样本集（n个）来训练每一棵树，通过Bootstraping法，这是一种有放回的抽样方法，产生 n 个样本而最终结果采用Bagging的策略来获得，即多数投票机制</p>
+
+<p>随机森林的生成方法：
+1.从样本集中通过重采样的方式产生 n 个样本，构成训练样本集
+2.假设样本特征数目为 a，对 n 个样本选择 a 中的 k 个特征，用建立决策树的方式获得最佳分割点
+3.重复 m 次，产生 m 棵决策树
+4.多数投票机制来进行预测</p>
+
+<h3 id="3adaboost">3.Adaboost</h3>
+
+<p><strong>重点一</strong>在于弱分类器集成时的权重</p>
+
+\[\alpha_m=  1/2 ln \frac {(1-e_m)} {e_m}\]
+
+<p>可以看出对于某个迭代子阶段的分类器，其权重和其误差负相关。<strong>重点二</strong>在于迭代过程中的样本的权重更新规则</p>
+
+\[\begin{align}
+w_{m+1,i}&amp;= \frac {w_{mi} } {Z_m}exp(-\alpha_m y_i G_m (x_i)),i=1,2,⋯,N，其中Z_m 为归一化因子，该式可简化为\\
+&amp;=\left\{ {\begin{matrix}\frac {w_{mi} }{2(1-e_m)}, &amp;{G_m(x_i)=y_i}\\\frac {w_{mi} }{2e_m},\ &amp;{G_m(x_i)\neq y_i}\\\end{matrix} }\right.
+\end{align}\]
+
+<p>可以看出样本的权重和错误率正相关，即如果某个样本点已经被准确地分类，那么在构造下一个训练集中，它的权值就被降低；相反，如果某个样本点没有被准确地分类，那么它的权值就得到提高。</p>
+
+<h3 id="4随机森林与adaboost">4.随机森林与Adaboost</h3>
+
+<p>两者的区别主要是 bagging 和 boosting 的区别。boosting 是一种与 bagging 很相似的技术。但前者不同的分类器是通过串行训练而得到的，每个新分类器都根据已训练出的分类器的性能来进行训练。boosting 中的分类的结果是基于所有分类器的加权求和结果的，使得 loss function 尽量考虑那些分错类的样本（i.e.分错类的样本 weight 大），而 bagging 中的分类器权值是相等的。boosting 重采样的不是样本，而是样本的分布。</p>
+
+<p>随机森林（ Random Forest, RF）是决策树的组合，每棵决策树都是通过对原始数据集中随机生成新的数据集来训练生成，随机森林决策的结果是多数决策树的决策结果。</p>
+
+<h3 id="5gbdt">5.GBDT</h3>
+
+<p>具体参考，<a href="https://www.zybuluo.com/yxd/note/611571">GBDT算法原理深入解析</a></p>
+
+<p>Boosting Tree模型是决策树的加法模型，表现为</p>
+
+\[f_M(x)=\sum_{m=1}^MT(x;\theta_m)\]
+
+<p>其中，$T(x;\theta_m)$ 表示决策树，$\theta_m$ 为树的参数, $M$ 为树的个数。Boosting Tree 提升树利用加法模型实现优化过程时，当损失函数是平方损失函数时，每一步的优化很简单。但对于一般损失函数而言，往往每一步的优化没那么简单，所以引入了梯度提升（Gradient Boosting）算法。GBDT目标函数如下：</p>
+
+\[Obj = -\frac12 \sum_{j=1}^T \frac{G_j^2}{H_j+\lambda} + \gamma T\]
+
+<p>其学习步骤为：</p>
+<ol>
+  <li>算法每次迭代生成一颗新的决策树</li>
+  <li>在每次迭代开始之前，计算损失函数在每个训练样本点的一阶导数 $g_i$ 和二阶导数 $h_i$</li>
+  <li>通过贪心策略生成新的决策树，计算每个叶节点对应的预测值</li>
+  <li>把新生成的决策树 $f_t(x)$ 添加到模型中：$\hat{y}_i^t = \hat{y}_i^{t-1} + f_t(x_i)$</li>
+</ol>
+
+<h3 id="6xgboost">6.Xgboost</h3>
+
+<p><strong>6.1 Xgboost过程</strong></p>
+
+<p>Xgboost目标函数可以定义为如下：</p>
+
+\[\begin{align}
+obj&amp;:\Sigma_{i=1}^nl(y_i,\hat y_i)+∑_{k=1}^K\Omega(f_k)\\
+&amp;where\ \Omega(f_t)=\gamma T+\frac 1 2 \lambda\Sigma_{j=1}^Tw_j^2
+\end{align}\]
+
+<p>其中 $n$ 代表有 $n$ 个样本。前面一项是 loss 函数，$T$ 是叶子节点数目，$w$ 是leaf score的 L2 模的平方，对leaf scroe做了平滑。</p>
+
+<p><strong>6.2 Xgboost和GBDT对比</strong></p>
+
+<p>参考 <a href="https://www.zhihu.com/question/41354392/answer/98658997">机器学习算法中 GBDT 和 XGBOOST 的区别有哪些？</a></p>
+
+<ul>
+  <li>GBDT以CART作为基分类器，xgboost也支持线性分类器，此时xgboost相当于带L1和L2正则化项的logistics回归（分类问题）或者线性回归（回归问题）。</li>
+  <li>GBDT优化时只用到一阶导信息，xgboost则对代价函数进行了二阶泰勒展开，同时用到了一阶和二阶导数。</li>
+  <li>xgboost在代价函数里加入了正则项，用于控制模型的复杂度。正则项里包含了树的叶子节点个数、每个叶子节点上输出的score的L2模的平方和。</li>
+  <li>xgboost借鉴了随机森林的做法，支持列抽样，不仅能降低过拟合，还能减少计算。</li>
+  <li>决策树的学习最耗时的步骤是对特征的值进行排序，xgboost在训练之前，预先对数据进行了排序，然后保存为block结构，后面的迭代中重复地使用这个结构，大大减小计算量，支持特征增益的并行计算。</li>
+  <li>GBDT采用的是数值优化的思维， 用的最速下降法去求解Loss Function的最优解，其中用CART决策树去拟合负梯度， 用牛顿法求步长。Xgboost用的解析的思维，对Loss Function展开到二阶近似，求得解析解，用解析解作为Gain来建立决策树，使得Loss Function最优。</li>
+</ul>
+
+<h3 id="7stacking算法">7.Stacking算法</h3>
+
+<p>参考 <a href="https://blog.csdn.net/g11d111/article/details/80215381">集成方法（Ensemble）之Stacking</a></p>
+
+<p>Stacking 常用方法是堆栈泛化（Stacked Generalization），其过程</p>
+
+<ul>
+  <li>将训练集分为3部分，分别用于让3个基分类器（Base-leaner）进行学习和拟合</li>
+  <li>将3个基分类器预测得到的结果作为下一层分类器（Meta-learner）的输入</li>
+  <li>将下一层分类器得到的结果作为最终的预测结果</li>
+</ul>
+
+<p>其特点是通过使用第一阶段（level 0）的预测作为下一层预测的特征，比起相互独立的预测模型能够有更强的非线性表述能力，降低泛化误差。它的目标是同时降低机器学习模型的 Bias-Variance。堆栈泛化就是集成学习中 Aggregation 方法进一步泛化的结果， 是通过 Meta-Learner 来取代 Bagging 和 Boosting 的 Voting/Averaging 来综合降低 Bias 和 Variance 的方法。譬如： Voting可以通过 kNN 来实现， weighted voting 可以通过softmax（Logistic Regression）， 而 Averaging 可以通过线性回归来实现。</p>
+
+        </article>
+        <hr>
+        <!-- <span class="bds_txt"> 分享到：</span>
+        <div class="bdsharebuttonbox">
+                <a href="#" class="bds_more" data-cmd="more"></a>
+                <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到 QQ 空间"></a>
+                <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到 QQ 好友"></a>
+                <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+                <a href="#" class="bds_twi" data-cmd="twi" title="分享到 Twitter"></a>
+                <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到 Facebook"></a>
+                <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+                <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                <a href="#" class="bds_kaixin001" data-cmd="kaixin001" title="分享到开心网"></a>
+                <a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a>
+            </div> -->
+        <hr>
+
+        
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2018/12/06/ML_cost_func/">损失函数和正则化项</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2018/12/31/think_2018/">Year 2018</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+		<!-- Gitalk start -->
+		<div id="gitalk-container"></div> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+		<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+		<script>
+		  var title = location.pathname.substr(0, 50);
+		  var gitalk  = new Gitalk ({
+			clientID: '71066430f842c7a01401',
+			clientSecret: '9565351139680b09ab34112f5443edaf664724b4',
+			repo: 'blog-comments',
+			owner: 'chamwen',
+			admin: ['chamwen'],
+			id: title,
+			distractionFreeMode: true  // Facebook-like distraction free mode
+			})
+			gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk end -->
+		
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+<script>
+    window._bd_share_config = {
+        common: { "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" },
+        share: [{
+            bdCustomStyle: "//www.landiannews.com/static/api/css/share.css"
+        }]
+    }
+    with (document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "//www.landiannews.com/static/api/js/share.js?cdnversion=" + ~(-new Date() / 36e5)];</script>
+</script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             Chasing the unknown 
+        </p>
+        <p class="contact">
+            联系我 
+            <a href="https://github.com/chamwen" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:wenzn9@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+    </div>
+</footer>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

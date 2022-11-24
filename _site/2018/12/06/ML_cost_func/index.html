@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>损失函数和正则化项</title>
+    <meta name="description" content="目标函数中常用的损失函数，如0-1损失、平方损失、对数损失，常见的正则化项 L1 和 L2，以及常见的回归模型损失函数。">
+
+    <link rel="shortcut icon" href="/me.ico?" type="image/x-icon">
+    <link rel="icon" href="/me.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+	<link rel="stylesheet" href="/css/syntax.css">
+    <link rel="canonical" href="https://www.chamwen.github.io/2018/12/06/ML_cost_func/">
+    <link rel="alternate" type="application/rss+xml" title="Cham's Blog" href="https://www.chamwen.github.io/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6c42715c371f7f46f5b2b6f9b17370ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+    <script>
+    // google analytics
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-148378835-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    tex2jax: { inlineMath: [["$","$"],["\\(","\\)"]] },
+    "HTML-CSS": {
+      linebreaks: { automatic: true, width: "container" }
+    }
+});
+</script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/index.html" class="brand">Cham's Blog</a>
+        <small>Algorithm, skill and thinking</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/index.html">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archives/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/categories/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tags/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collections/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+		<style>
+		  table{
+			border-left:1px solid #000000;border-top:1px solid #000000;
+			width: 100%;
+			word-wrap:break-word; word-break:break-all;
+		  }
+		  table th{
+		  text-align:center;
+		  }
+		  table th,td{
+			border-right:1px solid #000000;border-bottom:1px solid #000000;
+		  }
+		</style>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>损失函数和正则化项</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2018-12-06
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#Machine-Learning" title="Category: Machine-Learning" rel="category">Machine-Learning</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#loss" title="Tag: loss" rel="tag">loss</a-->
+        <a href="/tag/#loss" title="Tag: loss" rel="tag">loss</a>&nbsp;
+    
+        <!--a href="/tag/#regularization" title="Tag: regularization" rel="tag">regularization</a-->
+        <a href="/tag/#regularization" title="Tag: regularization" rel="tag">regularization</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <ul id="markdown-toc">
+  <li><a href="#目标函数" id="markdown-toc-目标函数">目标函数</a></li>
+  <li><a href="#常用的损失函数" id="markdown-toc-常用的损失函数">常用的损失函数</a></li>
+  <li><a href="#常用的正则化项" id="markdown-toc-常用的正则化项">常用的正则化项</a></li>
+  <li><a href="#l1-和-l2-梯度下降速度对比" id="markdown-toc-l1-和-l2-梯度下降速度对比">L1 和 L2 梯度下降速度对比</a></li>
+  <li><a href="#常用的回归模型" id="markdown-toc-常用的回归模型">常用的回归模型</a></li>
+</ul>
+<p>目标函数中常用的损失函数，如0-1损失、平方损失、对数损失，常见的正则化项 L1 和 L2，以及常见的回归模型损失函数。 <!--more--></p>
+
+<h3 id="目标函数">目标函数</h3>
+
+<p>模型的目标函数通常定义为如下形式：$Obj(\Theta)=L(\Theta)+\Omega(\Theta)$</p>
+
+<p>其中，$L(\Theta)$ 是损失函数，用来衡量模型拟合训练数据的好坏程度；$\Omega(\Theta)$ 称之为正则项，用来衡量学习到的模型的复杂度。目标函数之所以定义为损失函数和正则项两部分，是为了尽可能平衡模型的偏差和方差（Bias Variance Trade-off）。最小化目标函数意味着同时最小化损失函数和正则项，损失函数最小化表明模型能够较好的拟合训练数据，一般也预示着模型能够较好地拟合真实数据；另一方面，对正则项的优化鼓励算法学习到较简单的模型，简单模型一般在测试样本上的预测结果比较稳定、方差较小（奥卡姆剃刀原则）。也就是说，优化损失函数尽量使模型走出欠拟合的状态，优化正则项尽量使模型避免过拟合。 <!--more--></p>
+
+<h3 id="常用的损失函数">常用的损失函数</h3>
+
+<p>训练集上的损失定义为：$L=\sum_{i=1}^n l(y_i, \hat{y}_i)$</p>
+
+<p>1.0-1损失函数 (0-1 loss function): 
+\(L(Y, f(X)) = \left\{ \begin{array} { l } { 1 , \quad Y \neq \mathrm{f}(\mathrm {X}) } \\ {0, \quad Y = \mathrm { f } ( \mathrm { X } ) } \end{array} \right.\)</p>
+
+<p>2.平方损失函数 (quadratic loss function) : $L(Y,f(X))=(Y−f(x))^2$</p>
+
+<p>3.绝对值损失函数 (absolute loss function) : $L(Y,f(x))=|Y−f(X)|$</p>
+
+<p>4.对数损失函数 (logarithmic loss function) : $L(Y,P(Y\mid X))=−logP(Y\mid X)$</p>
+
+<p>5.Logistic 损失：$l(y_i, \hat{y}_i)=y_i ln(1+e^{y_i}) + (1-y_i)ln(1+e^{\hat{y}_i})$</p>
+
+<p>6.Hinge 损失：$\text{hinge}(x_i) = \max (0,1-y_i(\mathrm{w}^{\top}x_i+b))$ ，SVM 损失函数，如果点正确分类且在间隔外，则损失为 0；如果点正确分类且在间隔内，则损失在 $(0,1)$；如果点错误分类，则损失在 $(1,+\infty)$</p>
+
+<p>7.负对数损失 (negative log-likelihood, NLL)：$L_i = -log(p_{y_{i}})$，某一类的正确预测的失望程度 ($&gt;0$)，其值越小，说明正确预测的概率越大，表示预测输出与 $y$ 的差距越小</p>
+
+<p>8.交叉熵损失 (cross entropy)：首先是 softmax 定义为 $p_k = {e^{f_k}}/{\sum_{j} e^{f_j}}$，其中 $f_k=Wx+b$ 表示某一类的预测输出值，则某类的交叉熵损失为该类的输出指数值除所有类之和。基于交叉熵和 softmax 归一化的 loss</p>
+
+\[L=-\frac 1 N\sum_{i=1}^Ny_i\ \text{log}\ \frac {e^{f(x_i)}} {\sum e^{f(x_i)}}\]
+
+<p>关于softmax和 NLL 可以参考：<a href="https://ljvmiranda921.github.io/notebook/2017/08/13/softmax-and-the-negative-log-likelihood/">Understanding softmax and the negative log-likelihood</a></p>
+
+<h3 id="常用的正则化项">常用的正则化项</h3>
+
+<p>常用的正则项有 L1 范数 $\Omega(w)=\lambda \Vert w \Vert_1$和 L2 范数 $\Omega(w)=\lambda \Vert w \Vert_2$</p>
+<ul>
+  <li>L1正则化可以产生稀疏权值矩阵，即产生一个稀疏模型，可以用于特征选择</li>
+  <li>L2正则化可以防止模型过拟合（overfitting），一定程度上，L1也可以防止过拟合</li>
+</ul>
+
+<p>$J=J_0+L$，此时任务变成<strong>在 $L$ 约束下求出 $J_0$ 取最小值的解</strong>，对于L1正则化，约束就是一个菱形，对于L2正则化，约束就是一个圆形。$J_0$ 是一个和 $w$ 有关的椭圆，在二维空间中 $w$ 越小，其半径越大。</p>
+
+<p style="text-align: center"><img src="\images\cost_function\cost_l1.jpg" alt="default" height="30%" width="30%" /></p>
+
+<p>L2正则化如图所示，最优解取值为零的概率要小于L1正则化</p>
+
+<p style="text-align: center"><img src="\images\cost_function\cost_l2.jpg" alt="default" height="30%" width="30%" /></p>
+
+<p><strong>Q1：为什么L1 正则化可以获得稀疏特征？</strong>
+不同的维度系数一般都是不一样的，因此常见的损失函数图像是一个椭圆形，调整参数 $λ$ 的值，椭圆形和菱形的交接处很大可能性会落在坐标轴附近；实际使用的特征维度是高维的，正常情况下就是在某些维度上不会交于坐标轴上，在某些维度上交于坐标轴或坐标轴附近，所以才有稀疏解；与L2正则化相比，L1正则化更容易得到稀疏解，而不是一定会得到稀疏解，毕竟还是有特例的（比如恰好椭圆与坐标原点相交）。</p>
+
+<p><strong>Q2：$λ$ 变大，菱形和圆形怎么变化？</strong>
+$λ$ 越大，菱形和圆形越小，求得的模型参数越小。</p>
+
+<p><strong>Q3：为什么 L2 正则化比 L1 正则化应用更加广泛？</strong>
+因为 L2 正则化的约束边界光滑且可导，便于采用梯度下降法，而L1正则化不可导，只能采用坐标轴下降法或最小角回归法，计算量大。而且，L1 正则化的效果并不会比 L2 正则化好。</p>
+
+<p><strong>Q4：L1 和 L2 正则先验分别服从什么分布 ？</strong>
+L1 是拉普拉斯分布，L2 是高斯分布。</p>
+
+<h3 id="l1-和-l2-梯度下降速度对比">L1 和 L2 梯度下降速度对比</h3>
+
+<p>根据L1和L2的函数图像可以看出, L1是按照线性函数进行梯度下降的, 而L2则是按照二次函数, 因此, L1在下降时的速度是恒定的, 在接近于0的时候会很快就将参数更新成0 , 而L2在接近于0 时, 权重的更新速度放缓, 使得不那么容易更新为0 :</p>
+
+<p style="text-align: center"><img src="\images\cost_function\cost_regu.png" alt="default" height="50%" width="50%" /></p>
+
+<h3 id="常用的回归模型">常用的回归模型</h3>
+
+<p><strong>Linear回归模型</strong>：$\min_{w}\sum_{i=1}^N(y_{i}-w^Tx_{i})=(X^TX)^{-1}X^Ty$</p>
+
+<p><strong>Lasso 回归模型</strong>：使用平方损失和 L1 范数正则项的线性回归模型，用于估计稀疏参数的线性模型，特别适用于参数数目缩减，获得稀疏特征，其模型：$\min_{w}\sum_{i=1}^N(y_{i}-w^Tx_{i})+\gamma{|w|}_1$</p>
+
+<p><strong>Ridge 回归模型</strong>：使用平方损失和 L2 范数正则项的线性回归模型，适用于特征之间完全共线性或者相关程度异常高的时候，其模型：$\min_{w}\sum_{i=1}^N(y_{i}-w^Tx_{i})+\gamma{|w|}^2=(X^TX+\gamma I)^{-1}X^Ty$</p>
+
+<p><strong>Logistic 回归模型</strong>：使用logistic损失和 L2 范数或 L1 范数正则项的线性分类模型。</p>
+
+<p>注意前面三个都是回归模型，最后一个是分类模型，因为标签的可能取值固定，所以损失函数一般选择对数损失函数。线性回归要求变量服从正态分布，logistic 回归对变量分布没有要求；logistic 回归采用 sigmoid 函数将连续值映射在 $(0,1)$ 之间，将归属各类别概率中最大的类作为预测。</p>
+
+<p>参考：</p>
+<ol>
+  <li><a href="https://blog.csdn.net/jinping_shi/article/details/52433975">机器学习中正则化项L1和L2的直观理解</a></li>
+  <li><a href="https://2018august.github.io/2.%20lr%E6%AD%A3%E5%88%99%E5%8C%96%E7%9A%84%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3/">直观理解正则化</a></li>
+</ol>
+
+
+        </article>
+        <hr>
+        <!-- <span class="bds_txt"> 分享到：</span>
+        <div class="bdsharebuttonbox">
+                <a href="#" class="bds_more" data-cmd="more"></a>
+                <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到 QQ 空间"></a>
+                <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到 QQ 好友"></a>
+                <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+                <a href="#" class="bds_twi" data-cmd="twi" title="分享到 Twitter"></a>
+                <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到 Facebook"></a>
+                <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+                <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                <a href="#" class="bds_kaixin001" data-cmd="kaixin001" title="分享到开心网"></a>
+                <a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a>
+            </div> -->
+        <hr>
+
+        
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2018/12/01/ML_bayes/">贝叶斯估计学习笔记</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2018/12/09/ML_ensemble/">集成学习算法总结</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+		<!-- Gitalk start -->
+		<div id="gitalk-container"></div> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+		<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+		<script>
+		  var title = location.pathname.substr(0, 50);
+		  var gitalk  = new Gitalk ({
+			clientID: '71066430f842c7a01401',
+			clientSecret: '9565351139680b09ab34112f5443edaf664724b4',
+			repo: 'blog-comments',
+			owner: 'chamwen',
+			admin: ['chamwen'],
+			id: title,
+			distractionFreeMode: true  // Facebook-like distraction free mode
+			})
+			gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk end -->
+		
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+<script>
+    window._bd_share_config = {
+        common: { "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" },
+        share: [{
+            bdCustomStyle: "//www.landiannews.com/static/api/css/share.css"
+        }]
+    }
+    with (document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "//www.landiannews.com/static/api/js/share.js?cdnversion=" + ~(-new Date() / 36e5)];</script>
+</script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             Chasing the unknown 
+        </p>
+        <p class="contact">
+            联系我 
+            <a href="https://github.com/chamwen" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:wenzn9@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+    </div>
+</footer>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

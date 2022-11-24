@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cham&apos;s Blog</title>
+    <description></description>
+    <link>https://www.chamwen.github.io/</link>
+    <atom:link href="https://www.chamwen.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Thu, 24 Nov 2022 19:39:44 +0800</pubDate>
+    <lastBuildDate>Thu, 24 Nov 2022 19:39:44 +0800</lastBuildDate>
+    <generator>Jekyll v4.3.1</generator>
+    
+      <item>
+        <title>我回来了</title>
+        <description>时隔许久许久没有记录，倒不是不想，而是太忙了。
+</description>
+        <pubDate>Thu, 24 Nov 2022 18:51:00 +0800</pubDate>
+        <link>https://www.chamwen.github.io/2022/11/24/return_blog/</link>
+        <guid isPermaLink="true">https://www.chamwen.github.io/2022/11/24/return_blog/</guid>
+        
+        <category>Recording</category>
+        
+        
+        <category>思考阅读</category>
+        
+      </item>
+    
+      <item>
+        <title>Year 2020</title>
+        <description>2020 这一年还是有点魔幻，从年初的元旦到21年元旦，都是因为疫情没出门，所以称2020为疫情下张三的一年还是没毛病的。
+</description>
+        <pubDate>Sat, 02 Jan 2021 10:01:00 +0800</pubDate>
+        <link>https://www.chamwen.github.io/2021/01/02/think_2020/</link>
+        <guid isPermaLink="true">https://www.chamwen.github.io/2021/01/02/think_2020/</guid>
+        
+        <category>summary</category>
+        
+        
+        <category>思考阅读</category>
+        
+      </item>
+    
+      <item>
+        <title>Sklearn 机器学习全过程</title>
+        <description>Matlab 做 ML 用的不少，特整理下基于 sklearn 的机器学习全过程，从问题分析，数据分析，数据预处理，到特征工程到模型训练与验证。
+</description>
+        <pubDate>Sun, 25 Oct 2020 15:33:00 +0800</pubDate>
+        <link>https://www.chamwen.github.io/2020/10/25/ML_sklearn/</link>
+        <guid isPermaLink="true">https://www.chamwen.github.io/2020/10/25/ML_sklearn/</guid>
+        
+        <category>ml</category>
+        
+        <category>python</category>
+        
+        
+        <category>Machine-Learning</category>
+        
+      </item>
+    
+      <item>
+        <title>Python 工程语法与代码简化</title>
+        <description>Python 使用技巧记录，包括工程语法、代码简化等。
+</description>
+        <pubDate>Thu, 22 Oct 2020 15:12:00 +0800</pubDate>
+        <link>https://www.chamwen.github.io/2020/10/22/tool_py/</link>
+        <guid isPermaLink="true">https://www.chamwen.github.io/2020/10/22/tool_py/</guid>
+        
+        <category>python</category>
+        
+        
+        <category>实用工具</category>
+        
+      </item>
+    
+      <item>
+        <title>机器学习科研方法论</title>
+        <description>机器学习炼丹方法论。
+</description>
+        <pubDate>Sat, 03 Oct 2020 14:53:00 +0800</pubDate>
+        <link>https://www.chamwen.github.io/2020/10/03/think_study/</link>
+        <guid isPermaLink="true">https://www.chamwen.github.io/2020/10/03/think_study/</guid>
+        
+        <category>ML</category>
+        
+        <category>learning</category>
+        
+        
+        <category>思考阅读</category>
+        
+      </item>
+    
+      <item>
+        <title>Python 常用文件读取与存储方式</title>
+        <description>Python 常用文件读取与存储方式，包括 mat，npz，csv，xlsx，mkl，pkl 等格式。
+</description>
+        <pubDate>Tue, 22 Sep 2020 16:31:00 +0800</pubDate>
+        <link>https://www.chamwen.github.io/2020/09/22/tool_file/</link>
+        <guid isPermaLink="true">https://www.chamwen.github.io/2020/09/22/tool_file/</guid>
+        
+        <category>python</category>
+        
+        
+        <category>实用工具</category>
+        
+      </item>
+    
+      <item>
+        <title>Pytorch 学习手册</title>
+        <description>PyTorch 学习和使用手册，包括 pytorch 基本语法，神经网络编程流程，具体例子和迁移学习使用，记录以备忘，摘自 &lt;a href=&quot;http://fancyerii.github.io/books/pytorch/&quot;&gt;PyTorch简明教程&lt;/a&gt;
+</description>
+        <pubDate>Tue, 08 Sep 2020 13:12:00 +0800</pubDate>
+        <link>https://www.chamwen.github.io/2020/09/08/tool_pytorch/</link>
+        <guid isPermaLink="true">https://www.chamwen.github.io/2020/09/08/tool_pytorch/</guid>
+        
+        <category>pytorch</category>
+        
+        <category>DNN</category>
+        
+        
+        <category>实用工具</category>
+        
+      </item>
+    
+      <item>
+        <title>解决：任务栏上点Matlab会打开两个图标</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#什么情况&quot; id=&quot;markdown-toc-什么情况&quot;&gt;什么情况&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;什么情况&quot;&gt;什么情况&lt;/h2&gt;
+
+&lt;strong&gt;在网上搜索了一些关键词，很少有 refer 到重点的&lt;/strong&gt;
+
+任务栏出现两个一样的图标
+
+为什么点击任务栏快捷方式会打开另外一个
+
+win10系统任务栏同一程序两个图标的问题
+</description>
+        <pubDate>Sun, 31 May 2020 09:25:00 +0800</pubDate>
+        <link>https://www.chamwen.github.io/2020/05/31/skill_taskbar/</link>
+        <guid isPermaLink="true">https://www.chamwen.github.io/2020/05/31/skill_taskbar/</guid>
+        
+        <category>windows</category>
+        
+        
+        <category>经验分享</category>
+        
+      </item>
+    
+      <item>
+        <title>优化问题中的拉格朗日乘子法</title>
+        <description>之前看的一些传统优化问题，用的基本都是拉格朗日乘子法 (Lagrange Multiplier)，但最近遇到一些非平常的优化问题，特此系统整理一下这一块的理论，包括：拉格朗日法的基础理论，不同限制条件下的拉格朗日法，对偶问题，交替方向乘子法 (ADMM) ，具体优化例子。
+</description>
+        <pubDate>Wed, 22 Apr 2020 15:16:00 +0800</pubDate>
+        <link>https://www.chamwen.github.io/2020/04/22/OP_lagrange/</link>
+        <guid isPermaLink="true">https://www.chamwen.github.io/2020/04/22/OP_lagrange/</guid>
+        
+        <category>Lagrange</category>
+        
+        <category>ADMM</category>
+        
+        
+        <category>Optimization-Theory</category>
+        
+      </item>
+    
+      <item>
+        <title>常用线性回归和分类模型</title>
+        <description>机器学习中的常用线性回归和分类算法原理，包括线性回归，逻辑回归，线性判别分析，多分类，参数模型优缺点等。
+</description>
+        <pubDate>Wed, 15 Apr 2020 10:44:00 +0800</pubDate>
+        <link>https://www.chamwen.github.io/2020/04/15/ML_linear/</link>
+        <guid isPermaLink="true">https://www.chamwen.github.io/2020/04/15/ML_linear/</guid>
+        
+        <category>linear</category>
+        
+        <category>LS</category>
+        
+        <category>LDA</category>
+        
+        
+        <category>Machine-Learning</category>
+        
+      </item>
+    
+  </channel>
+</rss>

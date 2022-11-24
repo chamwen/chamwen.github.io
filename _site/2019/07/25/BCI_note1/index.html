@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>脑电信号（EEG）范式</title>
+    <meta name="description" content="Several paradigms in EEG-based Brain-Computer Interfaces.">
+
+    <link rel="shortcut icon" href="/me.ico?" type="image/x-icon">
+    <link rel="icon" href="/me.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+	<link rel="stylesheet" href="/css/syntax.css">
+    <link rel="canonical" href="https://www.chamwen.github.io/2019/07/25/BCI_note1/">
+    <link rel="alternate" type="application/rss+xml" title="Cham's Blog" href="https://www.chamwen.github.io/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6c42715c371f7f46f5b2b6f9b17370ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+    <script>
+    // google analytics
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-148378835-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    tex2jax: { inlineMath: [["$","$"],["\\(","\\)"]] },
+    "HTML-CSS": {
+      linebreaks: { automatic: true, width: "container" }
+    }
+});
+</script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/index.html" class="brand">Cham's Blog</a>
+        <small>Algorithm, skill and thinking</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/index.html">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archives/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/categories/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tags/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collections/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+		<style>
+		  table{
+			border-left:1px solid #000000;border-top:1px solid #000000;
+			width: 100%;
+			word-wrap:break-word; word-break:break-all;
+		  }
+		  table th{
+		  text-align:center;
+		  }
+		  table th,td{
+			border-right:1px solid #000000;border-bottom:1px solid #000000;
+		  }
+		</style>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>脑电信号（EEG）范式</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2019-07-25
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#Brain-Computer-Interface" title="Category: Brain-Computer-Interface" rel="category">Brain-Computer-Interface</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#EEG" title="Tag: EEG" rel="tag">EEG</a-->
+        <a href="/tag/#EEG" title="Tag: EEG" rel="tag">EEG</a>&nbsp;
+    
+        <!--a href="/tag/#dataset" title="Tag: dataset" rel="tag">dataset</a-->
+        <a href="/tag/#dataset" title="Tag: dataset" rel="tag">dataset</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <ul id="markdown-toc">
+  <li><a href="#paradigm-i-mi-motor-imagery-运动想象" id="markdown-toc-paradigm-i-mi-motor-imagery-运动想象">Paradigm I: MI (motor imagery, 运动想象)</a></li>
+  <li><a href="#paradigm-ii-erps-event-related-potentials-事件相关电位" id="markdown-toc-paradigm-ii-erps-event-related-potentials-事件相关电位">Paradigm II: ERPs (event-related potentials, 事件相关电位)</a></li>
+  <li><a href="#paradigm-iiissvep-steady-state-visual-evoked-potentials-稳态视觉诱发电位" id="markdown-toc-paradigm-iiissvep-steady-state-visual-evoked-potentials-稳态视觉诱发电位">Paradigm III:SSVEP (steady-state visual evoked potentials, 稳态视觉诱发电位)</a></li>
+  <li><a href="#common-datasets-of-eeg" id="markdown-toc-common-datasets-of-eeg">Common datasets of EEG</a></li>
+</ul>
+
+<p>Several paradigms in EEG-based Brain-Computer Interfaces.  <!--more--></p>
+
+<p><strong>Cham’s Blog 首发原创</strong></p>
+
+<h3 id="paradigm-i-mi-motor-imagery-运动想象">Paradigm I: MI (motor imagery, 运动想象)</h3>
+
+<p>MI 目的是帮助有神经损伤的病人恢复运动功能，或者为健康人提供一种新的交互方式，其原理是主动的大脑活动在对应大脑皮层区域产生相应的电信号，以作为输入信号。MI 数据特点是空间相关性高，时间分辨率高。
+常用数据集：<a href="http://www.bbci.de/competition/iv/desc_1.html">BCI Competition IV  (7~9 subjects)</a></p>
+
+<h3 id="paradigm-ii-erps-event-related-potentials-事件相关电位">Paradigm II: ERPs (event-related potentials, 事件相关电位)</h3>
+
+<p>ERPs 中最常用的模式是 P300 信号，即 ERP 的一个成分电位，as a link to physical stimulus,  a positive-going amplitude that peaks at around 300 ms。以P300为原理的 ERPs 范式有很多种，常见的有：</p>
+
+<p>1）RSVP (rapid serial visual presentation, 快速序列视觉呈现任务)<br />
+目的是测谎、情感识别，在目标图片确定情况下，通过以固定频率切换一系列包含 target 和 nontarget 的图片，记录被试者 EEG 信号，然后分析是否看到了 target图片。
+常用数据集：<a href="https://www.physionet.org/content/ltrsvp/1.0.0/">PhysioNet RSVP</a></p>
+
+<p>2）ERN (error-related negativity, 错误相关负波) 也称为 ErrP (error-related potentials, 错误相关电位) 
+ERN 是考察个体在做出错误反应后的脑电成分，一般认为，ERN 表现为个体在做出错误反应后的150ms 内电位的明显负偏转，在 100ms 左右波幅达到峰值，因此将其命名为错误相关负波。ERN 是错误监控的一个主要反映指标，该成分只有在个体做出错误行为之后才会出现，当要求反应速度越快时其犯错的概率越大，随之 ERN 波幅也越大。
+常用数据集：<a href="https://www.kaggle.com/c/inria-bci-challenge">BCI Challenge @ NER 2015</a></p>
+
+<p>3）fERN (feedback error-related negativity, 反馈错误相关负波, 也称为反馈负波)
+A stimulus locked event-related potential is also observed following the presentation of negative feedback stimuli in a cognitive task indicating the outcome of a response, often referred to as the feedback ERN (fERN). fERN 反映了神经系统对结果好坏的早期评估，即对错误反应进行监测，也帮助个体对其后的行为进行调节。</p>
+
+<h3 id="paradigm-iiissvep-steady-state-visual-evoked-potentials-稳态视觉诱发电位">Paradigm III:SSVEP (steady-state visual evoked potentials, 稳态视觉诱发电位)</h3>
+
+<p>当一个大于 6Hz 的恒定频率不断对人眼进行刺激，脑部的视皮层就会产生相应的变化，产生相应的脑电信号，这个信号就是视觉诱发电位。对脑电信号进行频谱分析找出刺激的目标频率，就能识别出目标频率对应的目标。常用来作为 Speller，智能设备控制等。</p>
+
+<h3 id="common-datasets-of-eeg">Common datasets of EEG</h3>
+
+<ol>
+  <li><a href="https://github.com/meagmohit/EEG-Datasets">A list of all public EEG-datasets</a></li>
+  <li><a href="http://studycatalog.org/">EEG Study Catalog</a></li>
+</ol>
+
+
+        </article>
+        <hr>
+        <!-- <span class="bds_txt"> 分享到：</span>
+        <div class="bdsharebuttonbox">
+                <a href="#" class="bds_more" data-cmd="more"></a>
+                <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到 QQ 空间"></a>
+                <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到 QQ 好友"></a>
+                <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+                <a href="#" class="bds_twi" data-cmd="twi" title="分享到 Twitter"></a>
+                <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到 Facebook"></a>
+                <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+                <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                <a href="#" class="bds_kaixin001" data-cmd="kaixin001" title="分享到开心网"></a>
+                <a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a>
+            </div> -->
+        <hr>
+
+        
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2019/07/24/DL_trick/">深度学习tricks</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2019/08/26/ML_pandas/">Pandas笔记--表格利器</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+		<!-- Gitalk start -->
+		<div id="gitalk-container"></div> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+		<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+		<script>
+		  var title = location.pathname.substr(0, 50);
+		  var gitalk  = new Gitalk ({
+			clientID: '71066430f842c7a01401',
+			clientSecret: '9565351139680b09ab34112f5443edaf664724b4',
+			repo: 'blog-comments',
+			owner: 'chamwen',
+			admin: ['chamwen'],
+			id: title,
+			distractionFreeMode: true  // Facebook-like distraction free mode
+			})
+			gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk end -->
+		
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+<script>
+    window._bd_share_config = {
+        common: { "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" },
+        share: [{
+            bdCustomStyle: "//www.landiannews.com/static/api/css/share.css"
+        }]
+    }
+    with (document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "//www.landiannews.com/static/api/js/share.js?cdnversion=" + ~(-new Date() / 36e5)];</script>
+</script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             Chasing the unknown 
+        </p>
+        <p class="contact">
+            联系我 
+            <a href="https://github.com/chamwen" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:wenzn9@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+    </div>
+</footer>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

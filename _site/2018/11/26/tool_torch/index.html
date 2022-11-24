@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Pytorch 学习笔记</title>
+    <meta name="description" content="关于 pytorch 基础语法的学习笔记，时间 Nov. 26 – Nov. 27.">
+
+    <link rel="shortcut icon" href="/me.ico?" type="image/x-icon">
+    <link rel="icon" href="/me.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+	<link rel="stylesheet" href="/css/syntax.css">
+    <link rel="canonical" href="https://www.chamwen.github.io/2018/11/26/tool_torch/">
+    <link rel="alternate" type="application/rss+xml" title="Cham's Blog" href="https://www.chamwen.github.io/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6c42715c371f7f46f5b2b6f9b17370ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+    <script>
+    // google analytics
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-148378835-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/index.html" class="brand">Cham's Blog</a>
+        <small>Algorithm, skill and thinking</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/index.html">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archives/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/categories/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tags/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collections/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+		<style>
+		  table{
+			border-left:1px solid #000000;border-top:1px solid #000000;
+			width: 100%;
+			word-wrap:break-word; word-break:break-all;
+		  }
+		  table th{
+		  text-align:center;
+		  }
+		  table th,td{
+			border-right:1px solid #000000;border-bottom:1px solid #000000;
+		  }
+		</style>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>Pytorch 学习笔记</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2018-11-26
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#实用工具" title="Category: 实用工具" rel="category">实用工具</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#torch" title="Tag: torch" rel="tag">torch</a-->
+        <a href="/tag/#torch" title="Tag: torch" rel="tag">torch</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <ul id="markdown-toc">
+  <li><a href="#张量创建和随机采样" id="markdown-toc-张量创建和随机采样">张量创建和随机采样</a></li>
+  <li><a href="#张量的拼接和select" id="markdown-toc-张量的拼接和select">张量的拼接和select</a></li>
+  <li><a href="#pointwise-ops-逐点操作" id="markdown-toc-pointwise-ops-逐点操作">Pointwise Ops (逐点操作)</a></li>
+  <li><a href="#reduction-ops-归约操作" id="markdown-toc-reduction-ops-归约操作">Reduction Ops (归约操作)</a></li>
+  <li><a href="#comparison-ops-比较操作" id="markdown-toc-comparison-ops-比较操作">Comparison Ops (比较操作)</a></li>
+  <li><a href="#other-operations-其它操作" id="markdown-toc-other-operations-其它操作">Other Operations (其它操作)</a></li>
+</ul>
+<p>关于 pytorch 基础语法的学习笔记，时间 Nov. 26 – Nov. 27.  <!--more--></p>
+
+<p>参考：<a href="https://pytorch-cn.readthedocs.io/zh/latest/">PyTorch中文文档</a></p>
+
+<h3 id="张量创建和随机采样">张量创建和随机采样</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="n">tr</span><span class="p">.</span><span class="n">FloatTensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span> <span class="c1"># 从list构建张量
+</span><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>  <span class="c1"># tensor的索引
+</span><span class="n">b</span> <span class="o">=</span> <span class="n">tr</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># tensor中这种形式是行向量，没有转置
+</span><span class="n">c</span> <span class="o">=</span> <span class="n">tr</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">tr</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># 返回4个从标准正态分布中随机选取的张量
+</span><span class="n">tr</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 返回3*2个从标准正态分布中随机选取的张量
+</span><span class="n">tr</span><span class="p">.</span><span class="n">randperm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>  <span class="c1"># 返回一个从 0 to n-1 的整数的随机排列
+</span><span class="n">y</span><span class="p">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># 将x中的元素复制到y中并返回y; 两个tensor应该有相同shape
+</span></code></pre></div></div>
+
+<h3 id="张量的拼接和select">张量的拼接和select</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tr</span><span class="p">.</span><span class="n">cat</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># x，y是tensor，0表示行方向叠加类似于[x;y]
+</span><span class="n">indices</span> <span class="o">=</span> <span class="n">tr</span><span class="p">.</span><span class="n">LongTensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">tr</span><span class="p">.</span><span class="n">index_select</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">indices</span><span class="p">)</span>  <span class="c1"># 列方向上选第0和2列，返回的张量和原张量不共享内存空间
+</span><span class="n">src</span> <span class="o">=</span> <span class="n">tr</span><span class="p">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]])</span>
+<span class="n">tr</span><span class="p">.</span><span class="n">take</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">LongTensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">]))</span>  <span class="c1"># 选出指定位置元素4,5,8
+</span><span class="n">tr</span><span class="p">.</span><span class="n">t</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>  <span class="c1"># 张量转置
+</span><span class="n">tr</span><span class="p">.</span><span class="n">unbind</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># 移除张量的第1维
+</span><span class="n">src</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 将一个多行的tensor拼接成一行
+</span></code></pre></div></div>
+
+<h3 id="pointwise-ops-逐点操作">Pointwise Ops (逐点操作)</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tr</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># 张量a逐元素加上10
+</span><span class="n">b</span><span class="p">.</span><span class="n">add_</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>  <span class="c1"># b+a --&gt; b，结果覆盖b
+</span><span class="n">a</span> <span class="o">=</span> <span class="n">tr</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">tr</span><span class="p">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>  <span class="c1"># 向上取整
+</span><span class="n">tr</span><span class="p">.</span><span class="n">mul</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>  <span class="c1"># a和b逐元素相乘，不要求size格式一样，和a*b一样
+</span><span class="n">tr</span><span class="p">.</span><span class="n">mm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>  <span class="c1"># 真正的矩阵叉乘
+</span></code></pre></div></div>
+
+<h3 id="reduction-ops-归约操作">Reduction Ops (归约操作)</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tr</span><span class="p">.</span><span class="n">cumrod</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># 累积求积
+</span><span class="n">tr</span><span class="p">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># 累积求和
+</span><span class="n">tr</span><span class="p">.</span><span class="n">dist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>  <span class="c1"># x和y的p范数
+</span><span class="n">tr</span><span class="p">.</span><span class="n">median</span><span class="p">()</span>  <span class="c1"># 计算中位数
+</span><span class="n">tr</span><span class="p">.</span><span class="n">var</span><span class="p">()</span>  <span class="c1"># 计算方差，tr.std()标准差
+</span></code></pre></div></div>
+
+<h3 id="comparison-ops-比较操作">Comparison Ops (比较操作)</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tr</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>  <span class="c1"># 整体判断a=b
+</span><span class="n">tr</span><span class="p">.</span><span class="n">ge</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>  <span class="c1"># 逐元素判断a=b，反之tr.ne(a, b)
+</span><span class="n">tr</span><span class="p">.</span><span class="n">gt</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>  <span class="c1"># 逐元素判断a&gt;b，反之tr.le(a, b)，tr.lt(a,b)
+</span><span class="nb">sorted</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># 沿着x的最后一维的方向（2维则是沿着列变化的方向）
+</span></code></pre></div></div>
+
+<h3 id="other-operations-其它操作">Other Operations (其它操作)</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tr</span><span class="p">.</span><span class="n">tril</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>  <span class="c1"># 获得a的下三角（上三角置0），反之tr.triu()
+</span><span class="n">tr</span><span class="p">.</span><span class="n">addmm</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">mat1</span><span class="p">,</span> <span class="n">mat2</span><span class="p">)</span>  <span class="c1"># mat1 和 mat2 的相乘，再加上M
+</span><span class="n">tr</span><span class="p">.</span><span class="n">addmv</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">mat</span><span class="p">,</span> <span class="n">vec</span><span class="p">)</span>  <span class="c1"># 矩阵 mat 和向量 vec 的相乘，再加上M
+</span><span class="n">tr</span><span class="p">.</span><span class="n">addr</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">vec1</span><span class="p">,</span> <span class="n">vec2</span><span class="p">)</span>  <span class="c1"># 向量 vec11 和向量 vec2 的相乘，再加上M
+</span><span class="n">tr</span><span class="p">.</span><span class="n">bmm</span><span class="p">(</span><span class="n">batch1</span><span class="p">,</span> <span class="n">batch2</span><span class="p">)</span>  <span class="c1"># 执行保存在 batch1 和 batch2 中的矩阵的批量点乘
+</span><span class="n">tr</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">tensor1</span><span class="p">,</span> <span class="n">tensor2</span><span class="p">)</span>  <span class="c1"># 向量之间的点积求和
+</span><span class="n">tr</span><span class="p">.</span><span class="n">eig</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>  <span class="c1"># 特征值分解
+</span><span class="n">tr</span><span class="p">.</span><span class="n">inverse</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>  <span class="c1"># 求逆
+</span><span class="n">tr</span><span class="p">.</span><span class="n">mm</span><span class="p">()</span>  <span class="c1"># 矩阵和矩阵相乘，对应tr.mv()矩阵和向量
+</span></code></pre></div></div>
+
+        </article>
+        <hr>
+        <!-- <span class="bds_txt"> 分享到：</span>
+        <div class="bdsharebuttonbox">
+                <a href="#" class="bds_more" data-cmd="more"></a>
+                <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到 QQ 空间"></a>
+                <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到 QQ 好友"></a>
+                <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+                <a href="#" class="bds_twi" data-cmd="twi" title="分享到 Twitter"></a>
+                <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到 Facebook"></a>
+                <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+                <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                <a href="#" class="bds_kaixin001" data-cmd="kaixin001" title="分享到开心网"></a>
+                <a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a>
+            </div> -->
+        <hr>
+
+        
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2018/10/04/read_wd1/">Walden--Economy I</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2018/12/01/ML_bayes/">贝叶斯估计学习笔记</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+		<!-- Gitalk start -->
+		<div id="gitalk-container"></div> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+		<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+		<script>
+		  var title = location.pathname.substr(0, 50);
+		  var gitalk  = new Gitalk ({
+			clientID: '71066430f842c7a01401',
+			clientSecret: '9565351139680b09ab34112f5443edaf664724b4',
+			repo: 'blog-comments',
+			owner: 'chamwen',
+			admin: ['chamwen'],
+			id: title,
+			distractionFreeMode: true  // Facebook-like distraction free mode
+			})
+			gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk end -->
+		
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+<script>
+    window._bd_share_config = {
+        common: { "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" },
+        share: [{
+            bdCustomStyle: "//www.landiannews.com/static/api/css/share.css"
+        }]
+    }
+    with (document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "//www.landiannews.com/static/api/js/share.js?cdnversion=" + ~(-new Date() / 36e5)];</script>
+</script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             Chasing the unknown 
+        </p>
+        <p class="contact">
+            联系我 
+            <a href="https://github.com/chamwen" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:wenzn9@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+    </div>
+</footer>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

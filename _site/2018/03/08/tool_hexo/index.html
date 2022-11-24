@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>用Hexo搭建blog小记</title>
+    <meta name="description" content="  本博客创建过程主要源于网上各种教程，为了方便查看和回馈分享精神，记录一下。考虑到安装过程细节较多，部分过程可参考链接。">
+
+    <link rel="shortcut icon" href="/me.ico?" type="image/x-icon">
+    <link rel="icon" href="/me.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+	<link rel="stylesheet" href="/css/syntax.css">
+    <link rel="canonical" href="https://www.chamwen.github.io/2018/03/08/tool_hexo/">
+    <link rel="alternate" type="application/rss+xml" title="Cham's Blog" href="https://www.chamwen.github.io/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6c42715c371f7f46f5b2b6f9b17370ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+    <script>
+    // google analytics
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-148378835-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/index.html" class="brand">Cham's Blog</a>
+        <small>Algorithm, skill and thinking</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/index.html">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archives/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/categories/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tags/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collections/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+		<style>
+		  table{
+			border-left:1px solid #000000;border-top:1px solid #000000;
+			width: 100%;
+			word-wrap:break-word; word-break:break-all;
+		  }
+		  table th{
+		  text-align:center;
+		  }
+		  table th,td{
+			border-right:1px solid #000000;border-bottom:1px solid #000000;
+		  }
+		</style>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>用Hexo搭建blog小记</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2018-03-08
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#实用工具" title="Category: 实用工具" rel="category">实用工具</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#Hexo" title="Tag: Hexo" rel="tag">Hexo</a-->
+        <a href="/tag/#Hexo" title="Tag: Hexo" rel="tag">Hexo</a>&nbsp;
+    
+        <!--a href="/tag/#blog" title="Tag: blog" rel="tag">blog</a-->
+        <a href="/tag/#blog" title="Tag: blog" rel="tag">blog</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <ul id="markdown-toc">
+  <li><a href="#准备工作" id="markdown-toc-准备工作">准备工作</a>    <ul>
+      <li><a href="#用-hexo-和-github-pages-初步搭建博客" id="markdown-toc-用-hexo-和-github-pages-初步搭建博客">用 Hexo 和 GitHub Pages 初步搭建博客</a></li>
+      <li><a href="#主要步骤" id="markdown-toc-主要步骤">主要步骤</a></li>
+    </ul>
+  </li>
+  <li><a href="#常见bugs" id="markdown-toc-常见bugs">常见BUGs</a></li>
+  <li><a href="#hexo-的-next-主题优化" id="markdown-toc-hexo-的-next-主题优化">Hexo 的 Next 主题优化</a>    <ul>
+      <li><a href="#推荐参考" id="markdown-toc-推荐参考">推荐参考</a></li>
+      <li><a href="#注意事项" id="markdown-toc-注意事项">注意事项</a></li>
+    </ul>
+  </li>
+  <li><a href="#清空提交历史" id="markdown-toc-清空提交历史">清空提交历史</a></li>
+</ul>
+
+<p>  本博客创建过程主要源于网上各种教程，为了方便查看和回馈分享精神，记录一下。考虑到安装过程细节较多，部分过程可参考链接。 <!--more--></p>
+
+<h3 id="准备工作">准备工作</h3>
+
+<p>  搭建一个博客，至少需要一个 Github 账号，懂一些 Git 的语法。搭建博客的目的之于我是记录和思考，因此只要核心功能。</p>
+<h4 id="用-hexo-和-github-pages-初步搭建博客">用 Hexo 和 GitHub Pages 初步搭建博客</h4>
+
+<h4 id="主要步骤">主要步骤</h4>
+
+<p><strong>1.在Github上创建以yourname.github.io为名的repository</strong>。现在它还是空的，之后会向其中上传一些静态网页文件，Github Pages 就会将里面的信息自动生成一个网页，你就可以通过<code class="language-plaintext highlighter-rouge">www.yourname.github.io</code>访问了。</p>
+
+<p><strong>2.在本地创建一个文件夹，如G: /blog</strong>，里面需要安装博客相关的一些库以及博客资源文件。</p>
+
+<p><strong>3.初始化处理。</strong>
+1) 使用 Hexo 之前，需要先安装 Node.js。推荐安装方法 <a href="http://www.webhek.com/post/upgrade-node-js-via-n.html">n工具安装最新node</a>，注意安装指令是 <code class="language-plaintext highlighter-rouge">sudo n lts</code>
+2) 安装hexo框架</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 主要命令，在blog文件夹内部打开 git bash</span>
+npm <span class="nb">install</span> <span class="nt">-g</span> hexo-cli <span class="c"># 中断则多试几次</span>
+hexo init
+npm <span class="nb">install </span>hexo-deployer-git <span class="nt">--save</span>
+<span class="c"># 至此基本可以上传了，若出问题需要注意文件结构，和标准的是否一样</span>
+</code></pre></div></div>
+
+<p><strong>4.将本地 Hexo 博客自动部署到 Github 。</strong>首先修改主配置文件_config.yml</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>deploy:
+    <span class="nb">type</span>: git
+    repository: https://github.com/chamwen/chamwen.github.io.git
+    branch: master
+</code></pre></div></div>
+
+<p>常用的博客创建、生成、预览、部署的简化指令如下</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hx n <span class="nb">test </span>在_post目录下生成test.md文件
+hx cl 清空缓存
+hx g <span class="nt">-s</span> 生成并预览
+hexo d 上传
+</code></pre></div></div>
+
+<p><strong>5.关于添加NEXT主题 。</strong>使用下面的命令下载最新的主题文件到themes文件下。完成后修改主配置文件，把 Hexo 默认的 lanscape 修改成 next，即 <code class="language-plaintext highlighter-rouge">theme: next</code>
+<code class="language-plaintext highlighter-rouge">git clone https://github.com/theme-next/hexo-theme-next themes/next</code></p>
+
+<h3 id="常见bugs">常见BUGs</h3>
+
+<p>Hexo 框架本身是用 markdown 的语言来写博客，但是很多坑就在这个框架里。
+1）Hexo 渲染 MathJax 数学公式，安装 kramed，还需要更正的参考 node_modules\kramed\lib\rules\inline.js</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm uninstall hexo-renderer-marked <span class="nt">--save</span>  <span class="c"># 很多bug</span>
+<span class="nv">$ </span>npm <span class="nb">install </span>hexo-renderer-kramed <span class="nt">--save</span>
+</code></pre></div></div>
+
+<p>2）markdown 的对段落格式的支持，多段落居中显示，用<code class="language-plaintext highlighter-rouge">&lt;p align="center"&gt; xxx &lt;/p&gt;</code>, 居中的段落中的换行，加粗语法需要用 html 格式的，换行 <code class="language-plaintext highlighter-rouge">&lt;br&gt;</code>，加粗用 <code class="language-plaintext highlighter-rouge">&lt;b&gt;xxx&lt;/b&gt;</code>
+3）单引号渲染异常，确保已经安装 <code class="language-plaintext highlighter-rouge">hexo-renderer-marked</code>，然后主配置文件添加：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kramed:
+  smartypants: false
+</code></pre></div></div>
+
+<p>4）分页显示符号问题，<code class="language-plaintext highlighter-rouge">&lt;i class "fa fa-angle-right"&gt;&lt;/i&gt;</code>，参考<a href="https://blog.csdn.net/lihangll/article/details/103335246">分页显示</a>
+5）tags、about等显示404，去除 next配置文件中 || 前的空格</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>menu:
+  home: /|| home
+  categories: /categories/|| th
+</code></pre></div></div>
+
+<p>6）Hexo对流程图等的支持</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">--save</span> hexo-filter-mermaid-diagrams
+npm <span class="nb">install</span> <span class="nt">--save</span> hexo-filter-flowchart
+npm <span class="nb">install</span> <span class="nt">--save</span> hexo-filter-sequence
+</code></pre></div></div>
+
+<p>7）Hexo 搜索SEO优化，需要安装</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>hexo-generator-sitemap <span class="nt">--save</span>
+npm <span class="nb">install </span>hexo-generator-baidu-sitemap <span class="nt">--save</span>
+</code></pre></div></div>
+
+<p>8）预览博客的端口修改
+node_modules\hexo-server\index.js 文件中的 4000 改成 5000
+9）侧边栏post链接跳转异常
+出现 404，网址为 archives/%7C%7C%20archive，解决办法，NEXT 配置文件中</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>archives: /archives/ || archive
+# 改为：
+archives: /archives
+</code></pre></div></div>
+
+<h3 id="hexo-的-next-主题优化">Hexo 的 Next 主题优化</h3>
+
+<h4 id="推荐参考">推荐参考</h4>
+<p>1.<a href="https://zhuanlan.zhihu.com/p/33616481">Hexo搭建的GitHub博客之优化大全</a>
+2.<a href="https://zhuanlan.zhihu.com/p/30836436">Hexo+Next主题优化</a></p>
+
+<h4 id="注意事项">注意事项</h4>
+
+<p><strong>1.隐藏网页底部 powered By Hexo / 强力驱动</strong></p>
+
+<p>找到 \themes\next\layout_partials\下面的 footer.swig 文件，删掉：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;div <span class="nv">class</span><span class="o">=</span><span class="s2">"powered-by"</span><span class="o">&gt;</span>
+  ...
+&lt;/div&gt;
+&lt;div <span class="nv">class</span><span class="o">=</span><span class="s2">"theme-info"</span><span class="o">&gt;</span>
+  ...
+&lt;/div&gt;
+</code></pre></div></div>
+
+<p><strong>2.标题和头像下面添加签名，打开博客的主配置文件</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Site
+title: cham #最上面的网站标题
+subtitle: writing and thinking #网站标题对应的签名
+description: Sharing brings happiness and inspiration #头像对应的签名
+author: Chamwen #个人昵称和网站版权者
+language:
+timezone:
+</code></pre></div></div>
+
+<p><strong>3.关于添加访问统计</strong>，在主题配置文件下，enable 和 post_views 改为 true，其他 false，效果是每篇文章有访问统计，整体不设置。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>busuanzi_count:
+  enable: true
+  total_visitors: false
+  total_visitors_icon: user
+  total_views: false
+  total_views_icon: eye
+  post_views: true
+  post_views_icon: eye
+</code></pre></div></div>
+
+<p><strong>4.添加 Gitalk 评论系统</strong>
+  请参考<a href="https://sirjamie.github.io/2020/06/01/Gitalk/">给Blog增加Gitalk评论功能</a>，一开始使用的是Gitment，没想到作者的服务器挂了，目前比较好用而且方便的是 gitalk。</p>
+
+<p><strong>5.添加 clustrmaps 访客地图统计</strong>
+注意添加位置，/themes/next/layout/_macro/sidebar.swig 文件下，放在 <code class="language-plaintext highlighter-rouge">if theme.sidebar.b2t </code> 前一行，可以实现地图置于侧边栏 overview 最下面，而且间距正常。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;div style="padding: 10px auto; margin: 20px 0px -35px 0px; text-align: center;"&gt;
+    &lt;script type='text/javascript' id='clustrmaps' src='//cdn.clustrmaps.com/map_v2.js?cl=5e698f&amp;w=200&amp;t=n&amp;d=myZNQuDZ_-n9DjtDK7VW2as1MVfNco0mzscqst-pExo&amp;co=e4eaf5&amp;ct=523e3e'&gt;&lt;/script&gt;
+  &lt;/div&gt;
+
+{if theme.sidebar.b2t}
+</code></pre></div></div>
+
+<h3 id="清空提交历史">清空提交历史</h3>
+
+<p>删除本地 .deploy_git 文件夹，先 <code class="language-plaintext highlighter-rouge">hexo cl</code>，再 <code class="language-plaintext highlighter-rouge">hexo d</code>，如果出现问题，把 github 上的仓库清了重新创建一个，然后再上传。</p>
+
+        </article>
+        <hr>
+        <!-- <span class="bds_txt"> 分享到：</span>
+        <div class="bdsharebuttonbox">
+                <a href="#" class="bds_more" data-cmd="more"></a>
+                <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到 QQ 空间"></a>
+                <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到 QQ 好友"></a>
+                <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+                <a href="#" class="bds_twi" data-cmd="twi" title="分享到 Twitter"></a>
+                <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到 Facebook"></a>
+                <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+                <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                <a href="#" class="bds_kaixin001" data-cmd="kaixin001" title="分享到开心网"></a>
+                <a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a>
+            </div> -->
+        <hr>
+
+        
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2018/08/08/ML_model/">关于生成模型和判别模型</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+		<!-- Gitalk start -->
+		<div id="gitalk-container"></div> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+		<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+		<script>
+		  var title = location.pathname.substr(0, 50);
+		  var gitalk  = new Gitalk ({
+			clientID: '71066430f842c7a01401',
+			clientSecret: '9565351139680b09ab34112f5443edaf664724b4',
+			repo: 'blog-comments',
+			owner: 'chamwen',
+			admin: ['chamwen'],
+			id: title,
+			distractionFreeMode: true  // Facebook-like distraction free mode
+			})
+			gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk end -->
+		
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+<script>
+    window._bd_share_config = {
+        common: { "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" },
+        share: [{
+            bdCustomStyle: "//www.landiannews.com/static/api/css/share.css"
+        }]
+    }
+    with (document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "//www.landiannews.com/static/api/js/share.js?cdnversion=" + ~(-new Date() / 36e5)];</script>
+</script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             Chasing the unknown 
+        </p>
+        <p class="contact">
+            联系我 
+            <a href="https://github.com/chamwen" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:wenzn9@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+    </div>
+</footer>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>迁移学习中的联合概率判别MMD度量</title>
+    <meta name="description" content="在数据驱动的机器学习时代，构建泛化能力强的模型需要大量规范、带标注的数据，而数据打标往往代价昂贵且费时，因此对已有的数据和模型进行重用很有必要。传统的机器学习假设这些数据服从相同分布，不再成立。迁移学习 (Transfer Learning) 可以基于不同分布的源域数据进行知识迁移，实现对目标域数据的标定。著名学...">
+
+    <link rel="shortcut icon" href="/me.ico?" type="image/x-icon">
+    <link rel="icon" href="/me.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+	<link rel="stylesheet" href="/css/syntax.css">
+    <link rel="canonical" href="https://www.chamwen.github.io/2020/04/11/TL_JPDA/">
+    <link rel="alternate" type="application/rss+xml" title="Cham's Blog" href="https://www.chamwen.github.io/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6c42715c371f7f46f5b2b6f9b17370ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+    <script>
+    // google analytics
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-148378835-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/index.html" class="brand">Cham's Blog</a>
+        <small>Algorithm, skill and thinking</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/index.html">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archives/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/categories/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tags/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collections/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+		<style>
+		  table{
+			border-left:1px solid #000000;border-top:1px solid #000000;
+			width: 100%;
+			word-wrap:break-word; word-break:break-all;
+		  }
+		  table th{
+		  text-align:center;
+		  }
+		  table th,td{
+			border-right:1px solid #000000;border-bottom:1px solid #000000;
+		  }
+		</style>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>迁移学习中的联合概率判别MMD度量</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2020-04-11
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#论文报告" title="Category: 论文报告" rel="category">论文报告</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#transfer" title="Tag: transfer" rel="tag">transfer</a-->
+        <a href="/tag/#transfer" title="Tag: transfer" rel="tag">transfer</a>&nbsp;
+    
+        <!--a href="/tag/#MMD" title="Tag: MMD" rel="tag">MMD</a-->
+        <a href="/tag/#MMD" title="Tag: MMD" rel="tag">MMD</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <ul id="markdown-toc">
+  <li><a href="#研究背景" id="markdown-toc-研究背景">研究背景</a></li>
+  <li><a href="#科学问题" id="markdown-toc-科学问题">科学问题</a></li>
+  <li><a href="#实验结果" id="markdown-toc-实验结果">实验结果</a></li>
+  <li><a href="#相关信息" id="markdown-toc-相关信息">相关信息</a></li>
+</ul>
+<p>在数据驱动的机器学习时代，构建泛化能力强的模型需要大量规范、带标注的数据，而数据打标往往代价昂贵且费时，因此对已有的数据和模型进行重用很有必要。传统的机器学习假设这些数据服从相同分布，不再成立。迁移学习 (Transfer Learning) 可以基于不同分布的源域数据进行知识迁移，实现对目标域数据的标定。著名学者吴恩达在 NIPS 2016 的 Tutorial 上曾表示：“在监督学习之后，迁移学习将引领下一波机器学习技术商业化浪潮”。 <!--more--></p>
+
+<h2 id="研究背景">研究背景</h2>
+
+<p>迁移学习目前主要考虑源域和目标域存在的四种情况：不同的特征空间、标签空间、边际概率分布以及条件概率分布。其中大部分研究关注于相同特征空间和标签空间下的概率分布不一致问题。主要的方法有，基于样本加权、特征变换、模型参数和相互关系的迁移，而基于特征变换的迁移对数据的先验假设最弱，是目前研究较多的方向。特征变换迁移学习主要关注最小化不同域的概率分布差异，最大均值差异 (Maximum Mean Discrepancy, MMD) 是其中最常用的分布差异度量。</p>
+
+<h2 id="科学问题">科学问题</h2>
+
+<p>传统 MMD 度量为边际概率 MMD 和条件概率 MMD 的求和 (joint MMD) 或者加权 (balanced MMD)，本文提出了一种基于联合概率的判别 MMD 度量 (DJP-MMD)，其主要优点为：</p>
+
+<ol>
+  <li>相比于边际概率与条件概率加权的形式，其估计分布差异理论基础更加合理；</li>
+  <li>在特征变换过程中兼顾了迁移性和判别性的提高。</li>
+</ol>
+
+<p>基于联合概率的判别 MMD 度量和传统 MMD 度量的主要区别如下图。传统 MMD (以 joint MMD 为代表) 假设不同域的边际和条件概率分布不同，主要关注最小化不同域的边际概率 MMD 差异，以及不同域同一类的条件概率 MMD 差异，仅仅考虑了迁移性。而联合概率判别 MMD 度量 (DJP-MMD) 的假设是不同域的联合概率分布不同，通过对联合概率公式的分解，最小化不同域同类别的联合概率分布差异，以及最大化不同类别间的差异，以实现对传统 MMD 度量的改进。</p>
+
+<div align="center">
+<img src="\images\Transfer_learning\JPDA_overview.png" width="50%" height="50%" alt="overview" />
+</div>
+
+<h2 id="实验结果">实验结果</h2>
+
+<p>为了验证 DJP-MMD 的效果，我们采用了将 DJP-MMD 和最常见的几种基于MMD的迁移学习 TCA、JDA、BDA 共同采用的框架 (正则项加 PCA 约束项) 融合，并将其命名为 joint probability domain adaptation (JPDA)。我们在 6 个图像识别数据集上面验证了 JPDA 的性能，JPDA 的表现几乎总是优于 JDA 或者 BDA。下图展示了在人脸识别数据集 Multi-PIE 数据集上，随着迭代次数的增加，MMD 距离和 Acc 变换的曲线，可以看出，DJP-MMD 确实进一步减小了分布差异，并提高了迁移学习的性能。</p>
+
+<div align="center">
+<img src="\images\Transfer_learning\JPDA_mmd_acc.png" width="50%" height="50%" alt="mmd_acc" />
+</div>
+
+<p>我们也进行了一些时间复杂度测试以及分割实验，结果表明 DJP-MMD 在 JPDA 框架中时间复杂度相对更低，且基于联合概率的度量的效果优于基于边际和条件的度量。目前该工作还需要在更复杂的框架，比如深度迁移学习中验证其有效性。</p>
+
+<h2 id="相关信息">相关信息</h2>
+
+<p>本工作由华中科技大学人工智能与自动化学院博士生张稳和伍冬睿教授共同完成，发表在 IJCNN 2020。</p>
+
+<p><strong>Wen Zhang</strong>, Dongrui Wu. “Discriminative Joint Probability Maximum Mean Discrepancy (DJP-MMD) for Domain Adaptation”, Int’l Joint Conf. on Neural Networks (<strong>IJCNN</strong>), Glasgow, UK, 2020.</p>
+
+<p>Paper: <a href="https://arxiv.org/abs/1912.00320">https://arxiv.org/abs/1912.00320</a></p>
+
+<p>code: <a href="https://github.com/chamwen/JPDA">https://github.com/chamwen/JPDA</a></p>
+
+
+        </article>
+        <hr>
+        <!-- <span class="bds_txt"> 分享到：</span>
+        <div class="bdsharebuttonbox">
+                <a href="#" class="bds_more" data-cmd="more"></a>
+                <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到 QQ 空间"></a>
+                <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到 QQ 好友"></a>
+                <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+                <a href="#" class="bds_twi" data-cmd="twi" title="分享到 Twitter"></a>
+                <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到 Facebook"></a>
+                <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+                <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                <a href="#" class="bds_kaixin001" data-cmd="kaixin001" title="分享到开心网"></a>
+                <a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a>
+            </div> -->
+        <hr>
+
+        
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2020/04/02/ML_note2/">机器学习中的分布差异度量方法</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2020/04/13/ML_svm/">支持向量机（SVM）笔记</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+		<!-- Gitalk start -->
+		<div id="gitalk-container"></div> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+		<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+		<script>
+		  var title = location.pathname.substr(0, 50);
+		  var gitalk  = new Gitalk ({
+			clientID: '71066430f842c7a01401',
+			clientSecret: '9565351139680b09ab34112f5443edaf664724b4',
+			repo: 'blog-comments',
+			owner: 'chamwen',
+			admin: ['chamwen'],
+			id: title,
+			distractionFreeMode: true  // Facebook-like distraction free mode
+			})
+			gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk end -->
+		
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+<script>
+    window._bd_share_config = {
+        common: { "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" },
+        share: [{
+            bdCustomStyle: "//www.landiannews.com/static/api/css/share.css"
+        }]
+    }
+    with (document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "//www.landiannews.com/static/api/js/share.js?cdnversion=" + ~(-new Date() / 36e5)];</script>
+</script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             Chasing the unknown 
+        </p>
+        <p class="contact">
+            联系我 
+            <a href="https://github.com/chamwen" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:wenzn9@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+    </div>
+</footer>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

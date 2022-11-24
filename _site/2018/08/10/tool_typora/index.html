@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>使用Typora编写Markdown笔记</title>
+    <meta name="description" content="在windows下发现一个很棒的markdown编辑器，尝试了一些基础功能，还发现了一些hexo渲染的问题，特记录一下。">
+
+    <link rel="shortcut icon" href="/me.ico?" type="image/x-icon">
+    <link rel="icon" href="/me.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+	<link rel="stylesheet" href="/css/syntax.css">
+    <link rel="canonical" href="https://www.chamwen.github.io/2018/08/10/tool_typora/">
+    <link rel="alternate" type="application/rss+xml" title="Cham's Blog" href="https://www.chamwen.github.io/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6c42715c371f7f46f5b2b6f9b17370ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+    <script>
+    // google analytics
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-148378835-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    tex2jax: { inlineMath: [["$","$"],["\\(","\\)"]] },
+    "HTML-CSS": {
+      linebreaks: { automatic: true, width: "container" }
+    }
+});
+</script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/index.html" class="brand">Cham's Blog</a>
+        <small>Algorithm, skill and thinking</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/index.html">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archives/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/categories/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tags/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collections/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+		<style>
+		  table{
+			border-left:1px solid #000000;border-top:1px solid #000000;
+			width: 100%;
+			word-wrap:break-word; word-break:break-all;
+		  }
+		  table th{
+		  text-align:center;
+		  }
+		  table th,td{
+			border-right:1px solid #000000;border-bottom:1px solid #000000;
+		  }
+		</style>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>使用Typora编写Markdown笔记</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2018-08-10
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#实用工具" title="Category: 实用工具" rel="category">实用工具</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#latex" title="Tag: latex" rel="tag">latex</a-->
+        <a href="/tag/#latex" title="Tag: latex" rel="tag">latex</a>&nbsp;
+    
+        <!--a href="/tag/#typora" title="Tag: typora" rel="tag">typora</a-->
+        <a href="/tag/#typora" title="Tag: typora" rel="tag">typora</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <ul id="markdown-toc">
+  <li><a href="#插入图片" id="markdown-toc-插入图片">插入图片</a>    <ul>
+      <li><a href="#插入本地图片" id="markdown-toc-插入本地图片">插入本地图片</a></li>
+      <li><a href="#插入在线图片" id="markdown-toc-插入在线图片">插入在线图片</a></li>
+      <li><a href="#那么怎么调整图片大小呢" id="markdown-toc-那么怎么调整图片大小呢">那么怎么调整图片大小呢？</a></li>
+    </ul>
+  </li>
+  <li><a href="#插入代码-输入3个和一个空格" id="markdown-toc-插入代码-输入3个和一个空格">插入代码 输入3个`和一个空格</a></li>
+  <li><a href="#输入-3个按回车即可实时插入表格或者按ctrlt" id="markdown-toc-输入-3个按回车即可实时插入表格或者按ctrlt">输入‘| ’3个按回车即可实时插入表格（或者按Ctrl+T）</a></li>
+  <li><a href="#插入网址ctrlk" id="markdown-toc-插入网址ctrlk">插入网址：Ctrl+K</a></li>
+  <li><a href="#插入引用" id="markdown-toc-插入引用">插入引用</a></li>
+  <li><a href="#插入流程图" id="markdown-toc-插入流程图">插入流程图</a>    <ul>
+      <li><a href="#普通流程图mermaid" id="markdown-toc-普通流程图mermaid">普通流程图mermaid</a></li>
+      <li><a href="#标准流程图" id="markdown-toc-标准流程图">标准流程图</a></li>
+    </ul>
+  </li>
+  <li><a href="#输入数学公式" id="markdown-toc-输入数学公式">输入数学公式</a></li>
+</ul>
+<p>在windows下发现一个很棒的markdown编辑器，尝试了一些基础功能，还发现了一些hexo渲染的问题，特记录一下。 <!--more--></p>
+
+<h3 id="插入图片">插入图片</h3>
+
+<h4 id="插入本地图片">插入本地图片</h4>
+
+<p>插入的图片资源都要放在\source\images目录下面，本地的图片直接上传的话，大小要自己调整，格式<code class="language-plaintext highlighter-rouge">![caption](\images\hexo_blog\typora_oil4.png)</code></p>
+
+<p style="text-align: center"><img src="\images\hexo_blog\typora_oil4.png" alt="oil4" /></p>
+
+<p>针对 HEXO 博客来说可以使用 <code class="language-plaintext highlighter-rouge">img</code> 标签实现缩放</p>
+
+<p><code class="language-plaintext highlighter-rouge">&lt;img src="\images\xxx.jpg"  width="50%" height="50%" alt="caption" align=center /&gt;</code></p>
+
+<h4 id="插入在线图片">插入在线图片</h4>
+
+<p>格式<code class="language-plaintext highlighter-rouge">&lt;img src="http://s4.music.126.net/style/web2/img/default/default_avatar.jpg?param=50y50" style="zoom:50%" /&gt;</code></p>
+
+<div align="center">
+<img src="http://s4.music.126.net/style/web2/img/default/default_avatar.jpg?param=50y50" style="zoom:50%" />
+</div>
+
+<h4 id="那么怎么调整图片大小呢">那么怎么调整图片大小呢？</h4>
+
+<p>可以考虑设置主题整体缩放50%，或者将图片转换成在线图片之后修改img的属性</p>
+
+<h3 id="插入代码-输入3个和一个空格">插入代码 输入3个`和一个空格</h3>
+
+<p>这个是行间代码输入<code class="language-plaintext highlighter-rouge">print</code></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">guassian_kernel</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="p">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="n">target</span><span class="p">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">([</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="输入-3个按回车即可实时插入表格或者按ctrlt">输入‘| ’3个按回车即可实时插入表格（或者按Ctrl+T）</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">1</th>
+      <th style="text-align: center">2</th>
+      <th style="text-align: center">3</th>
+      <th style="text-align: center">3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">2</td>
+      <td style="text-align: center">3</td>
+      <td style="text-align: center">7</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="插入网址ctrlk">插入网址：Ctrl+K</h3>
+
+<p><a href="https://github.com/chamwen/Transfer-learning-trends">Trends of transfer learning</a></p>
+
+<h3 id="插入引用">插入引用</h3>
+
+<blockquote>
+  <p>balabala</p>
+
+  <blockquote>
+    <p>输入&gt;和一个空格，进入引用模式</p>
+
+    <blockquote>
+      <p>按两次回车退出引用</p>
+    </blockquote>
+  </blockquote>
+</blockquote>
+
+<h3 id="插入流程图">插入流程图</h3>
+
+<p>和插入代码原理一样，不过得选择语言；类型有mermaid、flow，首先安装插件</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install --save hexo-filter-mermaid-diagrams
+npm install --save hexo-filter-flowchart
+npm install --save hexo-filter-sequence
+</code></pre></div></div>
+<p>这里具体还有一些操作参考 <a href="https://www.liuyude.com/How_to_make_your_HEXO_blog_support_handwriting_flowchart.html">HEXO支持流程图</a>，需要注意的是 mermaid 安装时如果用 npm 的话要加 <code class="language-plaintext highlighter-rouge">--save</code></p>
+
+<h4 id="普通流程图mermaid">普通流程图mermaid</h4>
+
+<pre><code class="language-mermaid">graph LR
+A[方形] --&gt;B(圆角)
+    B --&gt; C{条件a}
+    C --&gt;|a=1| D[结果1]
+    C --&gt;|a=2| E[结果2]
+    F[横向流程图]
+</code></pre>
+
+<h4 id="标准流程图">标准流程图</h4>
+
+<pre><code class="language-flow">st=&gt;start: 开始框
+op=&gt;operation: 处理框
+cond=&gt;condition: 判断框(是或否?)
+sub=&gt;subroutine: 子流程
+io=&gt;inputoutput: 输入输出框
+e=&gt;end: 结束框
+st-&gt;op-&gt;cond
+cond(yes)-&gt;io-&gt;e
+cond(no)-&gt;sub(right)-&gt;op
+</code></pre>
+
+<h3 id="输入数学公式">输入数学公式</h3>
+
+<ol>
+  <li><strong>首先，在NexT 主题的 <code class="language-plaintext highlighter-rouge">_config.yml</code> 文件里设置，</strong>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>math:  
+  enable: true
+</code></pre></div>    </div>
+  </li>
+  <li><strong>不需要替换markdown的渲染引擎</strong>，直接修改\node_modules\marked\lib下面的marked.js文件，实测所谓的hexo-renderer-kramed新框架虽然公式正常，但是**不能加粗
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//escape: /^\\([\\`*{}\[\]()#+\-.!_&gt;])/,
+escape: /^\\([`*\[\]()#$+\-.!_&gt;])/,
+//strong: /^__([\s\S]+?)__(?!_)|^\*\*([\s\S]+?)\*\*(?!\*)/,
+strong: /^\*\*([\s\S]+?)\*\*(?!\*)/,
+//em: /^_([^\s_](?:[^_]|__)+?[^\s_])_\b|^\*((?:\*\*|[^*])+?)\*(?!\*)/,
+em: /^\*((?:\*\*|[^*])+?)\*(?!\*)/,
+</code></pre></div>    </div>
+  </li>
+  <li><strong>实际操作</strong>，Ctrl+M，插入单独一行的公式；关于输入行内公式，直接两个$，或者按快捷键Alt+X</li>
+</ol>
+
+
+        </article>
+        <hr>
+        <!-- <span class="bds_txt"> 分享到：</span>
+        <div class="bdsharebuttonbox">
+                <a href="#" class="bds_more" data-cmd="more"></a>
+                <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到 QQ 空间"></a>
+                <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到 QQ 好友"></a>
+                <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+                <a href="#" class="bds_twi" data-cmd="twi" title="分享到 Twitter"></a>
+                <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到 Facebook"></a>
+                <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+                <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                <a href="#" class="bds_kaixin001" data-cmd="kaixin001" title="分享到开心网"></a>
+                <a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a>
+            </div> -->
+        <hr>
+
+        
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2018/08/08/ML_model/">关于生成模型和判别模型</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2018/08/11/math_matrix/">矩阵基础和求导</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+		<!-- Gitalk start -->
+		<div id="gitalk-container"></div> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+		<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+		<script>
+		  var title = location.pathname.substr(0, 50);
+		  var gitalk  = new Gitalk ({
+			clientID: '71066430f842c7a01401',
+			clientSecret: '9565351139680b09ab34112f5443edaf664724b4',
+			repo: 'blog-comments',
+			owner: 'chamwen',
+			admin: ['chamwen'],
+			id: title,
+			distractionFreeMode: true  // Facebook-like distraction free mode
+			})
+			gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk end -->
+		
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+<script>
+    window._bd_share_config = {
+        common: { "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" },
+        share: [{
+            bdCustomStyle: "//www.landiannews.com/static/api/css/share.css"
+        }]
+    }
+    with (document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "//www.landiannews.com/static/api/js/share.js?cdnversion=" + ~(-new Date() / 36e5)];</script>
+</script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             Chasing the unknown 
+        </p>
+        <p class="contact">
+            联系我 
+            <a href="https://github.com/chamwen" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:wenzn9@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+    </div>
+</footer>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

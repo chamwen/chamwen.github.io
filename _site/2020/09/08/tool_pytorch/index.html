@@ -1,0 +1,1951 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Pytorch 学习手册</title>
+    <meta name="description" content="PyTorch 学习和使用手册，包括 pytorch 基本语法，神经网络编程流程，具体例子和迁移学习使用，记录以备忘，摘自 PyTorch简明教程">
+
+    <link rel="shortcut icon" href="/me.ico?" type="image/x-icon">
+    <link rel="icon" href="/me.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+	<link rel="stylesheet" href="/css/syntax.css">
+    <link rel="canonical" href="https://www.chamwen.github.io/2020/09/08/tool_pytorch/">
+    <link rel="alternate" type="application/rss+xml" title="Cham's Blog" href="https://www.chamwen.github.io/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6c42715c371f7f46f5b2b6f9b17370ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+    <script>
+    // google analytics
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-148378835-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    tex2jax: { inlineMath: [["$","$"],["\\(","\\)"]] },
+    "HTML-CSS": {
+      linebreaks: { automatic: true, width: "container" }
+    }
+});
+</script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/index.html" class="brand">Cham's Blog</a>
+        <small>Algorithm, skill and thinking</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/index.html">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archives/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/categories/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tags/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collections/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+		<style>
+		  table{
+			border-left:1px solid #000000;border-top:1px solid #000000;
+			width: 100%;
+			word-wrap:break-word; word-break:break-all;
+		  }
+		  table th{
+		  text-align:center;
+		  }
+		  table th,td{
+			border-right:1px solid #000000;border-bottom:1px solid #000000;
+		  }
+		</style>
+    </div>
+</header>
+
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>Pytorch 学习手册</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2020-09-08
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#实用工具" title="Category: 实用工具" rel="category">实用工具</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#pytorch" title="Tag: pytorch" rel="tag">pytorch</a-->
+        <a href="/tag/#pytorch" title="Tag: pytorch" rel="tag">pytorch</a>&nbsp;
+    
+        <!--a href="/tag/#DNN" title="Tag: DNN" rel="tag">DNN</a-->
+        <a href="/tag/#DNN" title="Tag: DNN" rel="tag">DNN</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>PyTorch 学习和使用手册，包括 pytorch 基本语法，神经网络编程流程，具体例子和迁移学习使用，记录以备忘，摘自 <a href="http://fancyerii.github.io/books/pytorch/">PyTorch简明教程</a><!--more--></p>
+
+<ul id="markdown-toc">
+  <li><a href="#60分钟pytorch教程" id="markdown-toc-60分钟pytorch教程">60分钟PyTorch教程</a>    <ul>
+      <li><a href="#什么是pytorch" id="markdown-toc-什么是pytorch">什么是PyTorch？</a>        <ul>
+          <li><a href="#tensor" id="markdown-toc-tensor">Tensor</a></li>
+          <li><a href="#operation" id="markdown-toc-operation">Operation</a></li>
+          <li><a href="#tensor的变换" id="markdown-toc-tensor的变换">Tensor的变换</a></li>
+          <li><a href="#tensor与numpy的互相转换" id="markdown-toc-tensor与numpy的互相转换">Tensor与Numpy的互相转换</a></li>
+          <li><a href="#cuda-tensor" id="markdown-toc-cuda-tensor">CUDA Tensor</a></li>
+        </ul>
+      </li>
+      <li><a href="#autograd-自动求导" id="markdown-toc-autograd-自动求导">Autograd: 自动求导</a>        <ul>
+          <li><a href="#从自动求导看tensor" id="markdown-toc-从自动求导看tensor">从自动求导看Tensor</a></li>
+          <li><a href="#梯度计算和更新" id="markdown-toc-梯度计算和更新">梯度计算和更新</a></li>
+        </ul>
+      </li>
+      <li><a href="#pytorch神经网络简介" id="markdown-toc-pytorch神经网络简介">PyTorch神经网络简介</a>        <ul>
+          <li><a href="#定义网络" id="markdown-toc-定义网络">定义网络</a></li>
+          <li><a href="#测试网络" id="markdown-toc-测试网络">测试网络</a></li>
+          <li><a href="#损失函数" id="markdown-toc-损失函数">损失函数</a></li>
+          <li><a href="#计算梯度" id="markdown-toc-计算梯度">计算梯度</a></li>
+          <li><a href="#更新参数" id="markdown-toc-更新参数">更新参数</a></li>
+        </ul>
+      </li>
+      <li><a href="#训练一个分类器" id="markdown-toc-训练一个分类器">训练一个分类器</a>        <ul>
+          <li><a href="#如何进行数据处理" id="markdown-toc-如何进行数据处理">如何进行数据处理</a></li>
+          <li><a href="#训练的步骤" id="markdown-toc-训练的步骤">训练的步骤</a></li>
+          <li><a href="#数据处理" id="markdown-toc-数据处理">数据处理</a></li>
+          <li><a href="#定义卷积网络" id="markdown-toc-定义卷积网络">定义卷积网络</a></li>
+          <li><a href="#在测试数据集上进行测试" id="markdown-toc-在测试数据集上进行测试">在测试数据集上进行测试</a></li>
+          <li><a href="#gpu上训练" id="markdown-toc-gpu上训练">GPU上训练</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#通过例子学pytorch" id="markdown-toc-通过例子学pytorch">通过例子学PyTorch</a>    <ul>
+      <li><a href="#使用numpy实现三层神经网络" id="markdown-toc-使用numpy实现三层神经网络">使用Numpy实现三层神经网络</a></li>
+      <li><a href="#使用tensor来实现三层神经网络" id="markdown-toc-使用tensor来实现三层神经网络">使用Tensor来实现三层神经网络</a></li>
+      <li><a href="#实现autograd来实现三层神经网络" id="markdown-toc-实现autograd来实现三层神经网络">实现autograd来实现三层神经网络</a></li>
+      <li><a href="#使用自定义的relu函数" id="markdown-toc-使用自定义的relu函数">使用自定义的ReLU函数</a></li>
+      <li><a href="#和tensorflow的对比" id="markdown-toc-和tensorflow的对比">和Tensorflow的对比</a></li>
+      <li><a href="#使用nn模块来实现三层神经网络" id="markdown-toc-使用nn模块来实现三层神经网络">使用nn模块来实现三层神经网络</a></li>
+      <li><a href="#使用optim包" id="markdown-toc-使用optim包">使用optim包</a></li>
+      <li><a href="#自定义nn模块" id="markdown-toc-自定义nn模块">自定义nn模块</a></li>
+      <li><a href="#流程控制和参数共享" id="markdown-toc-流程控制和参数共享">流程控制和参数共享</a></li>
+    </ul>
+  </li>
+  <li><a href="#迁移学习示例" id="markdown-toc-迁移学习示例">迁移学习示例</a>    <ul>
+      <li><a href="#加载数据" id="markdown-toc-加载数据">加载数据</a></li>
+      <li><a href="#可视化图片" id="markdown-toc-可视化图片">可视化图片</a></li>
+      <li><a href="#训练模型" id="markdown-toc-训练模型">训练模型</a></li>
+      <li><a href="#可视化预测结果的函数" id="markdown-toc-可视化预测结果的函数">可视化预测结果的函数</a></li>
+      <li><a href="#fine-tuning所有参数" id="markdown-toc-fine-tuning所有参数">fine-tuning所有参数</a></li>
+      <li><a href="#fine-tuning最后一层参数" id="markdown-toc-fine-tuning最后一层参数">fine-tuning最后一层参数</a></li>
+    </ul>
+  </li>
+</ul>
+<h2 id="60分钟pytorch教程">60分钟PyTorch教程</h2>
+
+<h3 id="什么是pytorch">什么是PyTorch？</h3>
+
+<p>PyTorch是一个基于Python的科学计算包，它主要有两个用途：</p>
+
+<ul>
+  <li>类似Numpy但是能利用GPU加速</li>
+  <li>一个非常灵活和快速的用于深度学习的研究平台</li>
+</ul>
+
+<h4 id="tensor">Tensor</h4>
+
+<p>Tensor类似与NumPy的ndarray，但是可以用GPU加速。使用前我们需要导入torch包：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+</code></pre></div></div>
+<p>下面的代码构造一个$5 \times 3$的未初始化的矩阵：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># 输出：
+</span><span class="n">tensor</span><span class="p">([[</span><span class="o">-</span><span class="mf">1.9998e+05</span><span class="p">,</span>  <span class="mf">4.5818e-41</span><span class="p">,</span>  <span class="mf">3.4318e-37</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.0000e+00</span><span class="p">,</span>  <span class="mf">0.0000e+00</span><span class="p">,</span>  <span class="mf">0.0000e+00</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.0000e+00</span><span class="p">,</span>  <span class="mf">0.0000e+00</span><span class="p">,</span>  <span class="mf">1.2877e+29</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">2.0947e-30</span><span class="p">,</span>  <span class="mf">0.0000e+00</span><span class="p">,</span>  <span class="mf">0.0000e+00</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.0000e+00</span><span class="p">,</span>  <span class="mf">0.0000e+00</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.5328e+05</span><span class="p">]])</span>
+</code></pre></div></div>
+
+<p>我们可以使用rand随机初始化一个矩阵：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1">#输出：
+</span><span class="n">tensor</span><span class="p">([[</span> <span class="mf">0.9656</span><span class="p">,</span>  <span class="mf">0.5782</span><span class="p">,</span>  <span class="mf">0.0482</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.7462</span><span class="p">,</span>  <span class="mf">0.5838</span><span class="p">,</span>  <span class="mf">0.1844</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.8262</span><span class="p">,</span>  <span class="mf">0.4507</span><span class="p">,</span>  <span class="mf">0.6128</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.2961</span><span class="p">,</span>  <span class="mf">0.8956</span><span class="p">,</span>  <span class="mf">0.3092</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.4973</span><span class="p">,</span>  <span class="mf">0.2203</span><span class="p">,</span>  <span class="mf">0.9200</span><span class="p">]])</span>
+</code></pre></div></div>
+
+<p>下面的代码构造一个用零初始化的矩阵，它的类型(dtype)是long：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">long</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1">#输出：
+</span><span class="n">tensor</span><span class="p">([[</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">]])</span>
+</code></pre></div></div>
+
+<p>我们也可以使用Python的数组来构造Tensor：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">5.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>我们可以从已有的tensor信息(size和dtype)来构造tensor。但也可以用不同的dtype来构造。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">new_ones</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">double</span><span class="p">)</span>      <span class="c1"># new_* methods take in sizes
+</span><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn_like</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">float</span><span class="p">)</span>    <span class="c1"># override dtype!
+</span><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>我们可以是用size函数来看它的shape：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+<span class="c1">#输出：
+</span><span class="n">torch</span><span class="p">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>注意torch.Size其实是一个tuple，因此它支持所有的tuple操作。</p>
+
+<h4 id="operation">Operation</h4>
+
+<p>接下来我们来学习一些PyTorch的Operation。Operation一般可以使用函数的方式使用，但是为了方便使用，PyTorch重载了一些常见的运算符，因此我们可以这样来进行Tensor的加法：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span>
+</code></pre></div></div>
+<p>我们也可以用add函数来实现加法：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+</code></pre></div></div>
+<p>我们也可以给加法提供返回值(而不是生成一个新的返回值)：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">result</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">torch</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">result</span><span class="p">)</span> <span class="c1"># x + y的结果放到result里。
+</span><span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> 
+</code></pre></div></div>
+<p>我们也可以把相加的结果直接修改第一个被加数：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">y</span><span class="p">.</span><span class="n">add_</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># 把x加到y
+</span><span class="k">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>注意：就地修改tensor的operation以下划线结尾。比如： x.copy_(y), x.t_(), 都会修改x。</p>
+
+<h4 id="tensor的变换">Tensor的变换</h4>
+
+<p>我们也可以使用类似numpy的下标运算来操作PyTorch的Tensor：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1">#打印x的第一列
+</span></code></pre></div></div>
+<p>如果想resize或者reshape一个Tensor，我们可以使用torch.view：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>  <span class="c1"># -1的意思是让PyTorch自己推断出第一维的大小。
+</span><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">y</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">z</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p>如果一个tensor只有一个元素，可以使用item()函数来把它变成一个Python number：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="c1">#输出的是一个Tensor
+</span><span class="n">tensor</span><span class="p">([</span><span class="o">-</span><span class="mf">0.6966</span><span class="p">])</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">item</span><span class="p">())</span>
+<span class="c1">#输出的是一个数
+</span><span class="o">-</span><span class="mf">0.6966081857681274</span>
+</code></pre></div></div>
+
+<h4 id="tensor与numpy的互相转换">Tensor与Numpy的互相转换</h4>
+
+<p>Torch Tensor和NumPy数组的转换非常容易。它们会共享内存地址，因此修改一方会影响另一方。把一个Torch Tensor转换成NumPy数组的代码示例为：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="c1">#tensor([ 1.,  1.,  1.,  1.,  1.])
+</span></code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="c1">#[1. 1. 1. 1. 1.]
+</span></code></pre></div></div>
+
+<p>修改一个会影响另外一个：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span><span class="p">.</span><span class="n">add_</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="c1"># tensor([ 2.,  2.,  2.,  2.,  2.])
+</span><span class="k">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="c1"># [2. 2. 2. 2. 2.]
+</span></code></pre></div></div>
+
+<p>把把NumPy数组转成Torch Tensor的代码示例为：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">np</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">a</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="c1"># [2. 2. 2. 2. 2.]
+</span><span class="k">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="c1"># tensor([ 2.,  2.,  2.,  2.,  2.], dtype=torch.float64)
+</span></code></pre></div></div>
+
+<p>CPU上的所有类型的Tensor(除了CharTensor)都可以和Numpy数组来回转换。</p>
+
+<h4 id="cuda-tensor">CUDA Tensor</h4>
+<p>Tensor可以使用to()方法来移到任意设备上：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 如果有CUDA
+# 我们会使用``torch.device``来把tensors放到GPU上
+</span><span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">():</span>
+	<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">"cuda"</span><span class="p">)</span>          <span class="c1"># 一个CUDA device对象。
+</span>	<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>  <span class="c1"># 直接在GPU上创建tensor
+</span>	<span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>                       <span class="c1"># 也可以使用``.to("cuda")``把一个tensor从CPU移到GPU上
+</span>	<span class="n">z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">z</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="s">"cpu"</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">double</span><span class="p">))</span>       <span class="c1"># ``.to``也可以在移动的过程中修改dtype
+</span>	
+<span class="c1"># 输出：
+</span><span class="n">tensor</span><span class="p">([</span> <span class="mf">0.3034</span><span class="p">],</span> <span class="n">device</span><span class="o">=</span><span class="s">'cuda:0'</span><span class="p">)</span>
+<span class="n">tensor</span><span class="p">([</span> <span class="mf">0.3034</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">float64</span><span class="p">)</span>	
+</code></pre></div></div>
+
+<h3 id="autograd-自动求导">Autograd: 自动求导</h3>
+
+<p>PyTorch的核心是autograd包。 我们首先简单的了解一些，然后用PyTorch开始训练第一个神经网络。autograd为所有用于Tensor的operation提供自动求导的功能。我们通过一些简单的例子来学习它基本用法。</p>
+
+<h4 id="从自动求导看tensor">从自动求导看Tensor</h4>
+<p>torch.Tensor 是这个包的核心类。如果它的属性requires_grad是True，那么PyTorch就会追踪所有与之相关的operation。当完成(正向)计算之后，
+我们可以调用backward()，PyTorch会自动的把所有的梯度都计算好。与这个tensor相关的梯度都会累加到它的grad属性里。</p>
+
+<p>如果不想计算这个tensor的梯度，我们可以调用detach()，这样它就不会参与梯度的计算了。为了阻止PyTorch记录用于梯度计算相关的信息(从而节约内存)，我们可以使用 with torch.no_grad()。这在模型的预测时非常有用，因为预测的时候我们不需要计算梯度，否则我们就得一个个的修改Tensor的requires_grad属性，这会非常麻烦。</p>
+
+<p>关于autograd的实现还有一个很重要的Function类。Tensor和Function相互连接从而形成一个有向无环图, 这个图记录了计算的完整历史。每个tensor有一个grad_fn属性来引用创建这个tensor的Function(用户直接创建的Tensor，这些Tensor的grad_fn是None)。</p>
+
+<p>如果你想计算梯度，可以对一个Tensor调用它的backward()方法。如果这个Tensor是一个scalar(只有一个数)，那么调用时不需要传任何参数。如果Tensor多于一个数，那么需要传入和它的shape一样的参数，表示反向传播过来的梯度。</p>
+
+<p>创建tensor时设置属性requires_grad=True，PyTorch就会记录用于反向梯度计算的信息：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div></div>
+<p>然后我们通过operation产生新的tensor：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="k">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</code></pre></div></div>
+<p>是通过operation产生的tensor，因此它的grad_fn不是None。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="n">grad_fn</span><span class="p">)</span>
+<span class="c1"># &lt;AddBackward0 object at 0x7f35409a68d0&gt;
+</span></code></pre></div></div>
+<p>再通过y得到z和out</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">z</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="n">y</span> <span class="o">*</span> <span class="mi">3</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">z</span><span class="p">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
+<span class="c1"># z = tensor([[ 27.,  27.],[ 27.,  27.]]) 
+# out = tensor(27.)
+</span></code></pre></div></div>
+
+<p>requires_grad_()函数会修改一个Tensor的requires_grad。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">((</span><span class="n">a</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">requires_grad</span><span class="p">)</span>
+<span class="n">a</span><span class="p">.</span><span class="n">requires_grad_</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">requires_grad</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">).</span><span class="nb">sum</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">grad_fn</span><span class="p">)</span>
+</code></pre></div></div>
+<p>输出是：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="bp">False</span>
+<span class="bp">True</span>
+<span class="o">&lt;</span><span class="n">SumBackward0</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f35766827f0</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<h4 id="梯度计算和更新">梯度计算和更新</h4>
+<p>现在我们里反向计算梯度。因为out是一个scalar，因此out.backward()等价于out.backward(torch.tensor(1))。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">out</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+</code></pre></div></div>
+<p>我们可以打印梯度d(out)/dx：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">grad</span><span class="p">)</span>
+<span class="c1"># tensor([[ 4.5000,  4.5000],
+</span><span class="p">[</span> <span class="mf">4.5000</span><span class="p">,</span>  <span class="mf">4.5000</span><span class="p">]])</span>
+</code></pre></div></div>
+<p>我们手动计算来验证一下。为了简单，我们把out记为o。
+$o = \frac{1}{4}\sum_i z_i$, $z_i = 3(x_i+2)^2$ 并且 $z_i\bigr\rvert_{x_i=1} = 27$。</p>
+
+<p>因此，$\frac{\partial o}{\partial x_i} = \frac{3}{2}(x_i+2)$，因此$\frac{\partial o}{\partial x_i}\bigr\rvert_{x_i=1} = \frac{9}{2} = 4.5$。</p>
+
+<p>我们也可以用autograd做一些很奇怪的事情！比如y和x的关系是while循环的关系(似乎很难用一个函数直接表示y和x的关系？对x不断平方直到超过1000，这是什么函数？)</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span>
+<span class="k">while</span> <span class="n">y</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">norm</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
+	<span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="mi">2</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="c1"># tensor([ -692.4808,  1686.1211,   667.7313])
+</span></code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gradients</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">y</span><span class="p">.</span><span class="n">backward</span><span class="p">(</span><span class="n">gradients</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">grad</span><span class="p">)</span>
+<span class="c1"># tensor([  102.4000,  1024.0000,     0.1024])
+</span></code></pre></div></div>
+
+<p>我们可以使用”with torch.no_grad()”来停止梯度的计算：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">requires_grad</span><span class="p">)</span>
+<span class="k">print</span><span class="p">((</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">).</span><span class="n">requires_grad</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+	<span class="k">print</span><span class="p">((</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">).</span><span class="n">requires_grad</span><span class="p">)</span>
+</code></pre></div></div>
+<p>输出为：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="bp">True</span>
+<span class="bp">True</span>
+<span class="bp">False</span>
+</code></pre></div></div>
+
+<h3 id="pytorch神经网络简介">PyTorch神经网络简介</h3>
+<p>神经网络可以通过torch.nn包来创建。我们之前简单的了解了autograd，而nn会使用autograd来定义模型以及求梯度。一个nn.Module对象包括了许多网络层(layer)，并且有一个forward(input)方法来返回output。如下图所示，我们会定义一个卷积网络来识别mnist图片。</p>
+
+<p style="text-align: center"><a name="mnist"><img src="/images/pytorch/mnist.png" alt="" /></a><br />
+<em>图1：识别MNIST数据的神经网络</em></p>
+
+<p>训练一个神经网络通常需要如下步骤：</p>
+
+<ul>
+  <li>定义一个神经网络，它通常有一些可以训练的参数</li>
+  <li>迭代一个数据集(dataset)</li>
+  <li>处理网络的输入</li>
+  <li>计算loss(会调用Module对象的forward方法)</li>
+  <li>计算loss对参数的梯度</li>
+  <li>
+    <p>更新参数，通常使用如下的梯度下降方法来更新：</p>
+
+    <p>weight = weight - learning_rate * gradient</p>
+  </li>
+</ul>
+
+<h4 id="定义网络">定义网络</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+
+<span class="k">class</span> <span class="nc">Net</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">(</span><span class="n">Net</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+		<span class="c1"># 输入是1个通道的灰度图，输出6个通道(feature map)，使用5x5的卷积核
+</span>		<span class="bp">self</span><span class="p">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+		<span class="c1"># 第二个卷积层也是5x5，有16个通道
+</span>		<span class="bp">self</span><span class="p">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+		<span class="c1"># 全连接层
+</span>		<span class="bp">self</span><span class="p">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">16</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
+		<span class="bp">self</span><span class="p">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">120</span><span class="p">,</span> <span class="mi">84</span><span class="p">)</span>
+		<span class="bp">self</span><span class="p">.</span><span class="n">fc3</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">84</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+	
+	<span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+		<span class="c1"># 32x32 -&gt; 28x28 -&gt; 14x14 
+</span>		<span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">max_pool2d</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+		<span class="c1"># 14x14 -&gt; 10x10 -&gt; 5x5
+</span>		<span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">max_pool2d</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="mi">2</span><span class="p">)</span>
+		<span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_flat_features</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+		<span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+		<span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+		<span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">x</span>
+	
+	<span class="k">def</span> <span class="nf">num_flat_features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+		<span class="n">size</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>  <span class="c1"># 除了batch维度之外的其它维度。
+</span>		<span class="n">num_features</span> <span class="o">=</span> <span class="mi">1</span>
+		<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">size</span><span class="p">:</span>
+		<span class="n">num_features</span> <span class="o">*=</span> <span class="n">s</span>
+		<span class="k">return</span> <span class="n">num_features</span>
+
+<span class="n">net</span> <span class="o">=</span> <span class="n">Net</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+<span class="c1"># Net(
+# (conv1): Conv2d(1, 6, kernel_size=(5, 5), stride=(1, 1))
+# (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+# (fc1): Linear(in_features=400, out_features=120, bias=True)
+# (fc2): Linear(in_features=120, out_features=84, bias=True)
+# (fc3): Linear(in_features=84, out_features=10, bias=True)
+# )
+</span></code></pre></div></div>
+
+<p>我们只需要定义 forward 函数，而 backward 函数会自动通过 autograd 创建。在 forward 函数里可以使用任何处理 Tensor 的函数。我们可以使用函数 net.parameters() 来得到模型所有的参数。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">params</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">net</span><span class="p">.</span><span class="n">parameters</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+<span class="c1"># 10
+</span><span class="k">print</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">size</span><span class="p">())</span>  <span class="c1"># conv1的weight
+# torch.Size([6, 1, 5, 5])
+</span></code></pre></div></div>
+
+<h4 id="测试网络">测试网络</h4>
+<p>接着我们尝试一个随机的32x32的输入来检验(sanity check)网络定义没有问题。注意：这个网络(LeNet)期望的输入大小是32x32。如果使用MNIST数据集(28x28)，我们需要缩放到32x32。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+<span class="c1"># tensor([[-0.0198,  0.0438,  0.0930, -0.0267, -0.0344,  0.0330,  0.0664,
+# 0.1244, -0.0379,  0.0890]])
+</span></code></pre></div></div>
+
+<p>默认的梯度会累加，因此我们通常在 backward 之前清除掉之前的梯度值：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">net</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+<span class="n">out</span><span class="p">.</span><span class="n">backward</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>注意：torch.nn 只支持 mini-batches的输入。整个torch.nn包的输入都必须第一维是batch，即使只有一个样本也要弄成 batch 是 1 的输入。</p>
+
+<p>比如，nn.Conv2d 的输入是一个 4D 的 Tensor，shape 是 nSamples x nChannels x Height x Width。如果你只有一个样本 (nChannels x Height x Width)，那么可以使用 input.unsqueeze(0) 来增加一个 batch 维。</p>
+
+<h4 id="损失函数">损失函数</h4>
+
+<p>损失函数的参数是 (output, target)对，output 是模型的预测，target 是实际的值。损失函数会计算预测值和真实值的差别，损失越小说明预测的越准。</p>
+
+<p>PyTorch 提供了这里有许多不同的损失函数： <a href="https://pytorch.org/docs/stable/nn.html#loss-functions">loss-functions</a>。最简单的一个损失函数是：nn.MSELoss，它会计算预测值和真实值的均方误差。比如：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">output</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>  <span class="c1"># 随便伪造的一个“真实值” 
+</span><span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 把它变成output的shape(1, 10) 
+</span><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">MSELoss</span><span class="p">()</span>
+
+<span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>如果从 loss 往回走，需要使用 tensor 的 grad_fn 属性，我们 Negative 看到这样的计算图：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">input</span> <span class="o">-&gt;</span> <span class="n">conv2d</span> <span class="o">-&gt;</span> <span class="n">relu</span> <span class="o">-&gt;</span> <span class="n">maxpool2d</span> <span class="o">-&gt;</span> <span class="n">conv2d</span> <span class="o">-&gt;</span> <span class="n">relu</span> <span class="o">-&gt;</span> <span class="n">maxpool2d</span>
+<span class="o">-&gt;</span> <span class="n">view</span> <span class="o">-&gt;</span> <span class="n">linear</span> <span class="o">-&gt;</span> <span class="n">relu</span> <span class="o">-&gt;</span> <span class="n">linear</span> <span class="o">-&gt;</span> <span class="n">relu</span> <span class="o">-&gt;</span> <span class="n">linear</span>
+<span class="o">-&gt;</span> <span class="n">MSELoss</span>
+<span class="o">-&gt;</span> <span class="n">loss</span>
+</code></pre></div></div>
+
+<p>因此当调用loss.backward()时，PyTorch会计算这个图中所有requires_grad=True的tensor关于loss的梯度。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">loss</span><span class="p">.</span><span class="n">grad_fn</span><span class="p">)</span>  <span class="c1"># MSELoss
+</span><span class="k">print</span><span class="p">(</span><span class="n">loss</span><span class="p">.</span><span class="n">grad_fn</span><span class="p">.</span><span class="n">next_functions</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># Add
+</span><span class="k">print</span><span class="p">(</span><span class="n">loss</span><span class="p">.</span><span class="n">grad_fn</span><span class="p">.</span><span class="n">next_functions</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">next_functions</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># Expand
+</span>
+<span class="c1">#输出：
+</span><span class="o">&lt;</span><span class="n">MseLossBackward</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f445b3a2dd8</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">AddmmBackward</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f445b3a2eb8</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">ExpandBackward</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f445b3a2dd8</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<h4 id="计算梯度">计算梯度</h4>
+<p>在调用loss.backward()之前，我们需要清除掉tensor里之前的梯度，否则会累加进去。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">net</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>     <span class="c1"># 清掉tensor里缓存的梯度值。
+</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'conv1.bias.grad before backward'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">net</span><span class="p">.</span><span class="n">conv1</span><span class="p">.</span><span class="n">bias</span><span class="p">.</span><span class="n">grad</span><span class="p">)</span>
+
+<span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'conv1.bias.grad after backward'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">net</span><span class="p">.</span><span class="n">conv1</span><span class="p">.</span><span class="n">bias</span><span class="p">.</span><span class="n">grad</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="更新参数">更新参数</h4>
+<p>更新参数最简单的方法是使用随机梯度下降(SGD)：</p>
+
+\[weight = weight - learning_rate * gradient\]
+
+<p>我们可以使用如下简单的代码来实现更新：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">net</span><span class="p">.</span><span class="n">parameters</span><span class="p">():</span>
+	<span class="n">f</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">grad</span><span class="p">.</span><span class="n">data</span> <span class="o">*</span> <span class="n">learning_rate</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>通常我们会使用更加复杂的优化方法，比如SGD, Nesterov-SGD, Adam, RMSProp等等。为了实现这些算法，我们可以使用torch.optim包，它的用法也非常简单：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="n">optim</span>
+
+<span class="c1"># 创建optimizer，需要传入参数和learning rate
+</span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">net</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="c1"># 清除梯度
+</span><span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>  
+<span class="n">output</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+<span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>    <span class="c1"># optimizer会自动帮我们更新参数
+</span></code></pre></div></div>
+
+<p>注意：即使使用optimizer，我们也需要清零梯度。但是我们不需要一个个的清除，而是用optimizer.zero_grad()一次清除所有。</p>
+
+<h3 id="训练一个分类器">训练一个分类器</h3>
+<p>介绍了PyTorch神经网络相关包之后我们就可以用这些知识来构建一个分类器了。</p>
+
+<h4 id="如何进行数据处理">如何进行数据处理</h4>
+<p>一般地，当我们处理图片、文本、音频或者视频数据的时候，我们可以使用python代码来把它转换成numpy数组。然后再把numpy数组转换成torch.xxxTensor。</p>
+
+<ul>
+  <li>对于处理图像，常见的lib包括Pillow和OpenCV</li>
+  <li>对于音频，常见的lib包括scipy和librosa</li>
+  <li>对于文本，可以使用标准的Python库，另外比较流行的lib包括NLTK和SpaCy</li>
+</ul>
+
+<p>对于视觉问题，PyTorch提供了一个torchvision包(需要单独安装)，它对于常见数据集比如Imagenet, CIFAR10, MNIST等提供了加载的方法。并且它也提供很多数据变化的工具，包括torchvision.datasets和torch.utils.data.DataLoader。这会极大的简化我们的工作，避免重复的代码。</p>
+
+<p>在这个教程里，我们使用CIFAR10数据集。它包括十个类别：”airplane”, “automobile”, “bird”, “cat”, “deer”,
+“dog”, “frog”, “horse”, “ship”,”truck”。图像的对象是3x32x32，也就是3通道(RGB)的32x32的图片。下面是一些样例图片。</p>
+
+<p style="text-align: center"><a name="cifar10"><img src="/images/pytorch/cifar10.png" alt="" /></a><br />
+<em>图2：cifar10样例</em></p>
+
+<h4 id="训练的步骤">训练的步骤</h4>
+
+<ul>
+  <li>使用torchvision加载和预处理CIFAR10训练和测试数据集。</li>
+  <li>定义卷积网络</li>
+  <li>定义损失函数</li>
+  <li>用训练数据训练模型</li>
+  <li>用测试数据测试模型</li>
+</ul>
+
+<h4 id="数据处理">数据处理</h4>
+<p>通过使用torchvision，我们可以轻松的加载CIFAR10数据集。首先我们导入相关的包：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torchvision</span>
+<span class="kn">import</span> <span class="nn">torchvision.transforms</span> <span class="k">as</span> <span class="n">transforms</span>
+</code></pre></div></div>
+<p>torchvision读取的datasets是PILImage对象，它的取值范围是[0, 1]，我们把它转换到范围[-1, 1]。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="n">Compose</span><span class="p">(</span>
+	<span class="p">[</span><span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+	<span class="n">transforms</span><span class="p">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))])</span>
+
+<span class="n">trainset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">datasets</span><span class="p">.</span><span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">'/path/to/data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+	<span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+	<span class="n">trainloader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">trainset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+	<span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">testset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">datasets</span><span class="p">.</span><span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">'/path/to/data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+	<span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+	<span class="n">testloader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">testset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+	<span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">classes</span> <span class="o">=</span> <span class="p">(</span><span class="s">'plane'</span><span class="p">,</span> <span class="s">'car'</span><span class="p">,</span> <span class="s">'bird'</span><span class="p">,</span> <span class="s">'cat'</span><span class="p">,</span>
+	<span class="s">'deer'</span><span class="p">,</span> <span class="s">'dog'</span><span class="p">,</span> <span class="s">'frog'</span><span class="p">,</span> <span class="s">'horse'</span><span class="p">,</span> <span class="s">'ship'</span><span class="p">,</span> <span class="s">'truck'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>我们来看几张图片，如<a href="#pytorch-cifar-sample">下图</a>所示，显示图片的代码如下：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">img</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">0.5</span>     <span class="c1">#  [-1,1] -&gt; [0,1]
+</span><span class="n">npimg</span> <span class="o">=</span> <span class="n">img</span><span class="p">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">npimg</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span> <span class="c1"># (channel, width, height) -&gt; (width, height, channel)
+</span>
+<span class="c1"># 随机选择一些图片
+</span><span class="n">dataiter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">trainloader</span><span class="p">)</span>
+<span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">dataiter</span><span class="p">.</span><span class="nb">next</span><span class="p">()</span>
+
+<span class="c1"># 显示图片
+</span><span class="n">imshow</span><span class="p">(</span><span class="n">torchvision</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">make_grid</span><span class="p">(</span><span class="n">images</span><span class="p">))</span>
+<span class="c1"># 打印label
+</span><span class="k">print</span><span class="p">(</span><span class="s">' '</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="s">'%5s'</span> <span class="o">%</span> <span class="n">classes</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p style="text-align: center"><a name="pytorch-cifar-sample"><img src="/images/pytorch/pytorch-cifar-sample.png" alt="" /></a><br />
+<em>图3：随机选择的图片</em></p>
+
+<h4 id="定义卷积网络">定义卷积网络</h4>
+
+<p>网络结构和上一节的介绍类似，只是输入通道从1变成3。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+
+<span class="k">class</span> <span class="nc">Net</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">(</span><span class="n">Net</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+		<span class="bp">self</span><span class="p">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+		<span class="bp">self</span><span class="p">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+		<span class="bp">self</span><span class="p">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+		<span class="bp">self</span><span class="p">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">16</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
+		<span class="bp">self</span><span class="p">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">120</span><span class="p">,</span> <span class="mi">84</span><span class="p">)</span>
+		<span class="bp">self</span><span class="p">.</span><span class="n">fc3</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">84</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+	
+	<span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+		<span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">pool</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+		<span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">pool</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+		<span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span>
+		<span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+		<span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+		<span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">x</span>
+
+<span class="n">net</span> <span class="o">=</span> <span class="n">Net</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>\subsubsection{定义损失函数和optimizer}
+我们这里使用交叉熵损失函数，Optimizer使用带冲量的SGD。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="n">optim</span>
+
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">net</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>\subsubsection{训练网络}
+我们遍历DataLoader进行训练。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>  <span class="c1"># 这里只迭代2个epoch，实际应该进行更多次训练 
+</span>
+	<span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+	<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">trainloader</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+		<span class="c1"># 得到输入
+</span>		<span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">data</span>
+		
+		<span class="c1"># 梯度清零 
+</span>		<span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+		
+		<span class="c1"># forward + backward + optimize
+</span>		<span class="n">outputs</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+		<span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+		<span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+		<span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+		
+		<span class="c1"># 定义统计信息
+</span>		<span class="n">running_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">()</span>
+		<span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2000</span> <span class="o">==</span> <span class="mi">1999</span><span class="p">:</span>
+			<span class="k">print</span><span class="p">(</span><span class="s">'[%d, %5d] loss: %.3f'</span> <span class="o">%</span>
+				<span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">running_loss</span> <span class="o">/</span> <span class="mi">2000</span><span class="p">))</span>
+		<span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'Finished Training'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="在测试数据集上进行测试">在测试数据集上进行测试</h4>
+<p>我们进行了2轮迭代，可以使用测试数据集上的数据来进行测试。首先我们随机抽取几个样本来进行测试。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dataiter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">testloader</span><span class="p">)</span>
+<span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">dataiter</span><span class="p">.</span><span class="nb">next</span><span class="p">()</span>
+
+<span class="n">imshow</span><span class="p">(</span><span class="n">torchvision</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">make_grid</span><span class="p">(</span><span class="n">images</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'GroundTruth: '</span><span class="p">,</span> <span class="s">' '</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="s">'%5s'</span> <span class="o">%</span> <span class="n">classes</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>随机选择出来的测试样例如下图所示。</p>
+
+<p style="text-align: center"><a name="pytorch-classifier-test-sample"><img src="/images/pytorch/pytorch-classifier-test-sample.png" alt="" /></a><br />
+<em>图4：随机测试的结果</em></p>
+
+<p>我们用模型来预测一下，看看是否正确预测：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">outputs</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>outputs是10个分类的logits。我们在训练的时候需要用softmax把它变成概率(CrossEntropyLoss帮我们做了)，但是预测的时候没有必要，因为我们只需要知道哪个分类的概率大就行。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">_</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'Predicted: '</span><span class="p">,</span> <span class="s">' '</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="s">'%5s'</span> <span class="o">%</span> <span class="n">classes</span><span class="p">[</span><span class="n">predicted</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span>
+		<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)))</span>
+
+<span class="c1"># cat  ship  ship  ship
+</span></code></pre></div></div>
+<p>预测中的四个错了一个，似乎还不错。接下来我们看看在整个测试集合上的效果：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">testloader</span><span class="p">:</span>
+        <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">labels</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">labels</span><span class="p">).</span><span class="nb">sum</span><span class="p">().</span><span class="n">item</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'Accuracy of the network on the 10000 test images: %d %%'</span> <span class="o">%</span> <span class="p">(</span>
+	<span class="mi">100</span> <span class="o">*</span> <span class="n">correct</span> <span class="o">/</span> <span class="n">total</span><span class="p">))</span>
+
+<span class="c1"># Accuracy of the network on the 10000 test images: 55 %
+</span></code></pre></div></div>
+
+<p>看起来比随机的瞎猜要好，因为随机猜的准确率大概是10%的准确率，所以模型确实学到了一些东西。我们也可以看每个分类的准确率：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">class_correct</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="mf">0.</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">class_total</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="mf">0.</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+	<span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">testloader</span><span class="p">:</span>
+		<span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">data</span>
+		<span class="n">outputs</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+		<span class="n">_</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+		<span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">labels</span><span class="p">).</span><span class="n">squeeze</span><span class="p">()</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+			<span class="n">label</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+			<span class="n">class_correct</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">+=</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">item</span><span class="p">()</span>
+			<span class="n">class_total</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+	<span class="k">print</span><span class="p">(</span><span class="s">'Accuracy of %5s : %2d %%'</span> <span class="o">%</span> <span class="p">(</span>
+		<span class="n">classes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">class_correct</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">class_total</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+</code></pre></div></div>
+
+<p>结果为：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Accuracy</span> <span class="n">of</span> <span class="n">plane</span> <span class="p">:</span> <span class="mi">52</span> <span class="o">%</span>
+<span class="n">Accuracy</span> <span class="n">of</span>   <span class="n">car</span> <span class="p">:</span> <span class="mi">66</span> <span class="o">%</span>
+<span class="n">Accuracy</span> <span class="n">of</span>  <span class="n">bird</span> <span class="p">:</span> <span class="mi">49</span> <span class="o">%</span>
+<span class="n">Accuracy</span> <span class="n">of</span>   <span class="n">cat</span> <span class="p">:</span> <span class="mi">34</span> <span class="o">%</span>
+<span class="n">Accuracy</span> <span class="n">of</span>  <span class="n">deer</span> <span class="p">:</span> <span class="mi">30</span> <span class="o">%</span>
+<span class="n">Accuracy</span> <span class="n">of</span>   <span class="n">dog</span> <span class="p">:</span> <span class="mi">45</span> <span class="o">%</span>
+<span class="n">Accuracy</span> <span class="n">of</span>  <span class="n">frog</span> <span class="p">:</span> <span class="mi">72</span> <span class="o">%</span>
+<span class="n">Accuracy</span> <span class="n">of</span> <span class="n">horse</span> <span class="p">:</span> <span class="mi">71</span> <span class="o">%</span>
+<span class="n">Accuracy</span> <span class="n">of</span>  <span class="n">ship</span> <span class="p">:</span> <span class="mi">76</span> <span class="o">%</span>
+<span class="n">Accuracy</span> <span class="n">of</span> <span class="n">truck</span> <span class="p">:</span> <span class="mi">55</span> <span class="o">%</span>
+</code></pre></div></div>
+
+<h4 id="gpu上训练">GPU上训练</h4>
+
+<p>为了在GPU上训练，我们需要把Tensor移到GPU上。首先我们看看是否有GPU，如果没有，那么我们还是fallback到CPU。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">"cuda:0"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="c1"># cuda:0
+</span>
+<span class="c1"># 指定多核GPU进行训练
+</span><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">'CUDA_VISIBLE_DEVICES'</span><span class="p">]</span> <span class="o">=</span> <span class="s">"4, 5, 6"</span>
+<span class="n">DEVICE</span> <span class="o">=</span> <span class="n">tr</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">'cuda'</span> <span class="k">if</span> <span class="n">tr</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">'cpu'</span><span class="p">)</span>
+
+<span class="n">x_batch</span><span class="p">,</span> <span class="n">y_batch</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">),</span> <span class="n">y</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">DataParallel</span><span class="p">(</span><span class="n">MLP</span><span class="p">()).</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>用GPU进行训练：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Net2</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Net2</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">16</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">120</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">120</span><span class="p">,</span> <span class="mi">84</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">fc3</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">84</span><span class="p">,</span> <span class="mi">10</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">pool</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">pool</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">net</span> <span class="o">=</span> <span class="n">Net2</span><span class="p">()</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">net</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+
+	<span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+	<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">trainloader</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+		<span class="c1"># 得到输入
+</span>		<span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">data</span> 
+		<span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">labels</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span> 
+		<span class="c1"># 梯度清零 
+</span>		<span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+		
+		<span class="c1"># forward + backward + optimize
+</span>		<span class="n">outputs</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+		<span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+		<span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+		<span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+		
+		<span class="c1"># 定义统计信息
+</span>		<span class="n">running_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">()</span>
+		<span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2000</span> <span class="o">==</span> <span class="mi">1999</span><span class="p">:</span>
+			<span class="k">print</span><span class="p">(</span><span class="s">'[%d, %5d] loss: %.3f'</span> <span class="o">%</span>
+				<span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">running_loss</span> <span class="o">/</span> <span class="mi">2000</span><span class="p">))</span>
+			<span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+		
+		<span class="k">print</span><span class="p">(</span><span class="s">'Finished Training'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="通过例子学pytorch">通过例子学PyTorch</h2>
+<p>下面我们通过使用不同的方法来实现一个简单的三层(一个隐层)的全连接神经网络来熟悉PyTorch的常见用法。</p>
+
+<h3 id="使用numpy实现三层神经网络">使用Numpy实现三层神经网络</h3>
+<p>我们需要实现一个全连接的激活为ReLU的网络，它只有一个隐层，没有bias，用于回归预测一个值，loss是计算实际值和预测值的欧氏距离。这里完全使用numpy手动的进行前向和后向计算。numpy数组就是一个n维的数值，它并不知道任何关于深度学习、梯度下降或者计算图的东西，它只是进行数值运算。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="c1"># N是batch size；D_in是输入大小
+# H是隐层的大小；D_out是输出大小。
+</span><span class="n">N</span><span class="p">,</span> <span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D_out</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span>
+
+<span class="c1"># 随机产生输入与输出
+</span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D_in</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D_out</span><span class="p">)</span>
+
+<span class="c1"># 随机初始化参数
+</span><span class="n">w1</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+<span class="n">w2</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">D_out</span><span class="p">)</span>
+
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">1e-6</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
+	<span class="c1"># 前向计算y
+</span>	<span class="n">h</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w1</span><span class="p">)</span>
+	<span class="n">h_relu</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+	<span class="n">y_pred</span> <span class="o">=</span> <span class="n">h_relu</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w2</span><span class="p">)</span>
+	
+	<span class="c1"># 计算loss
+</span>	<span class="n">loss</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">square</span><span class="p">(</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">y</span><span class="p">).</span><span class="nb">sum</span><span class="p">()</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
+	
+	<span class="c1"># 反向计算梯度 
+</span>	<span class="n">grad_y_pred</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
+	<span class="n">grad_w2</span> <span class="o">=</span> <span class="n">h_relu</span><span class="p">.</span><span class="n">T</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">grad_y_pred</span><span class="p">)</span>
+	<span class="n">grad_h_relu</span> <span class="o">=</span> <span class="n">grad_y_pred</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w2</span><span class="p">.</span><span class="n">T</span><span class="p">)</span>
+	<span class="n">grad_h</span> <span class="o">=</span> <span class="n">grad_h_relu</span><span class="p">.</span><span class="n">copy</span><span class="p">()</span>
+	<span class="n">grad_h</span><span class="p">[</span><span class="n">h</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">grad_w1</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">T</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">grad_h</span><span class="p">)</span>
+	
+	<span class="c1"># 更新参数
+</span>	<span class="n">w1</span> <span class="o">-=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">grad_w1</span>
+	<span class="n">w2</span> <span class="o">-=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">grad_w2</span>
+</code></pre></div></div>
+
+<h3 id="使用tensor来实现三层神经网络">使用Tensor来实现三层神经网络</h3>
+<p>和前面一样，我们还是实现一个全连接的Relu激活的网络，它只有一个隐层并且没有bias。loss是预测与真实值的欧氏距离。之前我们用Numpy实现，自己手动前向计算loss，反向计算梯度。这里还是一样，只不过把numpy数组换成了PyTorch的Tensor。但是使用PyTorch的好处是我们可以利用GPU来加速计算，如果想用GPU计算，我们值需要在创建tensor的时候指定device为gpu。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">float</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">"cpu"</span><span class="p">)</span>
+<span class="c1"># device = torch.device("cuda:0") # 如果想在GPU上运算，把这行注释掉。
+</span>
+<span class="n">N</span><span class="p">,</span> <span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D_out</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D_in</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D_out</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+<span class="n">w1</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+<span class="n">w2</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">D_out</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">1e-6</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span> 
+	<span class="n">h</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">mm</span><span class="p">(</span><span class="n">w1</span><span class="p">)</span>
+	<span class="n">h_relu</span> <span class="o">=</span> <span class="n">h</span><span class="p">.</span><span class="n">clamp</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># 使用clamp(min=0)来实现ReLU
+</span>	<span class="n">y_pred</span> <span class="o">=</span> <span class="n">h_relu</span><span class="p">.</span><span class="n">mm</span><span class="p">(</span><span class="n">w2</span><span class="p">)</span>
+	
+	<span class="n">loss</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">y</span><span class="p">).</span><span class="nb">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nb">sum</span><span class="p">().</span><span class="n">item</span><span class="p">()</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
+	
+	<span class="n">grad_y_pred</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
+	<span class="n">grad_w2</span> <span class="o">=</span> <span class="n">h_relu</span><span class="p">.</span><span class="n">t</span><span class="p">().</span><span class="n">mm</span><span class="p">(</span><span class="n">grad_y_pred</span><span class="p">)</span>
+	<span class="n">grad_h_relu</span> <span class="o">=</span> <span class="n">grad_y_pred</span><span class="p">.</span><span class="n">mm</span><span class="p">(</span><span class="n">w2</span><span class="p">.</span><span class="n">t</span><span class="p">())</span>
+	<span class="n">grad_h</span> <span class="o">=</span> <span class="n">grad_h_relu</span><span class="p">.</span><span class="n">clone</span><span class="p">()</span>
+	<span class="n">grad_h</span><span class="p">[</span><span class="n">h</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">grad_w1</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">t</span><span class="p">().</span><span class="n">mm</span><span class="p">(</span><span class="n">grad_h</span><span class="p">)</span>
+	
+	<span class="n">w1</span> <span class="o">-=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">grad_w1</span>
+	<span class="n">w2</span> <span class="o">-=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">grad_w2</span>
+</code></pre></div></div>
+
+<h3 id="实现autograd来实现三层神经网络">实现autograd来实现三层神经网络</h3>
+<p>还是和前面一样实现一个全连接的网络，只有一个隐层而且没有bias，使用欧氏距离作为损失函数。这个实现使用PyTorch的Tensor来计算前向阶段，然后使用PyTorch的autograd来自动帮我们反向计算梯度。PyTorch的Tensor代表了计算图中的一个节点。如果x是一个Tensor并且x.requires_grad=True，那么x.grad这个Tensor会保存某个scalar(通常是loss)对x的梯度。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">float</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">"cpu"</span><span class="p">)</span>
+<span class="c1"># device = torch.device("cuda:0") # 如果有GPU可以注释掉这行
+</span>
+<span class="c1"># N是batch size；D_in是输入大小
+# H是隐层的大小；D_out是输出大小。
+</span><span class="n">N</span><span class="p">,</span> <span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D_out</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span>
+
+<span class="c1"># 创建随机的Tensor作为输入和输出
+# 输入和输出需要的requires_grad=False(默认)，
+# 因为我们不需要计算loss对它们的梯度。
+</span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D_in</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D_out</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+<span class="c1"># 创建weight的Tensor，需要设置requires_grad=True 
+</span><span class="n">w1</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">w2</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">D_out</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">1e-6</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
+	<span class="c1"># Forward阶段: mm实现矩阵乘法，但是它不支持broadcasting。
+</span>	<span class="c1"># 如果需要broadcasting，可以使用matmul
+</span>	<span class="c1"># clamp本来的用途是把值clamp到指定的范围，这里实现ReLU。 
+</span>	<span class="n">y_pred</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">mm</span><span class="p">(</span><span class="n">w1</span><span class="p">).</span><span class="n">clamp</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">).</span><span class="n">mm</span><span class="p">(</span><span class="n">w2</span><span class="p">)</span>
+	
+	<span class="c1"># pow(2)实现平方计算。 
+</span>	<span class="c1"># loss.item()得到这个tensor的值。也可以直接打印loss，这会打印很多附加信息。
+</span>	<span class="n">loss</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">y</span><span class="p">).</span><span class="nb">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nb">sum</span><span class="p">()</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">())</span>
+	
+	<span class="c1"># 使用autograd进行反向计算。它会计算loss对所有对它有影响的
+</span>	<span class="c1"># requires_grad=True的Tensor的梯度。
+</span>	
+	<span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+	
+	<span class="c1"># 手动使用梯度下降更新参数。一定要把更新的代码放到torch.no_grad()里
+</span>	<span class="c1"># 否则下面的更新也会计算梯度。后面我们会使用torch.optim.SGD，
+</span>	<span class="c1"># 它会帮我们管理这些用于更新梯度的计算。
+</span>	
+	<span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+		<span class="n">w1</span> <span class="o">-=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">w1</span><span class="p">.</span><span class="n">grad</span>
+		<span class="n">w2</span> <span class="o">-=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">w2</span><span class="p">.</span><span class="n">grad</span>
+		
+		<span class="c1"># 手动把梯度清零 
+</span>		<span class="n">w1</span><span class="p">.</span><span class="n">grad</span><span class="p">.</span><span class="n">zero_</span><span class="p">()</span>
+		<span class="n">w2</span><span class="p">.</span><span class="n">grad</span><span class="p">.</span><span class="n">zero_</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="使用自定义的relu函数">使用自定义的ReLU函数</h3>
+<p>这里还是那个全连接网络的例子，不过这里我们不使用clamp来实现ReLU，而是我们自己来实现一个MyReLU的函数。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="k">class</span> <span class="nc">MyReLU</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">autograd</span><span class="p">.</span><span class="n">Function</span><span class="p">):</span>
+	<span class="s">"""
+	为了实现自定义的实现autograd的函数，我们需要基础torch.autograd.Function，
+	然后再实现forward和backward两个函数。
+	"""</span>
+	
+	<span class="o">@</span><span class="nb">staticmethod</span>
+	<span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+		<span class="s">"""
+		在forward函数，我们的输入是input，然后我们根据input计算输出。
+		# 同时为了下面的backward，
+		我们需要使用save_for_backward来保存用于反向计算的数据到ctx里，
+		# 这里我们需要保存input。
+		"""</span>
+		<span class="n">ctx</span><span class="p">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">input</span><span class="p">.</span><span class="n">clamp</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+	
+	<span class="o">@</span><span class="nb">staticmethod</span>
+	<span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">):</span>
+		<span class="s">"""
+		从ctx.saved_tensors里恢复input
+		然后用input计算梯度
+		"""</span>
+		<span class="nb">input</span><span class="p">,</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">saved_tensors</span>
+		<span class="n">grad_input</span> <span class="o">=</span> <span class="n">grad_output</span><span class="p">.</span><span class="n">clone</span><span class="p">()</span>
+		<span class="n">grad_input</span><span class="p">[</span><span class="nb">input</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="k">return</span> <span class="n">grad_input</span>
+
+<span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">float</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">"cpu"</span><span class="p">)</span>
+
+<span class="n">N</span><span class="p">,</span> <span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D_out</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D_in</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D_out</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+<span class="n">w1</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">w2</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">D_out</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">1e-6</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
+	<span class="c1"># 为了调用我们自定义的函数，我们需要使用Function.apply方法，把它命名为'relu'
+</span>	<span class="n">relu</span> <span class="o">=</span> <span class="n">MyReLU</span><span class="p">.</span><span class="nb">apply</span>
+	
+	<span class="c1"># 我们使用自定义的ReLU来进行Forward计算
+</span>	<span class="n">y_pred</span> <span class="o">=</span> <span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">mm</span><span class="p">(</span><span class="n">w1</span><span class="p">)).</span><span class="n">mm</span><span class="p">(</span><span class="n">w2</span><span class="p">)</span>
+	
+	<span class="n">loss</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">y</span><span class="p">).</span><span class="nb">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nb">sum</span><span class="p">()</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">())</span>
+	
+	<span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+	
+	<span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+		<span class="n">w1</span> <span class="o">-=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">w1</span><span class="p">.</span><span class="n">grad</span>
+		<span class="n">w2</span> <span class="o">-=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">w2</span><span class="p">.</span><span class="n">grad</span>
+		
+		<span class="n">w1</span><span class="p">.</span><span class="n">grad</span><span class="p">.</span><span class="n">zero_</span><span class="p">()</span>
+		<span class="n">w2</span><span class="p">.</span><span class="n">grad</span><span class="p">.</span><span class="n">zero_</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="和tensorflow的对比">和Tensorflow的对比</h3>
+<p>这里我们还是和前面一样，实现一个隐层的全连接神经网络，优化的目标函数是预测值和真实值的欧氏距离。这个实现使用基本的Tensorflow操作来构建一个计算图，然后多次执行这个计算图来训练网络。Tensorflow和PyTorch最大的区别之一就是Tensorflow使用静态计算图和PyTorch使用动态计算图。在Tensorflow里，我们首先构建计算图，然后多次执行它。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="n">tf</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="c1"># 首先构建计算图。
+</span>
+<span class="c1"># N是batch大小；D_in是输入大小。
+# H是隐单元个数；D_out是输出大小。
+</span><span class="n">N</span><span class="p">,</span> <span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D_out</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span>
+
+<span class="c1"># 输入和输出是placeholder，在用session执行graph的时候
+# 我们会feed进去一个batch的训练数据。
+</span><span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">D_in</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">D_out</span><span class="p">))</span>
+
+<span class="c1"># 创建变量，并且随机初始化。 
+# 在Tensorflow里，变量的生命周期是整个session，因此适合用它来保存模型的参数。
+</span><span class="n">w1</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">random_normal</span><span class="p">((</span><span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">)))</span>
+<span class="n">w2</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">random_normal</span><span class="p">((</span><span class="n">H</span><span class="p">,</span> <span class="n">D_out</span><span class="p">)))</span>
+
+<span class="c1"># Forward pass：计算模型的预测值y_pred 
+# 注意和PyTorch不同，这里不会执行任何计算，
+# 而只是定义了计算，后面用session.run的时候才会真正的执行计算。
+</span><span class="n">h</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w1</span><span class="p">)</span>
+<span class="n">h_relu</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">tf</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">h_relu</span><span class="p">,</span> <span class="n">w2</span><span class="p">)</span>
+
+<span class="c1"># 计算loss 
+</span><span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">reduce_sum</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">y_pred</span><span class="p">)</span> <span class="o">**</span> <span class="mf">2.0</span><span class="p">)</span>
+
+<span class="c1"># 计算梯度。 
+</span><span class="n">grad_w1</span><span class="p">,</span> <span class="n">grad_w2</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">gradients</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="p">[</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">])</span>
+
+<span class="c1"># 使用梯度下降来更新参数。assign同样也只是定义更新参数的操作，不会真正的执行。
+# 在Tensorflow里，更新操作是计算图的一部分；
+# 而在PyTorch里，因为是动态的”实时“的计算，
+# 所以参数的更新只是普通的Tensor计算，不属于计算图的一部分。
+</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">1e-6</span>
+<span class="n">new_w1</span> <span class="o">=</span> <span class="n">w1</span><span class="p">.</span><span class="n">assign</span><span class="p">(</span><span class="n">w1</span> <span class="o">-</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">grad_w1</span><span class="p">)</span>
+<span class="n">new_w2</span> <span class="o">=</span> <span class="n">w2</span><span class="p">.</span><span class="n">assign</span><span class="p">(</span><span class="n">w2</span> <span class="o">-</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">grad_w2</span><span class="p">)</span>
+
+<span class="c1"># 计算图构建好了之后，我们需要创建一个session来执行计算图。
+</span><span class="k">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+	<span class="c1"># 首先需要用session初始化变量 
+</span>	<span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">global_variables_initializer</span><span class="p">())</span>
+	
+	<span class="c1"># 这是fake的训练数据
+</span>	<span class="n">x_value</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D_in</span><span class="p">)</span>
+	<span class="n">y_value</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D_out</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
+		<span class="c1"># 用session多次的执行计算图。每次feed进去不同的数据。
+</span>		<span class="c1"># 这里是模拟的，实际应该每次feed一个batch的数据。
+</span>		<span class="c1"># run的第一个参数是需要执行的计算图的节点，它依赖的节点也会自动执行，
+</span>		<span class="c1">#　因此我们不需要手动执行forward的计算。
+</span>		<span class="c1"># run返回这些节点执行后的值，并且返回的是numpy array
+</span>		<span class="n">loss_value</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">([</span><span class="n">loss</span><span class="p">,</span> <span class="n">new_w1</span><span class="p">,</span> <span class="n">new_w2</span><span class="p">],</span>
+				<span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">x_value</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">y_value</span><span class="p">})</span>
+		<span class="k">print</span><span class="p">(</span><span class="n">loss_value</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="使用nn模块来实现三层神经网络">使用nn模块来实现三层神经网络</h3>
+<p>我们接下来使用nn模块来实现这个简单的全连接网络。前面我们通过用Tensor和Operation等low-level API来创建
+动态的计算图，这里我们使用更简单的high-level API。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="k">print</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">__version__</span><span class="p">)</span>
+
+<span class="c1"># N是batch size；D_in是输入大小
+# H是隐层的大小；D_out是输出大小。
+</span><span class="n">N</span><span class="p">,</span> <span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D_out</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span>
+
+<span class="c1"># 创建随机的Tensor作为输入和输出
+</span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D_in</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D_out</span><span class="p">)</span>
+
+<span class="c1"># 使用nn包来定义网络。nn.Sequential是一个包含其它模块(Module)的模块。
+# 每个Linear模块使用线性函数来计算，它会内部创建需要的weight和bias。
+</span><span class="n">model</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span>
+	<span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">),</span>
+	<span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(),</span>
+	<span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">D_out</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="c1"># 常见的损失函数在nn包里也有，不需要我们自己实现
+</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">MSELoss</span><span class="p">(</span><span class="n">size_average</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">1e-4</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
+<span class="c1"># 前向计算：通过x来计算y。Module对象会重写__call__函数，
+# 因此我们可以把它当成函数来调用。
+</span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># 计算loss 
+</span><span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">())</span>
+
+<span class="c1"># 梯度清空，调用Sequential对象的zero_grad后所有里面的变量都会清零梯度
+</span><span class="n">model</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+<span class="c1"># 反向计算梯度。我们通过Module定义的变量都会计算梯度。
+</span><span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+
+<span class="c1"># 更新参数，所有的参数都在model.paramenters()里
+</span><span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+	<span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">():</span>
+		<span class="n">param</span> <span class="o">-=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">param</span><span class="p">.</span><span class="n">grad</span>
+</code></pre></div></div>
+
+<h3 id="使用optim包">使用optim包</h3>
+<p>前面我们使用nn模块时是自己来更新模型参数的，PyTorch也提供了optim包，我们可以使用里面的Optimizer来自动的更新模型参数。除了最基本的SGD算法，这个包也实现了常见的SGD+momentum, RMSProp, Adam等算法。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="n">N</span><span class="p">,</span> <span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D_out</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D_in</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D_out</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span>
+	<span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">),</span>
+	<span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(),</span>
+	<span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">D_out</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">MSELoss</span><span class="p">(</span><span class="n">size_average</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># 使用Adam算法，需要提供模型的参数和learning rate 
+</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">1e-4</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span> 
+	<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+	
+	<span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">())</span>
+	
+	<span class="c1"># 梯度清零，原来调用的是model.zero_grad，现在调用的是optimizer的zero_grad
+</span>	<span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+	
+	<span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+	
+	<span class="c1"># 调用optimizer.step实现参数更新
+</span>	<span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="自定义nn模块">自定义nn模块</h3>
+<p>对于复杂的网络结构，我们可以通过基础Module了自定义nn模块。这样的好处是用一个类来同样管理，而且更容易复用代码。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="k">class</span> <span class="nc">TwoLayerNet</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D_out</span><span class="p">):</span>
+		<span class="s">"""
+		在构造函数里，我们定义两个nn.Linear模块，把它们保存到self里。
+		"""</span>
+		<span class="nb">super</span><span class="p">(</span><span class="n">TwoLayerNet</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+		<span class="bp">self</span><span class="p">.</span><span class="n">linear1</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+		<span class="bp">self</span><span class="p">.</span><span class="n">linear2</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">D_out</span><span class="p">)</span>
+	
+	<span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+		<span class="s">"""
+		在forward函数里，我们需要根据网络结构来实现前向计算。
+		通常我们会上定义的模块来计算。
+		"""</span>
+		<span class="n">h_relu</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">linear1</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="n">clamp</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+		<span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">linear2</span><span class="p">(</span><span class="n">h_relu</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">y_pred</span>
+
+<span class="n">N</span><span class="p">,</span> <span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D_out</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D_in</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D_out</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">TwoLayerNet</span><span class="p">(</span><span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D_out</span><span class="p">)</span>
+
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">MSELoss</span><span class="p">(</span><span class="n">size_average</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span> 
+	<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+	
+	<span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">())</span>
+	
+	<span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+	<span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+	<span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="流程控制和参数共享">流程控制和参数共享</h3>
+
+<p>为了展示PyTorch的动态图的能力，我们这里会实现一个很奇怪模型：这个全连接的网络的隐层个数是个1到4之间的随机数，而且这些网络层的参数是共享的。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="k">class</span> <span class="nc">DynamicNet</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D_out</span><span class="p">):</span>
+		<span class="s">"""
+		构造3个nn.Linear实例。
+		"""</span>
+		<span class="nb">super</span><span class="p">(</span><span class="n">DynamicNet</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+		<span class="bp">self</span><span class="p">.</span><span class="n">input_linear</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+		<span class="bp">self</span><span class="p">.</span><span class="n">middle_linear</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+		<span class="bp">self</span><span class="p">.</span><span class="n">output_linear</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">D_out</span><span class="p">)</span>
+	
+	<span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+		<span class="c1"># 输入和输出层是固定的，但是中间层的个数是随机的(0,1,2)，
+</span>		<span class="c1"># 并且中间层的参数是共享的。
+</span>		
+		<span class="c1"># 因为每次计算的计算图是动态(实时)构造的，
+</span>		<span class="c1"># 所以我们可以使用普通的Python流程控制代码比如for循环
+</span>		<span class="c1"># 来实现。读者可以尝试一下怎么用TensorFlow来实现。
+</span>		<span class="c1"># 另外一点就是一个Module可以多次使用，这样就
+</span>		<span class="c1"># 可以实现参数共享。
+</span>		
+		<span class="n">h_relu</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">input_linear</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="n">clamp</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)):</span>
+		<span class="n">h_relu</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">middle_linear</span><span class="p">(</span><span class="n">h_relu</span><span class="p">).</span><span class="n">clamp</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+		<span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">output_linear</span><span class="p">(</span><span class="n">h_relu</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">y_pred</span>
+
+<span class="n">N</span><span class="p">,</span> <span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D_out</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D_in</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D_out</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">DynamicNet</span><span class="p">(</span><span class="n">D_in</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D_out</span><span class="p">)</span>
+
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">MSELoss</span><span class="p">(</span><span class="n">size_average</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span> 
+	<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+	
+	<span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">())</span>
+	
+	<span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+	<span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+	<span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h2 id="迁移学习示例">迁移学习示例</h2>
+
+<p>在这个教程里，我们会学习怎么使用迁移学习来训练模型。通常我们的训练数据量不会很大，很难达到像ImageNet那样上百万的标注数据集。我们可以使用迁移学习来解决训练数据不足的问题。迁移学习里，我们根据训练数据的多少通常可以采取如下方法：</p>
+
+<ul>
+  <li>
+    <p>训练数据很少</p>
+
+    <p>那么我们通常把一个pretraning的网络的大部分固定住，然后只是把最后一个全连接层换成新的(最后一层通常是不一样的，因为分类的数量不同)，然后只训练这一层</p>
+  </li>
+  <li>
+    <p>训练数据较多</p>
+
+    <p>我们可以把pretraining的网络的前面一些层固定住，但后面的层不固定，把最后一层换新的，然后训练</p>
+  </li>
+  <li>
+    <p>训练数据很多</p>
+
+    <p>所有的pretraining的层都可以fine-tuning，只是用pretraining的参数作为初始化参数。</p>
+  </li>
+</ul>
+
+<p>首先我们引入依赖：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="n">optim</span>
+<span class="kn">from</span> <span class="nn">torch.optim</span> <span class="kn">import</span> <span class="n">lr_scheduler</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">torchvision</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">models</span><span class="p">,</span> <span class="n">transforms</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">ion</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="加载数据">加载数据</h3>
+<p>我们使用torchvision和torch.utils.data包来加载数据。我们要解决的问题是训练一个模型来区分蚂蚁和蜜蜂，每个类别我们大概有120个训练数据，另外每个类有75个验证数据。这是一个很小的训练集，如果直接用一个神经网络来训练，效果会很差。现在我们用迁移学习来解决这个问题。数据可以在<a href="https://download.pytorch.org/tutorial/hymenoptera_data.zip">这里</a>下载，下载后请解压到data目录下。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 训练的时候会做数据增强和归一化
+# 而验证的时候只做归一化
+</span><span class="n">data_transforms</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="s">'train'</span><span class="p">:</span> <span class="n">transforms</span><span class="p">.</span><span class="n">Compose</span><span class="p">([</span>
+		<span class="n">transforms</span><span class="p">.</span><span class="n">RandomResizedCrop</span><span class="p">(</span><span class="mi">224</span><span class="p">),</span>
+		<span class="n">transforms</span><span class="p">.</span><span class="n">RandomHorizontalFlip</span><span class="p">(),</span>
+		<span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+		<span class="n">transforms</span><span class="p">.</span><span class="n">Normalize</span><span class="p">([</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">])</span>
+	<span class="p">]),</span>
+	<span class="s">'val'</span><span class="p">:</span> <span class="n">transforms</span><span class="p">.</span><span class="n">Compose</span><span class="p">([</span>
+		<span class="n">transforms</span><span class="p">.</span><span class="n">Resize</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+		<span class="n">transforms</span><span class="p">.</span><span class="n">CenterCrop</span><span class="p">(</span><span class="mi">224</span><span class="p">),</span>
+		<span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+		<span class="n">transforms</span><span class="p">.</span><span class="n">Normalize</span><span class="p">([</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">])</span>
+	<span class="p">]),</span>
+<span class="p">}</span>
+
+<span class="n">data_dir</span> <span class="o">=</span> <span class="s">'../data/hymenoptera_data'</span>
+<span class="n">image_datasets</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">datasets</span><span class="p">.</span><span class="n">ImageFolder</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span>
+		<span class="n">data_transforms</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> 
+	<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="s">'train'</span><span class="p">,</span> <span class="s">'val'</span><span class="p">]}</span>
+<span class="n">dataloaders</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">image_datasets</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+		<span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="s">'train'</span><span class="p">,</span> <span class="s">'val'</span><span class="p">]}</span>
+<span class="n">dataset_sizes</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">image_datasets</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="s">'train'</span><span class="p">,</span> <span class="s">'val'</span><span class="p">]}</span>
+<span class="n">class_names</span> <span class="o">=</span> <span class="n">image_datasets</span><span class="p">[</span><span class="s">'train'</span><span class="p">].</span><span class="n">classes</span>
+
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">"cuda:0"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="可视化图片">可视化图片</h3>
+<p>我们来显示几张图片看看，<a href="#transfer1">下图</a>是一个batch的图片，显示的代码如下：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">imshow</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+	<span class="n">inp</span> <span class="o">=</span> <span class="n">inp</span><span class="p">.</span><span class="n">numpy</span><span class="p">().</span><span class="n">transpose</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+	<span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">])</span>
+	<span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">])</span>
+	<span class="n">inp</span> <span class="o">=</span> <span class="n">std</span> <span class="o">*</span> <span class="n">inp</span> <span class="o">+</span> <span class="n">mean</span>
+	<span class="n">inp</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">clip</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+		<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+	<span class="n">plt</span><span class="p">.</span><span class="n">pause</span><span class="p">(</span><span class="mf">0.001</span><span class="p">)</span>
+
+<span class="c1"># 得到一个batch的数据
+</span><span class="n">inputs</span><span class="p">,</span> <span class="n">classes</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">dataloaders</span><span class="p">[</span><span class="s">'train'</span><span class="p">]))</span>
+
+<span class="c1"># 把batch张图片拼接成一个大图
+</span><span class="n">out</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">make_grid</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+
+<span class="n">imshow</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="p">[</span><span class="n">class_names</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p style="text-align: center"><a name="transfer1"><img src="/images/pytorch/pytorch-transfer1.png" alt="" /></a><br />
+<em>图5：迁移学习数据示例</em></p>
+
+<h3 id="训练模型">训练模型</h3>
+<p>现在我们来实现一个用于训练模型的通用函数。这里我们会演示怎么实现：</p>
+
+<ul>
+  <li>learning rate的自适应</li>
+  <li>保存最好的模型</li>
+</ul>
+
+<p>在下面的函数中，参数scheduler是来自torch.optim.lr_scheduler的LR scheduler对象(_LRScheduler的子类）</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">scheduler</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">25</span><span class="p">):</span>
+	<span class="n">since</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+	
+	<span class="n">best_model_wts</span> <span class="o">=</span> <span class="n">copy</span><span class="p">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">state_dict</span><span class="p">())</span>
+	<span class="n">best_acc</span> <span class="o">=</span> <span class="mf">0.0</span>
+	
+	<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+		<span class="k">print</span><span class="p">(</span><span class="s">'Epoch {}/{}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">num_epochs</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+		<span class="k">print</span><span class="p">(</span><span class="s">'-'</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>
+		
+		<span class="c1"># 每个epoch都分为训练和验证阶段
+</span>		<span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="p">[</span><span class="s">'train'</span><span class="p">,</span> <span class="s">'val'</span><span class="p">]:</span>
+			<span class="k">if</span> <span class="n">phase</span> <span class="o">==</span> <span class="s">'train'</span><span class="p">:</span>
+				<span class="n">scheduler</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+				<span class="n">model</span><span class="p">.</span><span class="n">train</span><span class="p">()</span>  <span class="c1"># 训练阶段
+</span>			<span class="k">else</span><span class="p">:</span>
+				<span class="n">model</span><span class="p">.</span><span class="nb">eval</span><span class="p">()</span>   <span class="c1"># 验证阶段
+</span>			
+			<span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+			<span class="n">running_corrects</span> <span class="o">=</span> <span class="mi">0</span>
+			
+			<span class="c1"># 变量数据集
+</span>			<span class="k">for</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">dataloaders</span><span class="p">[</span><span class="n">phase</span><span class="p">]:</span>
+				<span class="n">inputs</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+				<span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+			
+			<span class="c1"># 参数梯度清空
+</span>			<span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+			
+			<span class="c1"># forward
+</span>			<span class="c1"># 只有训练的时候track用于梯度计算的历史信息。
+</span>			<span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">set_grad_enabled</span><span class="p">(</span><span class="n">phase</span> <span class="o">==</span> <span class="s">'train'</span><span class="p">):</span>
+				<span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+				<span class="n">_</span><span class="p">,</span> <span class="n">preds</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+				<span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+				
+				<span class="c1"># 如果是训练，那么需要backward和更新参数 
+</span>				<span class="k">if</span> <span class="n">phase</span> <span class="o">==</span> <span class="s">'train'</span><span class="p">:</span>
+					<span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+					<span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+			
+			<span class="c1"># 统计
+</span>			<span class="n">running_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="n">inputs</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+			<span class="n">running_corrects</span> <span class="o">+=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">preds</span> <span class="o">==</span> <span class="n">labels</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+			
+			<span class="n">epoch_loss</span> <span class="o">=</span> <span class="n">running_loss</span> <span class="o">/</span> <span class="n">dataset_sizes</span><span class="p">[</span><span class="n">phase</span><span class="p">]</span>
+			<span class="n">epoch_acc</span> <span class="o">=</span> <span class="n">running_corrects</span><span class="p">.</span><span class="n">double</span><span class="p">()</span> <span class="o">/</span> <span class="n">dataset_sizes</span><span class="p">[</span><span class="n">phase</span><span class="p">]</span>
+			
+			<span class="k">print</span><span class="p">(</span><span class="s">'{} Loss: {:.4f} Acc: {:.4f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span>
+				<span class="n">phase</span><span class="p">,</span> <span class="n">epoch_loss</span><span class="p">,</span> <span class="n">epoch_acc</span><span class="p">))</span>
+			
+			<span class="c1"># 保存验证集上的最佳模型
+</span>			<span class="k">if</span> <span class="n">phase</span> <span class="o">==</span> <span class="s">'val'</span> <span class="ow">and</span> <span class="n">epoch_acc</span> <span class="o">&gt;</span> <span class="n">best_acc</span><span class="p">:</span>
+				<span class="n">best_acc</span> <span class="o">=</span> <span class="n">epoch_acc</span>
+				<span class="n">best_model_wts</span> <span class="o">=</span> <span class="n">copy</span><span class="p">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">state_dict</span><span class="p">())</span>
+			
+			<span class="k">print</span><span class="p">()</span>
+	
+	<span class="n">time_elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">since</span>
+	<span class="k">print</span><span class="p">(</span><span class="s">'Training complete in {:.0f}m {:.0f}s'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span>
+		<span class="n">time_elapsed</span> <span class="o">//</span> <span class="mi">60</span><span class="p">,</span> <span class="n">time_elapsed</span> <span class="o">%</span> <span class="mi">60</span><span class="p">))</span>
+	<span class="k">print</span><span class="p">(</span><span class="s">'Best val Acc: {:4f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">best_acc</span><span class="p">))</span>
+	
+	<span class="c1"># 加载最优模型
+</span>	<span class="n">model</span><span class="p">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">best_model_wts</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">model</span>
+</code></pre></div></div>
+
+<h3 id="可视化预测结果的函数">可视化预测结果的函数</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">visualize_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">num_images</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
+	<span class="n">was_training</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">training</span>
+	<span class="n">model</span><span class="p">.</span><span class="nb">eval</span><span class="p">()</span>
+	<span class="n">images_so_far</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
+	
+	<span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+		<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataloaders</span><span class="p">[</span><span class="s">'val'</span><span class="p">]):</span>
+			<span class="n">inputs</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+			<span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+			
+			<span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+			<span class="n">_</span><span class="p">,</span> <span class="n">preds</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+			
+			<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">inputs</span><span class="p">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">]):</span>
+				<span class="n">images_so_far</span> <span class="o">+=</span> <span class="mi">1</span>
+				<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">num_images</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">images_so_far</span><span class="p">)</span>
+				<span class="n">ax</span><span class="p">.</span><span class="n">axis</span><span class="p">(</span><span class="s">'off'</span><span class="p">)</span>
+				<span class="n">ax</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'predicted: {}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">class_names</span><span class="p">[</span><span class="n">preds</span><span class="p">[</span><span class="n">j</span><span class="p">]]))</span>
+				<span class="n">imshow</span><span class="p">(</span><span class="n">inputs</span><span class="p">.</span><span class="n">cpu</span><span class="p">().</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+				
+				<span class="k">if</span> <span class="n">images_so_far</span> <span class="o">==</span> <span class="n">num_images</span><span class="p">:</span>
+					<span class="n">model</span><span class="p">.</span><span class="n">train</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">was_training</span><span class="p">)</span>
+					<span class="k">return</span>
+		<span class="n">model</span><span class="p">.</span><span class="n">train</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">was_training</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="fine-tuning所有参数">fine-tuning所有参数</h3>
+<p>我们首先加载一个预训练的模型(imagenet上的resnet)，因为我们的类别数和imagenet不同，所以我们需要删掉原来的全连接层，换成新的全连接层。这里我们让所有的模型参数都可以调整，包括新加的全连接层和预训练的层。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model_ft</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">num_ftrs</span> <span class="o">=</span> <span class="n">model_ft</span><span class="p">.</span><span class="n">fc</span><span class="p">.</span><span class="n">in_features</span>
+<span class="n">model_ft</span><span class="p">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_ftrs</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">model_ft</span> <span class="o">=</span> <span class="n">model_ft</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+
+<span class="c1"># 所有的参数都可以训练
+</span><span class="n">optimizer_ft</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model_ft</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+
+<span class="c1"># 每7个epoch learning rate变为原来的10% 
+</span><span class="n">exp_lr_scheduler</span> <span class="o">=</span> <span class="n">lr_scheduler</span><span class="p">.</span><span class="n">StepLR</span><span class="p">(</span><span class="n">optimizer_ft</span><span class="p">,</span> <span class="n">step_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="n">model_ft</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span><span class="n">model_ft</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">optimizer_ft</span><span class="p">,</span> <span class="n">exp_lr_scheduler</span><span class="p">,</span>
+	<span class="n">num_epochs</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+</code></pre></div></div>
+<p>最终我们得到的分类准确率大概在94.7%。</p>
+
+<h3 id="fine-tuning最后一层参数">fine-tuning最后一层参数</h3>
+<p>我们用可以固定住前面层的参数，只训练最后一层。这比之前要快将近一倍，因为反向计算梯度只需要计算最后一层。但是前向计算的时间是一样的。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model_conv</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">models</span><span class="p">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model_conv</span><span class="p">.</span><span class="n">parameters</span><span class="p">():</span>
+	<span class="n">param</span><span class="p">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="c1"># 新加的层默认requires_grad=True 
+</span><span class="n">num_ftrs</span> <span class="o">=</span> <span class="n">model_conv</span><span class="p">.</span><span class="n">fc</span><span class="p">.</span><span class="n">in_features</span>
+<span class="n">model_conv</span><span class="p">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_ftrs</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">model_conv</span> <span class="o">=</span> <span class="n">model_conv</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+
+<span class="c1"># 只训练最后一个全连接层
+</span><span class="n">optimizer_conv</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model_conv</span><span class="p">.</span><span class="n">fc</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">exp_lr_scheduler</span> <span class="o">=</span> <span class="n">lr_scheduler</span><span class="p">.</span><span class="n">StepLR</span><span class="p">(</span><span class="n">optimizer_conv</span><span class="p">,</span> <span class="n">step_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="n">model_conv</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span><span class="n">model_conv</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">optimizer_conv</span><span class="p">,</span>
+	<span class="n">exp_lr_scheduler</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+</code></pre></div></div>
+<p>最终我们得到的分类准确率大概在96%。</p>
+
+
+        </article>
+        <hr>
+        <!-- <span class="bds_txt"> 分享到：</span>
+        <div class="bdsharebuttonbox">
+                <a href="#" class="bds_more" data-cmd="more"></a>
+                <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到 QQ 空间"></a>
+                <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到 QQ 好友"></a>
+                <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+                <a href="#" class="bds_twi" data-cmd="twi" title="分享到 Twitter"></a>
+                <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到 Facebook"></a>
+                <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+                <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                <a href="#" class="bds_kaixin001" data-cmd="kaixin001" title="分享到开心网"></a>
+                <a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a>
+            </div> -->
+        <hr>
+
+        
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2020/05/31/skill_taskbar/">解决：任务栏上点Matlab会打开两个图标</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2020/09/22/tool_file/">Python 常用文件读取与存储方式</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+		<!-- Gitalk start -->
+		<div id="gitalk-container"></div> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+		<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+		<script>
+		  var title = location.pathname.substr(0, 50);
+		  var gitalk  = new Gitalk ({
+			clientID: '71066430f842c7a01401',
+			clientSecret: '9565351139680b09ab34112f5443edaf664724b4',
+			repo: 'blog-comments',
+			owner: 'chamwen',
+			admin: ['chamwen'],
+			id: title,
+			distractionFreeMode: true  // Facebook-like distraction free mode
+			})
+			gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk end -->
+		
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+<script>
+    window._bd_share_config = {
+        common: { "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" },
+        share: [{
+            bdCustomStyle: "//www.landiannews.com/static/api/css/share.css"
+        }]
+    }
+    with (document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "//www.landiannews.com/static/api/js/share.js?cdnversion=" + ~(-new Date() / 36e5)];</script>
+</script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             Chasing the unknown 
+        </p>
+        <p class="contact">
+            联系我 
+            <a href="https://github.com/chamwen" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:wenzn9@gmail.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+    </div>
+</footer>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>
