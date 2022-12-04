@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://chamwen.github.io/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/index.html</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/archives/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/categories/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/tags/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/collections/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/about/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2022/11/24/return_blog/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2021/01/02/think_2020/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2020/10/25/ML_sklearn/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2020/10/22/tool_py/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2020/10/03/think_study/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2020/09/22/tool_file/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/page2/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/page6/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2020/09/08/tool_pytorch/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2020/05/31/skill_taskbar/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2020/04/22/OP_lagrange/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2020/04/15/ML_linear/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2020/04/13/ML_svm/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2020/04/11/TL_JPDA/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2020/04/02/ML_note2/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2020/03/18/read_enjoy/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2019/12/31/think_2019/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2019/12/11/TL_MEKT/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2019/12/07/read_wd2/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2019/09/27/tool_git/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2019/09/15/math_sample/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2019/08/26/ML_pandas/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2019/07/25/BCI_note1/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2019/07/24/DL_trick/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2019/01/07/DL_activate/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2019/01/04/TL_tech2TL/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2018/12/31/think_2018/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2018/12/09/ML_ensemble/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2018/12/06/ML_cost_func/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2018/12/01/ML_bayes/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2018/11/26/tool_torch/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2018/10/04/read_wd1/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2018/08/14/ML_pca/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2018/08/12/ML_covmatrix/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2018/08/11/math_matrix/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2018/08/10/tool_typora/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2018/08/08/ML_model/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/2018/03/08/tool_hexo/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/page3/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/page5/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://chamwen.github.io/page4/</loc>
+  <lastmod>2022-12-04T01:08:24+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+
+
+</urlset>
